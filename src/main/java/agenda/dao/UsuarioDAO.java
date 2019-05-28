@@ -57,8 +57,7 @@ public class UsuarioDAO implements Serializable {
 			throw new SQLException(e);
 		} finally {
 			this.connection.close();
-		}
-		
+		}		
 	}
 
 	public void deletar(int id) throws SQLException {
@@ -91,5 +90,4 @@ public class UsuarioDAO implements Serializable {
 			this.connection.close();
 		}
 	}
-
 }

@@ -36,6 +36,8 @@
 			
 				<p:commandButton actionListener="#{usuarioController.btnDlgEditar(usuario)}" immediate="true" icon="ui-icon ui-icon-pencil"  />
 				
+				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato}" immediate="true" icon="ui-icon ui-icon-contact"  />
+				
 			</p:column>
 		</p:dataTable>
 	</h:form>
@@ -48,6 +50,21 @@
 			</p:column>
 			<p:column headerText="Fone">
 				<h:inputText value="#{usuarioController.usuarioSelecionado.fone}"/>
+			</p:column>
+			<p:column>
+				<p:commandButton value="salvar" actionListener="#{usuarioController.editar}"  update="formInserir:dtbUsuarios"/>
+			</p:column>
+		</p:dialog>
+	</h:form>
+	
+		<h:form id="formNovoContato">
+		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true" header="Novo Contato">
+		
+			<p:column headerText="Nome">
+				<h:inputText value="#{usuarioController.contato.nome}" />
+			</p:column>
+			<p:column headerText="Fone">
+				<h:inputText value="#{usuarioController.contato.fone}"/>
 			</p:column>
 			<p:column>
 				<p:commandButton value="salvar" actionListener="#{usuarioController.editar}"  update="formInserir:dtbUsuarios"/>

@@ -1,6 +1,7 @@
 package agenda.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Usuario implements Serializable {
 
@@ -11,6 +12,8 @@ public class Usuario implements Serializable {
 	private String nome;
 
 	private String fone;
+	
+	private List<Contato> contatoLista;
 
 	public int getId() {
 		return id;
@@ -34,6 +37,14 @@ public class Usuario implements Serializable {
 
 	public void setFone(String fone) {
 		this.fone = fone;
+	}
+
+	public List<Contato> getContatoLista() {
+		return contatoLista;
+	}
+
+	public void setContatoLista(List<Contato> contatoLista) {
+		this.contatoLista = contatoLista;
 	}
 
 }

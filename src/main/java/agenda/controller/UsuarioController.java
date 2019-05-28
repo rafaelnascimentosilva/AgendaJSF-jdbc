@@ -23,6 +23,8 @@ public class UsuarioController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario = new Usuario();
+	
+	private Contato contato = new Contato();
 
 	private UsuarioDAO usuarioDAO;
 
@@ -105,6 +107,15 @@ public class UsuarioController implements Serializable {
 		}
 		return this.usuarioLista;
 	}
+	
+	
+	public void btnDlgNovoContato() {
+		PrimeFaces current = PrimeFaces.current();
+		
+		current.executeScript("PF('dlgNovoContato').show();");
+	}
+	
+	
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -144,6 +155,14 @@ public class UsuarioController implements Serializable {
 
 	public void setUsuarioSelecionado(Usuario usuarioSelecionado) {
 		this.usuarioSelecionado = usuarioSelecionado;
+	}
+
+	public Contato getContato() {
+		return contato;
+	}
+
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 
 }
