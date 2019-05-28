@@ -5,11 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
+import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
 
 import agenda.dao.UsuarioDAO;
@@ -19,64 +18,68 @@ import agenda.model.Usuario;
 @ManagedBean
 @ViewScoped
 public class UsuarioController implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Usuario usuario = new Usuario();
-	
+
 	private UsuarioDAO usuarioDAO;
-	
-	private List<Usuario> usuarioLista ;
-	
+
+	private List<Usuario> usuarioLista;
+
 	private Usuario usuarioSelecionado;
-	
-	private List<Contato> contatoLista;	
-	
-	public UsuarioController() {}
-	
-	
-	public void inserir() throws SQLException {		
-		this.usuarioDAO = new UsuarioDAO();
-		this.usuarioDAO.Inserir(this.usuario);		
-		this.usuarioLista = new ArrayList<Usuario>();		
-		this.usuarioLista.add(this.usuario);		
-		this.usuario = new Usuario();		
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Sucesso", "Adicionado"));
+
+	private List<Contato> contatoLista;
+
+	public UsuarioController() {
 	}
-	
-	public void deletar(Usuario usuario) throws SQLException {	
+
+	public void inserir() {
+		try {
 			this.usuarioDAO = new UsuarioDAO();
-			this.usuarioDAO.deletar(usuario.getId());		
-			this.usuarioLista = new ArrayList<Usuario>();		
-			this.usuarioLista.remove(usuario);	
-	}	
-	
+			this.usuarioDAO.Inserir(this.usuario);
+			this.usuarioLista = new ArrayList<Usuario>();
+			this.usuarioLista.add(this.usuario);
+			this.usuario = new Usuario();
+			Messages.addGlobalInfo("Usuário inserido com sucesso");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("Usuário não inserido", e);
+		}
+		
+	}
+
+	public void deletar(Usuario usuario) throws SQLException {
+		this.usuarioDAO = new UsuarioDAO();
+		this.usuarioDAO.deletar(usuario.getId());
+		this.usuarioLista = new ArrayList<Usuario>();
+		this.usuarioLista.remove(usuario);
+	}
+
 	public void btnDlgEditar(Usuario usuario) {
 		this.usuarioSelecionado = new Usuario();
-		this.usuarioSelecionado  = usuario;
+		this.usuarioSelecionado = usuario;
 		PrimeFaces current = PrimeFaces.current();
 		current.ajax().update("formEditar");
 		current.executeScript("PF('dlgEditar').show();");
 	}
-	
+
 	public void editar() throws SQLException {
-		this.usuarioDAO = new UsuarioDAO();		
-		this.usuarioDAO.editar(this.usuarioSelecionado);		
+		this.usuarioDAO = new UsuarioDAO();
+		this.usuarioDAO.editar(this.usuarioSelecionado);
 		PrimeFaces current = PrimeFaces.current();
 		current.ajax().update("formEditar");
-		current.executeScript("PF('dlgEditar').hide();");		
+		current.executeScript("PF('dlgEditar').hide();");
 	}
-	
+
 	public List<Usuario> listaDeUsuarios() {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
-			this.usuarioLista=	this.usuarioDAO.getLista();
-		
-			
-		}  catch (SQLException e) {
+			this.usuarioLista = this.usuarioDAO.getLista();
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 		return this.usuarioLista;
 	}
 

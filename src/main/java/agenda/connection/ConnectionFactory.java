@@ -1,10 +1,13 @@
 package agenda.connection;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionFactory {
+public class ConnectionFactory implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	public Connection getConnection() throws SQLException {
 

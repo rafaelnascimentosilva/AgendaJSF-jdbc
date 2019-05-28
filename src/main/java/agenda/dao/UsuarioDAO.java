@@ -20,8 +20,7 @@ public class UsuarioDAO implements Serializable {
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "INSERT INTO ag_usuario(nome, fone) VALUES (?,?)";
-
+			String sql = "INSERT INTO ag_usuario(nom, fone) VALUES (?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
@@ -29,7 +28,7 @@ public class UsuarioDAO implements Serializable {
 			statement.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SQLException(e);
 		} finally {
 			this.connection.close();
 		}

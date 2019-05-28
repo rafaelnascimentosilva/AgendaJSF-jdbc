@@ -3,28 +3,21 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui"
-	xmlns:of="http://omnifaces.org/functions">
+	xmlns:o="http://omnifaces.org/ui">
 <h:head>
 	<title>Usuário</title>
 	<h:outputStylesheet library="css" name="default.css" />
 </h:head>
-
 <h:body>
-<div class="ui-g-4" id="center">
+<div class="ui-g-4" id="center">	
 	<h:form id="formInserir">
+	<p:growl id="growl"  autoUpdate="true" />  
 		<p:panelGrid id="panelInserir" columns="2">
-
 			<p:outputLabel value="Nome" />
-			<p:inputText value="#{usuarioController.usuario.nome}" />
+				<p:inputText value="#{usuarioController.usuario.nome}" required="true" />
 			<p:outputLabel value="Fone" />
-			<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
-								   mask="(99)999-999" />
-			<p:commandButton value="salvar"
-							 actionListener="#{usuarioController.inserir}"
-							 update="panelInserir dtbUsuarios" />
-							 
-
+				<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"   mask="(99)999-999" required="true"/>
+			<p:commandButton value="salvar"	 actionListener="#{usuarioController.inserir}"  update="panelInserir dtbUsuarios" />
 		</p:panelGrid>
 
 		<p:dataTable id="dtbUsuarios" var="usuario"
