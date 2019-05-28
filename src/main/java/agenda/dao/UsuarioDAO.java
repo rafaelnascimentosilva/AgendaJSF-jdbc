@@ -17,28 +17,28 @@ public class UsuarioDAO implements Serializable {
 
 	private Connection connection;
 
-	public UsuarioDAO(Connection connection) throws SQLException {
-		this.connection = new ConnectionFactory().getConnection();
-	}
-
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
+			this.connection = new ConnectionFactory().getConnection();
 			String sql = "INSERT INTO ag_usuario(nome, fone) VALUES (?,?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
 			statement.execute();
+			statement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			this.connection.close();
 		}
 	}
 
-	public List<Usuario> getLista() {
+	public List<Usuario> getLista() throws SQLException {
 		List<Usuario> listaUsuario = new ArrayList<Usuario>();
 		try {
-
+			this.connection = new ConnectionFactory().getConnection();
 			String sql = "SELECT * FROM ag_usuario";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -52,34 +52,42 @@ public class UsuarioDAO implements Serializable {
 				listaUsuario.add(usuario);
 			}
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.connection.close();
 		}
 		return listaUsuario;
 	}
 
-	public void deletar(int id) {
+	public void deletar(int id) throws SQLException {
 		try {
+			this.connection = new ConnectionFactory().getConnection();
 			String sql = "DELETE FROM ag_usuario WHERE id_usuario=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
 			statement.execute();
-		} catch (Exception e) {
-
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			this.connection.close();
 		}
 	}
 
-	public void editar(Usuario usuario) {
+	public void editar(Usuario usuario) throws SQLException {
 		try {
+			this.connection = new ConnectionFactory().getConnection();
 			String sql = "UPDATE ag_usuario SET  nome=?, fone=? WHERE id_usuario=?";
-			PreparedStatement statement = connection.prepareStatement(sql);		
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-		
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
 			statement.setInt(3, usuario.getId());
 			statement.execute();
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			this.connection.close();
 		}
 	}
 

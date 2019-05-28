@@ -1,7 +1,6 @@
 package agenda.controller;
 
 import java.io.Serializable;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +16,11 @@ import agenda.dao.UsuarioDAO;
 import agenda.model.Contato;
 import agenda.model.Usuario;
 
-
 @ManagedBean
 @ViewScoped
 public class UsuarioController implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-
-	private Connection connection;
 	
 	private Usuario usuario = new Usuario();
 	
@@ -38,12 +34,9 @@ public class UsuarioController implements Serializable {
 	
 	public UsuarioController() {}
 	
-	public UsuarioController(Connection connection) throws SQLException {
-			this.connection = connection;
-	}
 	
 	public void inserir() throws SQLException {		
-		this.usuarioDAO = new UsuarioDAO(this.connection);
+		this.usuarioDAO = new UsuarioDAO();
 		this.usuarioDAO.Inserir(this.usuario);		
 		this.usuarioLista = new ArrayList<Usuario>();		
 		this.usuarioLista.add(this.usuario);		
@@ -52,14 +45,12 @@ public class UsuarioController implements Serializable {
 		context.addMessage(null, new FacesMessage("Sucesso", "Adicionado"));
 	}
 	
-	public void deletar(Usuario usuario) throws SQLException {
-		this.usuarioDAO = new UsuarioDAO(this.connection);
-		this.usuarioDAO.deletar(usuario.getId());
-		
-		this.usuarioLista = new ArrayList<Usuario>();		
-		this.usuarioLista.remove(usuario);		
-	}
-	
+	public void deletar(Usuario usuario) throws SQLException {	
+			this.usuarioDAO = new UsuarioDAO();
+			this.usuarioDAO.deletar(usuario.getId());		
+			this.usuarioLista = new ArrayList<Usuario>();		
+			this.usuarioLista.remove(usuario);	
+	}	
 	
 	public void btnDlgEditar(Usuario usuario) {
 		this.usuarioSelecionado = new Usuario();
@@ -70,28 +61,23 @@ public class UsuarioController implements Serializable {
 	}
 	
 	public void editar() throws SQLException {
-		this.usuarioDAO = new UsuarioDAO(this.connection);
-		
-		this.usuarioDAO.editar(this.usuarioSelecionado);
-		
+		this.usuarioDAO = new UsuarioDAO();		
+		this.usuarioDAO.editar(this.usuarioSelecionado);		
 		PrimeFaces current = PrimeFaces.current();
 		current.ajax().update("formEditar");
-		current.executeScript("PF('dlgEditar').hide();");
-		
+		current.executeScript("PF('dlgEditar').hide();");		
 	}
 	
-	public List<Usuario> listaDeUsuarios() throws SQLException{
-		this.usuarioDAO = new UsuarioDAO(this.connection);
-		this.usuarioLista=	this.usuarioDAO.getLista();
+	public List<Usuario> listaDeUsuarios() {
+		try {
+			this.usuarioDAO = new UsuarioDAO();
+			this.usuarioLista=	this.usuarioDAO.getLista();
+		
+			
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} 
 		return this.usuarioLista;
-	}
-
-	public Connection getConnection() {
-		return connection;
-	}
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
 	}
 
 	public Usuario getUsuario() {
