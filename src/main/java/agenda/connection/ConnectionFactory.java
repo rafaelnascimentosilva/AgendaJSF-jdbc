@@ -14,6 +14,6 @@ public class ConnectionFactory {
 	
 			e.printStackTrace();
 		}
-		return DriverManager.getConnection("jdbc:postgresql://localhost/db_agenda_jsf", "postgres","123");
+		return DriverManager.getConnection("jdbc:postgresql://localhost/db_agenda_jsf_jdbc", "postgres","123");
 	}
 }
