@@ -45,7 +45,8 @@ public class UsuarioDAO implements Serializable {
 			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
-				Usuario usuario = new Usuario();				
+				Usuario usuario = new Usuario();
+				usuario.setId(new Integer(resultSet.getInt("id_usuario")));
 				usuario.setNome(resultSet.getString("nome"));
 				usuario.setFone(resultSet.getString("fone"));
 				listaUsuario.add(usuario);
@@ -55,13 +56,31 @@ public class UsuarioDAO implements Serializable {
 		}
 		return listaUsuario;
 	}
-	
-	public void deletar (int id) {
+
+	public void deletar(int id) {
 		try {
-			
+			String sql = "DELETE FROM ag_usuario WHERE id_usuario=?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			statement.execute();
+		} catch (Exception e) {
+
+		}
+	}
+
+	public void editar(Usuario usuario) {
+		try {
+			String sql = "UPDATE ag_usuario SET  nome=?, fone=? WHERE id_usuario=?";
+			PreparedStatement statement = connection.prepareStatement(sql);		
+
+		
+			statement.setString(1, usuario.getNome());
+			statement.setString(2, usuario.getFone());
+			statement.setInt(3, usuario.getId());
+			statement.execute();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	
+
 }

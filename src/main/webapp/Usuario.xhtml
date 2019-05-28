@@ -8,6 +8,7 @@
 </h:head>
 
 <h:body>
+<div class="ui-g-4">
 	<h:form id="formInserir">
 		<p:panelGrid id="panelInserir" columns="2">
 
@@ -19,19 +20,51 @@
 			<p:commandButton value="salvar"
 							 actionListener="#{usuarioController.inserir}"
 							 update="panelInserir dtbUsuarios" />
+							 
 
 		</p:panelGrid>
 
 		<p:dataTable id="dtbUsuarios" var="usuario"
 			value="#{usuarioController.listaDeUsuarios()}">
+			<p:column headerText="Id">
+				<h:outputText value="#{usuario.id}" />
+			</p:column>
 			<p:column headerText="Nome">
 				<h:outputText value="#{usuario.nome}" />
 			</p:column>
 			<p:column headerText="Fone">
 				<h:outputText value="#{usuario.fone}" />
 			</p:column>
+			<p:column>
+				<p:commandButton value="deletar" actionListener="#{usuarioController.deletar(usuario)}" immediate="true" update="dtbUsuarios" >
+					<p:confirm header="" message="Deseja excluir o regitro #{usuario.nome}"/>				
+				</p:commandButton>				
+			</p:column>
+			<p:column>
+				<p:commandButton value="editar" actionListener="#{usuarioController.btnDlgEditar(usuario)}"  />
+			</p:column>
 		</p:dataTable>
-
 	</h:form>
+	
+	<h:form id="formEditar">
+		<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true">
+		
+			<p:column headerText="Nome">
+				<h:inputText value="#{usuarioController.usuarioSelecionado.nome}" />
+			</p:column>
+			<p:column headerText="Fone">
+				<h:inputText value="#{usuarioController.usuarioSelecionado.fone}"/>
+			</p:column>
+			<p:column>
+				<p:commandButton value="salvar" actionListener="#{usuarioController.editar}"  update="formInserir:dtbUsuarios"/>
+			</p:column>
+		</p:dialog>
+	</h:form>
+	
+	</div>
+	 	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+    </p:confirmDialog>  
 </h:body>
 </html>
