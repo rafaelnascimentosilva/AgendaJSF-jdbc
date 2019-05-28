@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -33,6 +34,16 @@ public class UsuarioController implements Serializable {
 
 	public UsuarioController() {
 	}
+	
+	@PostConstruct
+	public void init() {
+		try {
+			listaDeUsuarios();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("Não foi possível listar os dados", e);
+		}
+	}
 
 	public void inserir() {
 		try {
@@ -41,19 +52,25 @@ public class UsuarioController implements Serializable {
 			this.usuarioLista = new ArrayList<Usuario>();
 			this.usuarioLista.add(this.usuario);
 			this.usuario = new Usuario();
-			Messages.addGlobalInfo("Usuário inserido com sucesso");
+			Messages.addGlobalInfo("Usuário inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Usuário não inserido", e);
 		}
-		
+
 	}
 
 	public void deletar(Usuario usuario) throws SQLException {
-		this.usuarioDAO = new UsuarioDAO();
-		this.usuarioDAO.deletar(usuario.getId());
-		this.usuarioLista = new ArrayList<Usuario>();
-		this.usuarioLista.remove(usuario);
+		try {
+			this.usuarioDAO = new UsuarioDAO();
+			this.usuarioDAO.deletar(usuario.getId());
+			this.usuarioLista = new ArrayList<Usuario>();
+			this.usuarioLista.remove(usuario);
+			Messages.addGlobalInfo("Usuário removido com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("Usuário não pode ser removido", e);
+		}
 	}
 
 	public void btnDlgEditar(Usuario usuario) {
@@ -65,20 +82,26 @@ public class UsuarioController implements Serializable {
 	}
 
 	public void editar() throws SQLException {
-		this.usuarioDAO = new UsuarioDAO();
-		this.usuarioDAO.editar(this.usuarioSelecionado);
-		PrimeFaces current = PrimeFaces.current();
-		current.ajax().update("formEditar");
-		current.executeScript("PF('dlgEditar').hide();");
+		try {
+			this.usuarioDAO = new UsuarioDAO();
+			this.usuarioDAO.editar(this.usuarioSelecionado);
+			PrimeFaces current = PrimeFaces.current();
+			current.ajax().update("formEditar");
+			current.executeScript("PF('dlgEditar').hide();");
+			Messages.addGlobalInfo("Usuário alterado com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("Usuário não pode ser alterado", e);
+		}
 	}
 
-	public List<Usuario> listaDeUsuarios() {
+	public List<Usuario> listaDeUsuarios() throws SQLException{
 		try {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioLista = this.usuarioDAO.getLista();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Messages.addGlobalWarn("Não foi possível listar os dados", e);
 		}
 		return this.usuarioLista;
 	}

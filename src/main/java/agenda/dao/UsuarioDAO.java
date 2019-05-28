@@ -20,7 +20,7 @@ public class UsuarioDAO implements Serializable {
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "INSERT INTO ag_usuario(nom, fone) VALUES (?,?)";
+			String sql = "INSERT INTO ag_usuario(nome, fone) VALUES (?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
@@ -35,8 +35,9 @@ public class UsuarioDAO implements Serializable {
 	}
 
 	public List<Usuario> getLista() throws SQLException {
-		List<Usuario> listaUsuario = new ArrayList<Usuario>();
+		
 		try {
+			List<Usuario> listaUsuario = new ArrayList<Usuario>();
 			this.connection = new ConnectionFactory().getConnection();
 			String sql = "SELECT * FROM ag_usuario";
 
@@ -50,13 +51,14 @@ public class UsuarioDAO implements Serializable {
 				usuario.setFone(resultSet.getString("fone"));
 				listaUsuario.add(usuario);
 			}
+			return listaUsuario;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SQLException(e);
 		} finally {
 			this.connection.close();
 		}
-		return listaUsuario;
+		
 	}
 
 	public void deletar(int id) throws SQLException {
@@ -67,7 +69,7 @@ public class UsuarioDAO implements Serializable {
 			statement.setInt(1, id);
 			statement.execute();
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new SQLException(e);
 		} finally {
 			this.connection.close();
 		}
@@ -84,7 +86,7 @@ public class UsuarioDAO implements Serializable {
 			statement.setInt(3, usuario.getId());
 			statement.execute();
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new SQLException(e);
 		} finally {
 			this.connection.close();
 		}
