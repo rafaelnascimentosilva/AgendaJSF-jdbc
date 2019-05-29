@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
 
+import agenda.dao.ContatoDAO;
 import agenda.dao.UsuarioDAO;
 import agenda.model.Contato;
 import agenda.model.Usuario;
@@ -27,6 +28,8 @@ public class UsuarioController implements Serializable {
 	private Contato contato = new Contato();
 
 	private UsuarioDAO usuarioDAO;
+	
+	private ContatoDAO contatoDAO;
 
 	private List<Usuario> usuarioLista;
 
@@ -108,11 +111,30 @@ public class UsuarioController implements Serializable {
 		return this.usuarioLista;
 	}
 	
-	
-	public void btnDlgNovoContato() {
-		PrimeFaces current = PrimeFaces.current();
-		
+	/*ao abrir o p:dialogo instanciando o obj contato*/
+	public void btnDlgNovoContato(Usuario usuario) {
+		this.usuarioSelecionado = usuario;
+		this.contato = new Contato();
+		PrimeFaces current = PrimeFaces.current();		
 		current.executeScript("PF('dlgNovoContato').show();");
+	}
+	
+	/*após preencheer os inputs referentes as propridedades de contato*/
+	public void novoContato() throws SQLException {
+		try {
+		this.contatoDAO = new ContatoDAO();		
+		this.contato.setUsuario(this.usuarioSelecionado);
+		this.contatoDAO.inserir(contato);
+		this.contatoLista =  new ArrayList<>();
+		
+		
+		PrimeFaces current = PrimeFaces.current();		
+		current.executeScript("PF('dlgNovoContato').hide();");	
+		Messages.addGlobalInfo("Contato de inserido com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("Não foi possível inserir o contato", e);
+		}
 	}
 	
 	
@@ -163,6 +185,14 @@ public class UsuarioController implements Serializable {
 
 	public void setContato(Contato contato) {
 		this.contato = contato;
+	}
+
+	public ContatoDAO getContatoDAO() {
+		return contatoDAO;
+	}
+
+	public void setContatoDAO(ContatoDAO contatoDAO) {
+		this.contatoDAO = contatoDAO;
 	}
 
 }
