@@ -75,7 +75,9 @@ public class ContatoDAO implements Serializable {
 
 	}
 
-	public List<Contato> getListaContato() throws SQLException {
+
+	
+	public List<Contato> getListaContato(int id) throws SQLException {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();

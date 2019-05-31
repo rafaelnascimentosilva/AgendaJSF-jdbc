@@ -56,7 +56,13 @@
 	
 	<h:form id="formNovoContato">	
 	<p:dataTable id="dtbContatos" var="contato"  widgetVar="" value="#{usuarioController.contatoLista}" >
-	
+		<p:column headerText="Nome">
+				<h:inputText value="#{contato.nome}" />
+			</p:column>
+			<p:column headerText="Fone">
+				<h:inputText value="#{contato.fone}"/>
+			</p:column>
+			
 	</p:dataTable>
 		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true" header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">		
 			<p:column headerText="Nome">
