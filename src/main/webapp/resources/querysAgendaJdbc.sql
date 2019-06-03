@@ -1,4 +1,4 @@
-﻿CREATE TABLE ag_usuario(
+CREATE TABLE ag_usuario(
 id_usuario SERIAL not null ,
 nome VARCHAR(55) not null,
 fone VARCHAR(13) not null,
@@ -13,6 +13,3 @@ fone VARCHAR(13) NOT NULL,
 PRIMARY KEY(id_contato),
 FOREIGN KEY (id_usuario) REFERENCES ag_usuario (id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-drop table ag_contato cascade;
-select * from ag_usuario

@@ -9,16 +9,16 @@
 	<h:outputStylesheet library="css" name="default.css"/>	
 </h:head>
 <h:body>
-	<div id="center">	
-	<h:form id="formInserir">
+	<div id="conteudo" >	
+	<h:form id="formInserir" >
 	<p:growl id="growl"  />  
 	<p:autoUpdate/>
-		<p:panel id="panel" header="Novo Usuário" style="text-align:center; margin:auto;padding:10px" >
-			<p:panelGrid id="panelInserir" columns="2" style="margin:auto;padding:10px">
+		<p:panel id="panel" header="Novo Usuário"  >
+			<p:panelGrid id="panelInserir" columns="2" styleClass="panel" >
 				<p:outputLabel value="Nome" />
 					<p:inputText value="#{usuarioController.usuario.nome}" required="true" />
 				<p:outputLabel value="Fone" />
-					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"   mask="(99)99999-9999" required="true"/>
+					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"   mask="(99)9999-9999" required="true"/>
 				<p:commandButton value="salvar"	 actionListener="#{usuarioController.inserir}"  update="panelInserir dtbUsuarios" />
 			</p:panelGrid>
 		</p:panel>
@@ -71,7 +71,7 @@
 				<h:inputText value="#{usuarioController.contato.nome}" required="true"/>
 			</p:column>
 			<p:column headerText="Fone">
-				<p:inputMask id="fone" value="#{usuarioController.contato.fone}"   mask="(99)99999-9999" required="true"/>
+				<p:inputMask id="fone" value="#{usuarioController.contato.fone}"   mask="(99)9999-9999" required="true"/>
 			</p:column>
 			<p:column>
 				<p:commandButton value="salvar" actionListener="#{usuarioController.novoContato}"  update="dtbContatos"/>

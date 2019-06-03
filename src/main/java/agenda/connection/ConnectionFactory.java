@@ -17,6 +17,6 @@ public class ConnectionFactory implements Serializable{
 	
 			e.printStackTrace();
 		}
-		return DriverManager.getConnection("jdbc:postgresql://localhost/db_agenda_jsf_jdbc", "postgres","1234");
+		return DriverManager.getConnection("jdbc:postgresql://localhost/db_agenda_jsf_jdbc", "postgres","123");
 	}
 }
