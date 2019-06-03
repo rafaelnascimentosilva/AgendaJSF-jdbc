@@ -125,16 +125,28 @@ public class UsuarioController implements Serializable {
 		this.contatoDAO = new ContatoDAO();		
 		this.contato.setUsuario(this.usuarioSelecionado);
 		this.contatoDAO.inserir(contato);
-		this.contatoLista =  new ArrayList<>();
+		this.contatoLista =  new ArrayList<Contato>();
+		this.contatoLista.add(contato);
+		this.contatoLista = contatoDAO.getListaContato(contato.getUsuario().getId());
+	
 		
 		
 		PrimeFaces current = PrimeFaces.current();		
 		current.executeScript("PF('dlgNovoContato').hide();");	
-		Messages.addGlobalInfo("Contato de inserido com sucesso!");
+		Messages.addGlobalInfo("Contato inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Não foi possível inserir o contato", e);
 		}
+	}
+	
+	public List<Contato> obterContotatosPorUsuario() throws SQLException {
+		
+		this.contatoDAO = new ContatoDAO();		
+		this.contatoLista =  new ArrayList<Contato>();
+		return this.contatoLista = contatoDAO.getListaContato(this.usuarioSelecionado.getId());
+		
+		//this.contatoLista = contatoDAO.getListaContato(id);
 	}
 	
 	

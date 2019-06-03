@@ -21,7 +21,7 @@ public class ContatoDAO implements Serializable {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "INSERT INTO ag_contato(nome, fone, fk_usuario) VALUES (?, ?, ?)";
+			String sql = "INSERT INTO ag_contato(nome, fone, id_usuario) VALUES (?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, contato.getNome());
 			statement.setString(2, contato.getFone());
@@ -41,7 +41,7 @@ public class ContatoDAO implements Serializable {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "UPDATE ag_contato SET  nome=?, fone=?, fk_usuario=? WHERE id_contato=?";
+			String sql = "UPDATE ag_contato SET  nome=?, fone=?, id_usuario=? WHERE id_contato=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, contato.getNome());
 			statement.setString(2, contato.getFone());
@@ -82,8 +82,9 @@ public class ContatoDAO implements Serializable {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
 			List<Contato> lista = new ArrayList<Contato>();
-			String sql = "select * from ag_contato";
+			String sql = "select * from ag_contato where id_usuario =?";
 			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
 			ResultSet resultSet =  statement.executeQuery();
 			while (resultSet.next()) {
 				Contato contato = new Contato();
