@@ -2,33 +2,9 @@
 .ui-widget {
 	font-size: 14px !important;
 }
-
-.ui-g div {
-	background-color: #ededed;
-	text-align: center;
-	border: 1px solid #fafafa;
-}
-
-#center {
-	margin: auto;
-	width: 50%;
-	border: 0px solid gray;
-	padding: 10px;
-}
-
-
-.panel{
-	text-align:center;
-	 margin:auto;
-	 padding:10px;
-	
-}
-.form{
-	 background-color: #ededed;
-}
-
-#container {
+ #conteudo {
 	width: 800px;
 	margin-left: auto;
 	margin-right: auto;
+	
 }

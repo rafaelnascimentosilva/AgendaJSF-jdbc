@@ -5,23 +5,76 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:o="http://omnifaces.org/ui">
 <h:head>
+<meta http-equiv="Content-Type" 
+              content="text/html; charset=UTF-8" />
 	<title>Usuário</title>
-	<h:outputStylesheet library="css" name="default.css"/>	
+	<h:outputStylesheet >
+	
+	.ui-widget {
+		font-size: 14px !important;
+	}
+	
+	#conteudo {
+		width:800px;	
+		margin-left: auto;
+		margin-right: auto;
+	}
+	 .ui-dialog-titlebar{
+	 	color: white;
+	 }
+	 .ui-widget-header{
+	 	background-color: white;
+	 } 	
+	 .ui-corner-top{
+		 background-color: navy;
+		 background-image: linear-gradient(navy,navy);		
+	 }	 
+	 .ui-state-default{
+	 	background-image: linear-gradient(navy,navy);
+	 	color: white;
+	 }	
+	.ui-widget-content ui-datatable-even ui-datatable-selectable ui-state-hover{
+	 background-image: linear-gradient(navy,navy);		
+	}
+
+	</h:outputStylesheet>	
+	
 </h:head>
 <h:body>
 	<div id="conteudo" >	
+	<div id="avatar">
+	<p:column>
+		<p:graphicImage value="/resources/images/user_avatar.png" id="avatar" 
+		style=" vertical-align: middle;
+				width: 100px;
+  				height: 100px;
+  				border-radius: 50%;"/>
+	</p:column>
+	<p:column>
+		<h:outputText value="Usuário Logado" style="position: absolute; top: 50px"/>
+	</p:column>
+	</div>
+		<p:commandButton actionListener="#{usuarioController.btnDlgNovoUsuario}" value="+ Novo Usuário" style="border-radius: 12px; background:white;color:green;text-decoration:none"/>
+	
+
 	<h:form id="formInserir" >
+	
 	<p:growl id="growl"  />  
 	<p:autoUpdate/>
-		<p:panel id="panel" header="Novo Usuário"  >
+
+	<p:dialog id="dlgInserir" widgetVar="dlgInserir" modal="true" header="Novo Usuário" >
+	
 			<p:panelGrid id="panelInserir" columns="2" styleClass="panel" >
 				<p:outputLabel value="Nome" />
-					<p:inputText value="#{usuarioController.usuario.nome}" required="true" />
+					<p:inputText value="#{usuarioController.usuario.nome}" />
 				<p:outputLabel value="Fone" />
-					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"   mask="(99)9999-9999" required="true"/>
+					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"   mask="(99)9999-9999" />
 				<p:commandButton value="salvar"	 actionListener="#{usuarioController.inserir}"  update="panelInserir dtbUsuarios" />
 			</p:panelGrid>
-		</p:panel>
+		
+	</p:dialog>
+	
+		
 		<p:dataTable id="dtbUsuarios" var="usuario" value="#{usuarioController.listaDeUsuarios()}" selectionMode="single" selection="#{usuarioController.usuarioSelecionado}" rowKey="#{usuario.id}">		
 		<p:ajax update="formNovoContato:dtbContatos" event="rowSelect" listener="#{usuarioController.obterContotatosPorUsuario}"/>
 			<p:column headerText="Nome">
@@ -47,8 +100,8 @@
 			<p:column headerText="Nome">
 				<h:inputText value="#{usuarioController.usuarioSelecionado.nome}" />
 			</p:column>
-			<p:column headerText="Fone">
-				<h:inputText value="#{usuarioController.usuarioSelecionado.fone}"/>
+			<p:column headerText="Fone">		
+				<p:inputMask id="fone" value="#{usuarioController.usuarioSelecionado.fone}"   mask="(99)9999-9999" required="true"/>
 			</p:column>
 			<p:column>
 				<p:commandButton value="salvar" actionListener="#{usuarioController.editar}"  update="formInserir:dtbUsuarios"/>
@@ -59,10 +112,10 @@
 	<h:form id="formNovoContato">	
 	<p:dataTable id="dtbContatos" var="contato"  widgetVar="" value="#{usuarioController.contatoLista}" >
 		<p:column headerText="Nome">
-				<h:inputText value="#{contato.nome}" />
+				<h:outputText value="#{contato.nome}" />
 			</p:column>
 			<p:column headerText="Fone">
-				<h:inputText value="#{contato.fone}"/>
+				<h:outputText value="#{contato.fone}"/>
 			</p:column>
 			
 	</p:dataTable>

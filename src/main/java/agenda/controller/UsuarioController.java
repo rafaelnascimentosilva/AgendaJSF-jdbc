@@ -78,6 +78,14 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
+	public void btnDlgNovoUsuario() {
+		this.usuario = new Usuario();
+		PrimeFaces current = PrimeFaces.current();
+		current.ajax().update("formInserir");
+		current.executeScript("PF('dlgInserir').show();");
+		
+	}
+	
 	public void btnDlgEditar(Usuario usuario) {
 		this.usuarioSelecionado = new Usuario();
 		this.usuarioSelecionado = usuario;
