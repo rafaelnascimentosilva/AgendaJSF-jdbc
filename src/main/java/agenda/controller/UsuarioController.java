@@ -45,7 +45,9 @@ public class UsuarioController implements Serializable {
 	public void init() {
 		try {
 			//Connection connection = request.getAttribute("conexao");
+			this.usuarioLista = new ArrayList<Usuario>();
 			listaDeUsuarios();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Não foi possível listar os dados", e);
@@ -56,7 +58,7 @@ public class UsuarioController implements Serializable {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.Inserir(this.usuario);
-			this.usuarioLista = new ArrayList<Usuario>();
+			
 			this.usuarioLista.add(this.usuario);
 			this.usuario = new Usuario();
 			Messages.addGlobalInfo("Usuário inserido com sucesso!");
@@ -70,8 +72,7 @@ public class UsuarioController implements Serializable {
 	public void deletar(Usuario usuario) throws SQLException {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
-			this.usuarioDAO.deletar(usuario.getId());
-			this.usuarioLista = new ArrayList<Usuario>();
+			this.usuarioDAO.deletar(usuario.getId());		
 			this.usuarioLista.remove(usuario);
 			Messages.addGlobalInfo("Usuário removido com sucesso!");
 		} catch (SQLException e) {

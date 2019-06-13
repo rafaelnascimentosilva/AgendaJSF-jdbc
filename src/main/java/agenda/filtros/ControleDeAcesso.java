@@ -28,7 +28,7 @@ public class ControleDeAcesso implements Filter {
 		{			
 			chain.doFilter(request, response);
 		} else {
-			redireciona("/agenda.connection-jdbc/Login.xhtml", response);		
+			redireciona("/AgendaJDBC/Login.xhtml", response);		
 		}
 
 	}
