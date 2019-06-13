@@ -44,20 +44,16 @@
 	<div id="conteudo" >	
 	<div id="avatar">
 	<p:column>
-		<p:graphicImage value="/resources/images/user_avatar.png" id="avatar" 
-		style=" vertical-align: middle;
-				width: 100px;
-  				height: 100px;
-  				border-radius: 50%;"/>
+		<p:graphicImage value="/resources/images/user_avatar.png" id="avatar" style=" vertical-align: middle;width: 100px;height: 100px;border-radius: 50%;"/>
 	</p:column>
 	<p:column>
-		<h:outputText value="Usuário Logado" style="position: absolute; top: 50px"/>
+		<h:outputText value="#{autenticadorController.email}" style="position: absolute; top: 50px"/>
 	</p:column>
 	</div>
 		<p:commandButton actionListener="#{usuarioController.btnDlgNovoUsuario}" value="+ Novo Usuário" style="border-radius: 12px; background:white;color:green;text-decoration:none"/>
-	
-
-	<h:form id="formInserir" >
+		<p:commandButton action="#{autenticadorController.logout}" value="Logout" style="border-radius: 12px; background:white;color:green;text-decoration:none; float:right;position:relative;"/>
+		
+		<h:form id="formInserir" >
 	
 	<p:growl id="growl"  />  
 	<p:autoUpdate/>

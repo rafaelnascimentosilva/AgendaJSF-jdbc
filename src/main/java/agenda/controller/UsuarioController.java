@@ -38,11 +38,13 @@ public class UsuarioController implements Serializable {
 	private List<Contato> contatoLista;
 
 	public UsuarioController() {
+		
 	}
 	
 	@PostConstruct
 	public void init() {
 		try {
+			//Connection connection = request.getAttribute("conexao");
 			listaDeUsuarios();
 		} catch (SQLException e) {
 			e.printStackTrace();
