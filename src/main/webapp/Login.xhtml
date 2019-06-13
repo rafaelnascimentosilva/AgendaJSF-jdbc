@@ -2,26 +2,105 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui" 
-	xmlns:o="http://omnifaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Usuário</title>
+	<title>Tela de Login</title>
+	
 
+<h:outputStylesheet >
+	
+	.ui-widget {
+		font-size: 14px !important;
+	}
+	
+	
+	.panelLogin{
+		width:400px;		
+ 		 margin: 0px auto;
+		-webkit-border-radius: 5px;
+ 		 
+ 		 padding: 50px 20px 70px 20px;
+ 		 background: #f7f7f7;
+ 		 border: 1px solid rgba(147, 184, 189,0.8);
+ 		 
+	}
+	h1{
+	  font-size: 38px;
+	  color: #066a75;	 
+	  font-family: Arial,sans-serif;
+	  font-weight: bold;
+	  text-align: center;
+	 
+	}
+	.conteudo{
+		padding-top:100px
+	}
+	input:not([type="submit"]){
+ 	 	width: 95%;
+  		margin-top: 4px;
+  		padding: 10px;    
+  		border: 1px solid #b2b2b2; 
+  		-webkit-border-radius: 3px;
+  		border-radius: 3px; 
+  		-webkit-box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+  		box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset; 
+  		-webkit-transition: all 0.2s linear;
+  		transition: all 0.2s linear;
+	}
+	input[type="submit"]{
+	 
+	  cursor: pointer;  
+	  background: rgb(61, 157, 179);
+	  padding: 8px 5px;
+	  color: #fff;
+	  font-size: 20px;  
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;
+	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;
+	 
+	  transition: all 0.2s linear;
+	}
+
+
+	</h:outputStylesheet>
 </h:head>
 <h:body>
-	<h:form>
-<p:growl id="growl"  />  
-	<p:autoUpdate/>
 	
-		<h:outputText value="Email" />
-		<h:inputText value="#{autenticadorController.email}" required="true"/>
-		<h:outputText value="senha" />
-		<h:inputText value="#{autenticadorController.senha}" required="true" />
-		<p:commandButton value="Enviar" action="#{autenticadorController.autentica}"/>
+<div class="conteudo">
+	<h:form>
+	<p:growl/>
+		<p:autoUpdate />
+		<div class="panelLogin">
+		<h1>Login</h1>
 		
-	</h:form>
 
+			<p:outputLabel for="email" value="Email" />
+
+			<p:inputText id="email" value="#{autenticadorController.email}"	required="true" />
+
+			<p:outputLabel for="senha" value="Senha" />
+
+			<p:password id="senha" value="#{autenticadorController.senha}"	required="true" />
+
+			<p:commandButton value="Enviar" action="#{autenticadorController.autentica}" style="cursor: pointer;  
+	  background: rgb(61, 157, 179);
+	  padding: 8px 5px;
+	  color: #fff;
+	  font-size: 20px;  
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;	 
+	  transition: all 0.2s linear;" />
+	
+		</div>
+	</h:form>
+</div>
 </h:body>
 
 </html>

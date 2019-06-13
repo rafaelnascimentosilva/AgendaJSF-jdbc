@@ -3,15 +3,13 @@ package agenda.controller;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 
 import org.omnifaces.util.Messages;
 
 import agenda.util.SessaoUtil;
-import org.omnifaces.util.Messages;
-import org.omnifaces.util.Messages.Message;
 
-@SessionScoped
+@RequestScoped
 @ManagedBean
 public class AutenticadorController implements Serializable {
 
@@ -21,7 +19,7 @@ public class AutenticadorController implements Serializable {
 	private String senha;
 
 	public String autentica() {
-		System.out.println("autentica..");
+	
 
 		if (email.equals("admin") && senha.equals("admin")) {
 			System.out.println("Confirmou  usuario e senha ...");
@@ -36,10 +34,9 @@ public class AutenticadorController implements Serializable {
 			return "/Usuario.xhtml?faces-redirect=true";
 
 		} else {
-			Messages.addGlobalInfo("Login ou Senha Inválidos\"!");
-			return "/Login.xhtml?faces-redirect=true";
-
-			
+			System.out.println("autentica erro..");
+			Messages.addGlobalWarn("Login ou Senha Inválidos\"!"); 
+			return null;
 		}
 
 	}

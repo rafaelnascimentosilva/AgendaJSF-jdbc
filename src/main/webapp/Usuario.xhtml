@@ -2,16 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <h:head>
-<meta http-equiv="Content-Type" 
-              content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Usuário</title>
-	<h:outputStylesheet >
+	<h:outputStylesheet>
 	
 	.ui-widget {
-		font-size: 14px !important;
+		
 	}
 	
 	#conteudo {
@@ -27,113 +25,217 @@
 	 } 	
 	 .ui-corner-top{
 		 background-color: navy;
-		 background-image: linear-gradient(navy,navy);		
+		 background-image: linear-gradient( rgba(61, 157, 179,0.5), rgb(61, 157, 179));		
 	 }	 
 	 .ui-state-default{
-	 	background-image: linear-gradient(navy,navy);
-	 	color: white;
+	  background-image: linear-gradient( rgba(61, 157, 179,0.5), rgb(61, 157, 179));
+	  background: rgb(61, 157, 179);
+	  padding: 8px 5px;
+	  color: #fff;
+	  font-size: 15px;  
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;	 
+	  transition: all 0.2s linear;
 	 }	
-	.ui-widget-content ui-datatable-even ui-datatable-selectable ui-state-hover{
-	 background-image: linear-gradient(navy,navy);		
+	.ui-widget-content {
+	  border: 1px solid #fff;  
 	}
-
-	</h:outputStylesheet>	
+	.ui-datatable-empty-message{
+	  padding: 8px 5px;
+	  color: #000;
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #33
+	}
+	.ui-icon {
+		/// background-color: white;
+	}
 	
+
+	</h:outputStylesheet>
+
 </h:head>
 <h:body>
-	<div id="conteudo" >	
-	<div id="avatar">
-	<p:column>
-		<p:graphicImage value="/resources/images/user_avatar.png" id="avatar" style=" vertical-align: middle;width: 100px;height: 100px;border-radius: 50%;"/>
-	</p:column>
-	<p:column>
-		<h:outputText value="#{autenticadorController.email}" style="position: absolute; top: 50px"/>
-	</p:column>
-	</div>
-		<p:commandButton actionListener="#{usuarioController.btnDlgNovoUsuario}" value="+ Novo Usuário" style="border-radius: 12px; background:white;color:green;text-decoration:none"/>
-		<p:commandButton action="#{autenticadorController.logout}" value="Logout" style="border-radius: 12px; background:white;color:green;text-decoration:none; float:right;position:relative;"/>
-		
-		<h:form id="formInserir" >
-	
-	<p:growl id="growl"  />  
-	<p:autoUpdate/>
+	<div id="conteudo">
+		<div id="avatar">
+			<p:column>
+				<p:graphicImage value="/resources/images/user_avatar.png"
+					id="avatar"
+					style=" vertical-align: middle;width: 100px;height: 100px;border-radius: 50%;" />
+			</p:column>
+			<p:column>
+				<h:outputText value="#{autenticadorController.email}"
+					style="position: absolute; top: 50px" />
+			</p:column>
+		</div>
+		<p:commandButton
+			actionListener="#{usuarioController.btnDlgNovoUsuario}"
+			value="+ Novo Usuário"
+			style="cursor: pointer;  
+	  background: rgb(61, 157, 179);
+	  padding: 8px 5px;
+	  color: #fff;
+	  font-size: 20px;  
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;	 
+	  transition: all 0.2s linear;" />
+		<p:commandButton action="#{autenticadorController.logout}"
+			value="Logout"
+			style="cursor: pointer;  
+	  background: rgb(61, 157, 179);
+	  padding: 8px 5px;
+	  color: #fff;
+	  font-size: 20px;  
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;	 
+	  transition: all 0.2s linear;
+	  float:right" />
 
-	<p:dialog id="dlgInserir" widgetVar="dlgInserir" modal="true" header="Novo Usuário" >
-	
-			<p:panelGrid id="panelInserir" columns="2" styleClass="panel" >
-				<p:outputLabel value="Nome" />
+		<h:form id="formInserir">
+
+			<p:growl id="growl" />
+			<p:autoUpdate />
+
+			<p:dialog id="dlgInserir" widgetVar="dlgInserir" modal="true"
+				header="Novo Usuário">
+
+				<p:panelGrid id="panelInserir" columns="2" styleClass="panel">
+					<p:outputLabel value="Nome" />
 					<p:inputText value="#{usuarioController.usuario.nome}" />
-				<p:outputLabel value="Fone" />
-					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"   mask="(99)9999-9999" />
-				<p:commandButton value="salvar"	 actionListener="#{usuarioController.inserir}"  update="panelInserir dtbUsuarios" />
-			</p:panelGrid>
-		
-	</p:dialog>
-	
-		
-		<p:dataTable id="dtbUsuarios" var="usuario" value="#{usuarioController.listaDeUsuarios()}" selectionMode="single" selection="#{usuarioController.usuarioSelecionado}" rowKey="#{usuario.id}">		
-		<p:ajax update="formNovoContato:dtbContatos" event="rowSelect" listener="#{usuarioController.obterContotatosPorUsuario}"/>
-			<p:column headerText="Nome">
-				<h:outputText value="#{usuario.nome}" />
-			</p:column>
-			<p:column headerText="Fone">
-				<h:outputText value="#{usuario.fone}" />
-			</p:column>
-			<p:column>
-				<p:commandButton actionListener="#{usuarioController.deletar(usuario)}" immediate="true" update="dtbUsuarios" icon="ui-icon ui-icon-trash"  >
-					<p:confirm header="" message="Deseja excluir o regitro #{usuario.nome}"/>				
-				</p:commandButton>				
-			
-				<p:commandButton actionListener="#{usuarioController.btnDlgEditar(usuario)}" immediate="true" icon="ui-icon ui-icon-pencil"  />
-				
-				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(usuario)}" immediate="true" icon="ui-icon ui-icon-contact"  update="formNovoContato:dlgNovoContato"/>
-			</p:column>
-		</p:dataTable>
-	</h:form>
-	
-	<h:form id="formEditar">
-		<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true" header="Editar">		
-			<p:column headerText="Nome">
-				<h:inputText value="#{usuarioController.usuarioSelecionado.nome}" />
-			</p:column>
-			<p:column headerText="Fone">		
-				<p:inputMask id="fone" value="#{usuarioController.usuarioSelecionado.fone}"   mask="(99)9999-9999" required="true"/>
-			</p:column>
-			<p:column>
-				<p:commandButton value="salvar" actionListener="#{usuarioController.editar}"  update="formInserir:dtbUsuarios"/>
-			</p:column>
-		</p:dialog>
-	</h:form>
-	
-	<h:form id="formNovoContato">	
-	<p:dataTable id="dtbContatos" var="contato"  widgetVar="" value="#{usuarioController.contatoLista}" >
-		<p:column headerText="Nome">
-				<h:outputText value="#{contato.nome}" />
-			</p:column>
-			<p:column headerText="Fone">
-				<h:outputText value="#{contato.fone}"/>
-			</p:column>
-			
-	</p:dataTable>
-		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true" header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">		
-			<p:column headerText="Nome">
-				<h:inputText value="#{usuarioController.contato.nome}" required="true"/>
-			</p:column>
-			<p:column headerText="Fone">
-				<p:inputMask id="fone" value="#{usuarioController.contato.fone}"   mask="(99)9999-9999" required="true"/>
-			</p:column>
-			<p:column>
-				<p:commandButton value="salvar" actionListener="#{usuarioController.novoContato}"  update="dtbContatos"/>
-			</p:column>
-		</p:dialog>
-	</h:form>
-	
+					<p:outputLabel value="Fone" />
+					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
+						mask="(99)9999-9999" />
+					<p:commandButton value="salvar"
+						actionListener="#{usuarioController.inserir}"
+						update="panelInserir dtbUsuarios" />
+				</p:panelGrid>
+
+			</p:dialog>
+
+
+			<p:dataTable id="dtbUsuarios" var="usuario"
+				value="#{usuarioController.listaDeUsuarios()}"
+				selectionMode="single"
+				selection="#{usuarioController.usuarioSelecionado}"
+				rowKey="#{usuario.id}">
+				<p:ajax update="formNovoContato:dtbContatos" event="rowSelect"
+					listener="#{usuarioController.obterContotatosPorUsuario}" />
+				<p:column headerText="Nome">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+				<p:column headerText="Fone">
+					<h:outputText value="#{usuario.fone}" />
+				</p:column>
+				<p:column>
+					<p:commandButton
+						actionListener="#{usuarioController.deletar(usuario)}"
+						immediate="true" update="dtbUsuarios" icon="fa fa-fw fa-remove" 
+						style="cursor: pointer;  
+	  background: tomato;	 
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;
+	  color:white;  
+	  text-shadow: 0 1px 1px #333;	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;	 
+	  transition: all 0.2s linear;">
+						<p:confirm header=""
+							message="Deseja excluir o regitro #{usuario.nome}" />
+					</p:commandButton>
+
+					<p:commandButton
+						actionListener="#{usuarioController.btnDlgEditar(usuario)}"
+						immediate="true" icon="fa fa-fw fa-edit" 
+						style="cursor: pointer;  
+	  background: orange;	 
+	  color:white;  
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;	 
+	  transition: all 0.2s linear;" />
+
+					<p:commandButton
+						actionListener="#{usuarioController.btnDlgNovoContato(usuario)}"
+						immediate="true" icon="fa fa-plus"
+						update="formNovoContato:dlgNovoContato"
+						style="cursor: pointer;  
+	  background: MediumSeaGreen;	
+	  color:white; 
+	  border: 1px solid #fff;   
+	  margin-bottom: 10px;  
+	  text-shadow: 0 1px 1px #333;	 
+	  -webkit-border-radius: 5px;
+	  border-radius: 5px;	 
+	  transition: all 0.2s linear;" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<h:form id="formEditar">
+			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true"
+				header="Editar">
+				<p:column headerText="Nome">
+					<h:inputText value="#{usuarioController.usuarioSelecionado.nome}" />
+				</p:column>
+				<p:column headerText="Fone">
+					<p:inputMask id="fone"
+						value="#{usuarioController.usuarioSelecionado.fone}"
+						mask="(99)9999-9999" required="true" />
+				</p:column>
+				<p:column>
+					<p:commandButton value="salvar"
+						actionListener="#{usuarioController.editar}"
+						update="formInserir:dtbUsuarios" />
+				</p:column>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="formNovoContato">
+			<p:dataTable id="dtbContatos" var="contato" widgetVar=""
+				value="#{usuarioController.contatoLista}">
+				<p:column headerText="Nome">
+					<h:outputText value="#{contato.nome}" />
+				</p:column>
+				<p:column headerText="Fone">
+					<h:outputText value="#{contato.fone}" />
+				</p:column>
+
+			</p:dataTable>
+			<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"
+				header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
+				<p:column headerText="Nome">
+					<h:inputText value="#{usuarioController.contato.nome}"
+						required="true" />
+				</p:column>
+				<p:column headerText="Fone">
+					<p:inputMask id="fone" value="#{usuarioController.contato.fone}"
+						mask="(99)9999-9999" required="true" />
+				</p:column>
+				<p:column>
+					<p:commandButton value="salvar"
+						actionListener="#{usuarioController.novoContato}"
+						update="dtbContatos" />
+				</p:column>
+			</p:dialog>
+		</h:form>
+
 	</div>
-	
-	 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-    </p:confirmDialog>  
-    
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="Yes" type="button"
+			styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+	</p:confirmDialog>
+
 </h:body>
 </html>
