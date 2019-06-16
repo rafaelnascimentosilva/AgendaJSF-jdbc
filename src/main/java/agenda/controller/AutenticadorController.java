@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.omnifaces.util.Messages;
 
 import agenda.util.SessaoUtil;
 
-@RequestScoped
+@SessionScoped
 @ManagedBean
 public class AutenticadorController implements Serializable {
 

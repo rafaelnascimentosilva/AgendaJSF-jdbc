@@ -65,8 +65,8 @@
 					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
 						mask="(99)9999-9999" />
 					<p:commandButton value="salvar"
-						actionListener="#{usuarioController.inserir}"
-						update="panelInserir dtbUsuarios" />
+						actionListener="#{usuarioController.inserir}" update="dtbUsuarios"
+					 />
 				</p:panelGrid>
 
 			</p:dialog>
@@ -75,9 +75,7 @@
 			<p:dataTable id="dtbUsuarios" var="usuario"
 				value="#{usuarioController.usuarioLista}" selectionMode="single"
 				selection="#{usuarioController.usuarioSelecionado}"
-				rowKey="#{usuario.id}"
-				
-				>
+				rowKey="#{usuario.id}">
 				<p:ajax update="formNovoContato" event="rowSelect"
 					listener="#{usuarioController.obterContotatosPorUsuario}" />
 				<p:column headerText="Nome">
@@ -155,26 +153,26 @@
 	
 			<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"
 				header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
-				<p:column headerText="Nome">
+				<p:panelGrid columns="2">
+			
+				<h:outputText value="Nome"  />
 					<h:inputText value="#{usuarioController.contato.nome}"
 						required="true" />
-				</p:column>
-				<p:column headerText="Fone">
+				
+				<h:outputText value="Fone"/>
 					<p:inputMask id="fone" value="#{usuarioController.contato.fone}"
 						mask="(99)9999-9999" required="true" />
-				</p:column>
+				
 				<p:column>
 					<p:commandButton value="salvar"
 						actionListener="#{usuarioController.novoContato}"
-						update="dtbContatos" />
+						update="formInserir:dtbUsuarios dtbContatos" />
 				</p:column>
+				</p:panelGrid>
 			</p:dialog>
 				<p:panel header="Contatos de #{usuarioController.usuarioSelecionado.nome}">
 			<p:dataTable id="dtbContatos" var="contato" widgetVar=""
-				value="#{usuarioController.contatoLista}" rows="5"
-			paginator="true"
-			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">  >
+				value="#{usuarioController.contatoLista}" >
 				<p:column headerText="Nome">
 					<h:outputText value="#{contato.nome}" />
 				</p:column>

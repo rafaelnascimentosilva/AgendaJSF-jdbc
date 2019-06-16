@@ -24,11 +24,11 @@ public class UsuarioController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario = new Usuario();
-	
+
 	private Contato contato = new Contato();
 
 	private UsuarioDAO usuarioDAO;
-	
+
 	private ContatoDAO contatoDAO;
 
 	private List<Usuario> usuarioLista;
@@ -38,29 +38,32 @@ public class UsuarioController implements Serializable {
 	private List<Contato> contatoLista;
 
 	public UsuarioController() {
-		
+
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		try {
-			//Connection connection = request.getAttribute("conexao");
-			this.usuarioLista = new ArrayList<Usuario>();
 			listaDeUsuarios();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Não foi possível listar os dados", e);
 		}
 	}
 
+	public void btnDlgNovoUsuario() {
+		this.usuario = new Usuario();
+		PrimeFaces current = PrimeFaces.current();
+		current.executeScript("PF('dlgInserir').show();");
+	}
+
 	public void inserir() {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.Inserir(this.usuario);
-			
 			this.usuarioLista.add(this.usuario);
-			this.usuario = new Usuario();
+			listaDeUsuarios();
 			Messages.addGlobalInfo("Usuário inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,7 +75,7 @@ public class UsuarioController implements Serializable {
 	public void deletar(Usuario usuario) throws SQLException {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
-			this.usuarioDAO.deletar(usuario.getId());		
+			this.usuarioDAO.deletar(usuario.getId());
 			this.usuarioLista.remove(usuario);
 			Messages.addGlobalInfo("Usuário removido com sucesso!");
 		} catch (SQLException e) {
@@ -81,14 +84,6 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public void btnDlgNovoUsuario() {
-		this.usuario = new Usuario();
-		PrimeFaces current = PrimeFaces.current();
-		current.ajax().update("formInserir");
-		current.executeScript("PF('dlgInserir').show();");
-		
-	}
-	
 	public void btnDlgEditar(Usuario usuario) {
 		this.usuarioSelecionado = new Usuario();
 		this.usuarioSelecionado = usuario;
@@ -111,7 +106,7 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public List<Usuario> listaDeUsuarios() throws SQLException{
+	public List<Usuario> listaDeUsuarios() throws SQLException {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioLista = this.usuarioDAO.getLista();
@@ -121,46 +116,40 @@ public class UsuarioController implements Serializable {
 		}
 		return this.usuarioLista;
 	}
-	
-	/*ao abrir o p:dialogo instanciando o obj contato*/
+
+	/* ao abrir o p:dialogo instanciando o obj contato */
 	public void btnDlgNovoContato(Usuario usuario) {
 		this.usuarioSelecionado = usuario;
 		this.contato = new Contato();
-		PrimeFaces current = PrimeFaces.current();		
+		PrimeFaces current = PrimeFaces.current();
 		current.executeScript("PF('dlgNovoContato').show();");
 	}
-	
-	/*após preencheer os inputs referentes as propridedades de contato*/
+
+	/* após preencheer os inputs referentes as propridedades de contato */
 	public void novoContato() throws SQLException {
 		try {
-		this.contatoDAO = new ContatoDAO();		
-		this.contato.setUsuario(this.usuarioSelecionado);
-		this.contatoDAO.inserir(contato);
-		this.contatoLista =  new ArrayList<Contato>();
-		this.contatoLista.add(contato);
-		this.contatoLista = contatoDAO.getListaContato(contato.getUsuario().getId());
-	
-		
-		
-		PrimeFaces current = PrimeFaces.current();		
-		current.executeScript("PF('dlgNovoContato').hide();");	
-		Messages.addGlobalInfo("Contato inserido com sucesso!");
+			this.contatoDAO = new ContatoDAO();
+			this.contato.setUsuario(usuarioSelecionado);
+			this.contatoDAO.inserir(contato);
+			this.contatoLista = new ArrayList<Contato>();
+			this.contatoLista.add(contato);
+			this.contatoLista = contatoDAO.getListaContato(contato.getUsuario().getId());
+
+			PrimeFaces current = PrimeFaces.current();
+			current.executeScript("PF('dlgNovoContato').hide();");
+			Messages.addGlobalInfo("Contato inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Não foi possível inserir o contato", e);
 		}
 	}
-	
+
 	public List<Contato> obterContotatosPorUsuario() throws SQLException {
-		
-		this.contatoDAO = new ContatoDAO();		
-		this.contatoLista =  new ArrayList<Contato>();
+
+		this.contatoDAO = new ContatoDAO();
+		this.contatoLista = new ArrayList<Contato>();
 		return this.contatoLista = contatoDAO.getListaContato(this.usuarioSelecionado.getId());
-		
-		//this.contatoLista = contatoDAO.getListaContato(id);
 	}
-	
-	
 
 	public Usuario getUsuario() {
 		return usuario;
