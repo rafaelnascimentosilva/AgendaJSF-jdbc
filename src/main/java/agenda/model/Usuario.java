@@ -13,6 +13,10 @@ public class Usuario implements Serializable {
 
 	private String fone;
 	
+	private String login;
+	
+	private String senha;
+	
 	private List<Contato> contatoLista;
 
 	public int getId() {
@@ -45,6 +49,22 @@ public class Usuario implements Serializable {
 
 	public void setContatoLista(List<Contato> contatoLista) {
 		this.contatoLista = contatoLista;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

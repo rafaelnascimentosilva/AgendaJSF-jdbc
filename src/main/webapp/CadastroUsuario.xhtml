@@ -78,28 +78,23 @@
 	<p:growl/>
 		<p:autoUpdate />
 		<div class="panelLogin">
-		<h1>Login</h1>		
+		<h1>Cadastro de Usuário</h1>		
 
-			<p:outputLabel for="email" value="Email" />
+			<p:outputLabel for="nome" value="Nome" />
+			<p:inputText id="nome" value="#{usuarioController.usuario.nome}"	required="true" />
 
-			<p:inputText id="email" value="#{autenticadorController.email}"	required="true" />
-
+			<p:outputLabel for="fone" value="Fone" />
+			<p:inputText id="fone" value="#{usuarioController.usuario.fone}"	required="true" />
+			
+			<p:outputLabel for="login" value="Login" />
+			<p:inputText id="login" value="#{usuarioController.usuario.login}"	required="true" />
+			
+			
 			<p:outputLabel for="senha" value="Senha" />
 
-			<p:password id="senha" value="#{autenticadorController.senha}"	required="true" />
+			<p:password id="senha" value="#{usuarioController.usuario.senha}"	required="true" />
 
-			<p:commandButton value="Enviar" action="#{autenticadorController.autentica}" style=" 
-	  background: rgb(61, 157, 179);
-	  padding: 8px 5px;
-	  color: #fff;
-	  font-size: 20px;  
-	  border: 1px solid #fff;   
-	  margin-bottom: 10px;  
-	  text-shadow: 0 1px 1px #333;	 
-	  -webkit-border-radius: 5px;
-	  border-radius: 5px;	 
-	  transition: all 0.2s linear;" />
-	  <p:commandLink value="Cadastro de usuário" style=" color:rgb(61, 157, 179);float:right;padding-top:10px;"/>
+			<p:commandButton value="Enviar" action="#{usuarioController.inserir}"  />
 	
 		</div>
 	</h:form>

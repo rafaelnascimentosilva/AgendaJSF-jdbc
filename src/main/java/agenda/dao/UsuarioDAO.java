@@ -20,10 +20,12 @@ public class UsuarioDAO implements Serializable {
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "INSERT INTO ag_usuario(nome, fone) VALUES (?,?)";
+			String sql = "INSERT INTO ag_usuario(nome, fone, login, senha) VALUES (?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
+			statement.setString(3, usuario.getLogin());
+			statement.setString(4, usuario.getSenha());
 			statement.execute();
 			statement.close();
 
@@ -35,7 +37,7 @@ public class UsuarioDAO implements Serializable {
 	}
 
 	public List<Usuario> getLista() throws SQLException {
-		
+
 		try {
 			List<Usuario> listaUsuario = new ArrayList<Usuario>();
 			this.connection = new ConnectionFactory().getConnection();
@@ -57,7 +59,7 @@ public class UsuarioDAO implements Serializable {
 			throw new SQLException(e);
 		} finally {
 			this.connection.close();
-		}		
+		}
 	}
 
 	public void deletar(int id) throws SQLException {
@@ -67,6 +69,7 @@ public class UsuarioDAO implements Serializable {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
 			statement.execute();
+			statement.close();
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
@@ -84,10 +87,48 @@ public class UsuarioDAO implements Serializable {
 			statement.setString(2, usuario.getFone());
 			statement.setInt(3, usuario.getId());
 			statement.execute();
+			statement.close();
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			this.connection.close();
 		}
+	}
+
+// migrar o banco posteriromente
+	public Usuario autentica(String login, String senha) throws SQLException {
+		try {
+			this.connection = new ConnectionFactory().getConnection();
+			String sql = "select * from ag_usuario where login=? and senha=?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, login);
+			statement.setString(2, senha);
+
+			Usuario usuario = new Usuario();
+			ResultSet rs = statement.executeQuery();
+
+			if (rs.next()) {
+				Integer id = rs.getInt("id_usuario");
+				String nome = rs.getString("nome");
+				String uLogin = rs.getString("login");
+				String uSenha = rs.getString("senha");
+
+				usuario.setId(id);
+				usuario.setNome(nome);
+				usuario.setLogin(uLogin);
+				usuario.setSenha(uSenha);
+
+			}
+			rs.close();
+			statement.close();
+			return usuario;
+
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally {
+			this.connection.close();
+
+		}
+
 	}
 }

@@ -28,7 +28,8 @@ public class ControleDeAcesso implements Filter {
 		{			
 			chain.doFilter(request, response);
 		} else {
-			redireciona("/AgendaJDBC/Login.xhtml", response);		
+			System.out.println("senha errada");
+			redireciona(req.getContextPath()+"/Login.xhtml", response);		
 		}
 
 	}
