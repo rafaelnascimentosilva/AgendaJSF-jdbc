@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.omnifaces.util.Ajax;
 import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
 
@@ -57,32 +58,26 @@ public class UsuarioController implements Serializable {
 	public void isStatus() {
 		formStatus = !formStatus;
 		System.out.println(formStatus);
-		PrimeFaces current = PrimeFaces.current();
-		current.ajax().update("formLogin");
-
+		Ajax.updateAll();
 	}
 
 	public void btnDlgNovoUsuario() {
 		this.usuario = new Usuario();
-
-		// PrimeFaces current = PrimeFaces.current();
-		// current.executeScript("PF('dlgCadastroUsuario').show();");
-		PrimeFaces current = PrimeFaces.current();
-		current.ajax().update("formCadastroUsuario");
 		isStatus();
 	}
 
 	public void inserir() {
 		try {
-			isStatus();
+
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.Inserir(this.usuario);
 			// this.usuarioLista.add(this.usuario);
-			listaDeUsuarios();
-			Messages.addGlobalInfo("Usu�rio inserido com sucesso!");
+			// listaDeUsuarios();
+			Messages.addGlobalInfo("Usuário inserido com sucesso!");
+			isStatus();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Usu�rio n�o inserido", e);
+			Messages.addGlobalWarn("Usuário não inserido", e);
 		}
 
 	}

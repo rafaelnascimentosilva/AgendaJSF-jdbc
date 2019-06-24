@@ -17,6 +17,7 @@ public class UsuarioDAO implements Serializable {
 
 	private Connection connection;
 
+	@SuppressWarnings("deprecation")
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
