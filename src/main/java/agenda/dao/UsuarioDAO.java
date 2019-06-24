@@ -20,12 +20,15 @@ public class UsuarioDAO implements Serializable {
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "INSERT INTO ag_usuario(nome, fone, login, senha) VALUES (?,?,?,?)";
+			String sql = "INSERT INTO ag_usuario(nome, dt_nasc, sexo, fone, email, login, senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getNome());
-			statement.setString(2, usuario.getFone());
-			statement.setString(3, usuario.getLogin());
-			statement.setString(4, usuario.getSenha());
+			statement.setDate(2, new java.sql.Date(usuario.getDataNasc().getDate()));
+			statement.setString(3, usuario.getSexo());
+			statement.setString(4, usuario.getFone());
+			statement.setString(5, usuario.getEmail());
+			statement.setString(6, usuario.getLogin());
+			statement.setString(7, usuario.getSenha());
 			statement.execute();
 			statement.close();
 

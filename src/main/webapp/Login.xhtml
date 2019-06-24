@@ -1,10 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
 <h:head>
+
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" type="image/x-icon" href="#{resources['images/favicon.ico']}"/>
 	<title>Tela de Login</title>
 	
 
@@ -28,6 +34,16 @@
  		 border: 1px solid rgba(147, 184, 189,0.8);
  		 
 	}
+		.panelCadastro{
+		width:400px;		
+ 		 margin: 0px auto;
+		-webkit-border-radius: 5px;
+ 		 
+ 		 padding: 50px 20px 70px 20px;
+ 		 background: #f7f7f7;
+ 		 border: 1px solid rgba(147, 184, 189,0.8);
+ 		 
+	}
 	h1{
 	  font-size: 38px;
 	  color: #066a75;	 
@@ -37,7 +53,7 @@
 	 
 	}
 	.conteudo{
-		padding-top:100px
+	
 	}
 	input:not([type="submit"]){
  	 	width: 95%;
@@ -74,35 +90,83 @@
 <h:body>
 	
 <div class="conteudo">
-	<h:form>
+	<h:form id="formLogin" rendered="#{usuarioController.formStatus}">
 	<p:growl/>
 		<p:autoUpdate />
 		<div class="panelLogin">
-		<h1>Login</h1>		
-
-			<p:outputLabel for="email" value="Email" />
-
-			<p:inputText id="email" value="#{autenticadorController.email}"	required="true" />
-
-			<p:outputLabel for="senha" value="Senha" />
-
-			<p:password id="senha" value="#{autenticadorController.senha}"	required="true" />
-
-			<p:commandButton value="Enviar" action="#{autenticadorController.autentica}" style=" 
-	  background: rgb(61, 157, 179);
-	  padding: 8px 5px;
-	  color: #fff;
-	  font-size: 20px;  
-	  border: 1px solid #fff;   
-	  margin-bottom: 10px;  
-	  text-shadow: 0 1px 1px #333;	 
-	  -webkit-border-radius: 5px;
-	  border-radius: 5px;	 
-	  transition: all 0.2s linear;" />
-	  <p:commandLink value="Cadastro de usuário" style=" color:rgb(61, 157, 179);float:right;padding-top:10px;"/>
+			<h1>Login</h1>	
+				<p:outputLabel for="email" value="Email" />
 	
+				<p:inputText id="email" value="#{autenticadorController.email}"	required="true" />
+	
+				<p:outputLabel for="senha" value="Senha" />
+	
+				<p:password id="senha" value="#{autenticadorController.senha}"	required="true" />
+	
+				<p:commandButton value="Enviar" action="#{autenticadorController.autentica}" style=" 
+		  background: rgb(61, 157, 179);
+		  padding: 8px 5px;
+		  color: #fff;
+		  font-size: 20px;  
+		  border: 1px solid #fff;   
+		  margin-bottom: 10px;  
+		  text-shadow: 0 1px 1px #333;	 
+		  -webkit-border-radius: 5px;
+		  border-radius: 5px;	 
+		  transition: all 0.2s linear;" />
+		  		<p:commandLink value="Cadastro de usuário"  update="@all" actionListener="#{usuarioController.btnDlgNovoUsuario}" immediate="true" style=" color:rgb(61, 157, 179);float:right;padding-top:10px;"/>
+		
 		</div>
 	</h:form>
+	
+	<h:form id="formCadastroUsuario" rendered="#{!usuarioController.formStatus}">
+	<p:growl/>
+		<p:autoUpdate />
+	<div class="panelCadastro " >
+		<h1>Cadastro</h1>
+		<p:outputLabel for="nome" value="Nome"/>
+			<p:inputText id="nome" value="#{usuarioController.usuario.nome}"  required="true"/>
+		
+		<p:outputLabel for="data" value="Data Nascimento"/>			
+			  <p:calendar id="data" value="#{usuarioController.usuario.dataNasc}" pattern="dd-MM-yyyy" mask="true" >
+			    <f:convertDateTime pattern="dd-MM-yyyy"/>
+			  </p:calendar>
+			
+		<p:outputLabel for="sexo" value="Sexo"/>
+			<p:inputText id="sexo" value="#{usuarioController.usuario.sexo}"  required="true"/>
+			
+		<p:outputLabel for="fone" value="Fone"/>
+			<p:inputText id="fone" value="#{usuarioController.usuario.fone}"  required="true"/>
+			
+		<p:outputLabel for="email" value="Email"/>
+			<p:inputText id="email" value="#{usuarioController.usuario.email}"  required="true"/>
+			
+			
+			
+		<p:outputLabel for="login" value="Login"/>
+			<p:inputText id="login" value="#{usuarioController.usuario.login}"  required="true"/>
+			
+			
+			
+		<p:outputLabel for="senha" value="Senha"/>
+			<p:inputText id="senha" value="#{usuarioController.usuario.senha}"  required="true"/>
+			
+			
+			<p:commandButton value="Enviar" update="@all" actionListener="#{usuarioController.inserir}" style=" 
+		  background: rgb(61, 157, 179);
+		  padding: 8px 5px;
+		  color: #fff;
+		  font-size: 20px;  
+		  border: 1px solid #fff;   
+		  margin-bottom: 10px;  
+		  text-shadow: 0 1px 1px #333;	 
+		  -webkit-border-radius: 5px;
+		  border-radius: 5px;	 
+		  transition: all 0.2s linear;" />
+		</div>	
+	</h:form>
+
+	
 </div>
 </h:body>
 

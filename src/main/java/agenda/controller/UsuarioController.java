@@ -37,6 +37,8 @@ public class UsuarioController implements Serializable {
 
 	private List<Contato> contatoLista;
 
+	private boolean formStatus = true;
+
 	public UsuarioController() {
 
 	}
@@ -48,26 +50,39 @@ public class UsuarioController implements Serializable {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Não foi possível listar os dados", e);
+			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel listar os dados", e);
 		}
+	}
+
+	public void isStatus() {
+		formStatus = !formStatus;
+		System.out.println(formStatus);
+		PrimeFaces current = PrimeFaces.current();
+		current.ajax().update("formLogin");
+
 	}
 
 	public void btnDlgNovoUsuario() {
 		this.usuario = new Usuario();
+
+		// PrimeFaces current = PrimeFaces.current();
+		// current.executeScript("PF('dlgCadastroUsuario').show();");
 		PrimeFaces current = PrimeFaces.current();
-		current.executeScript("PF('dlgInserir').show();");
+		current.ajax().update("formCadastroUsuario");
+		isStatus();
 	}
 
 	public void inserir() {
 		try {
+			isStatus();
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.Inserir(this.usuario);
-			this.usuarioLista.add(this.usuario);
+			// this.usuarioLista.add(this.usuario);
 			listaDeUsuarios();
-			Messages.addGlobalInfo("Usuário inserido com sucesso!");
+			Messages.addGlobalInfo("Usuï¿½rio inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Usuário não inserido", e);
+			Messages.addGlobalWarn("Usuï¿½rio nï¿½o inserido", e);
 		}
 
 	}
@@ -77,10 +92,10 @@ public class UsuarioController implements Serializable {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.deletar(usuario.getId());
 			this.usuarioLista.remove(usuario);
-			Messages.addGlobalInfo("Usuário removido com sucesso!");
+			Messages.addGlobalInfo("Usuï¿½rio removido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Usuário não pode ser removido", e);
+			Messages.addGlobalWarn("Usuï¿½rio nï¿½o pode ser removido", e);
 		}
 	}
 
@@ -99,10 +114,10 @@ public class UsuarioController implements Serializable {
 			PrimeFaces current = PrimeFaces.current();
 			current.ajax().update("formEditar");
 			current.executeScript("PF('dlgEditar').hide();");
-			Messages.addGlobalInfo("Usuário alterado com sucesso!");
+			Messages.addGlobalInfo("Usuï¿½rio alterado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Usuário não pode ser alterado", e);
+			Messages.addGlobalWarn("Usuï¿½rio nï¿½o pode ser alterado", e);
 		}
 	}
 
@@ -112,7 +127,7 @@ public class UsuarioController implements Serializable {
 			this.usuarioLista = this.usuarioDAO.getLista();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Não foi possível listar os dados", e);
+			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel listar os dados", e);
 		}
 		return this.usuarioLista;
 	}
@@ -125,7 +140,7 @@ public class UsuarioController implements Serializable {
 		current.executeScript("PF('dlgNovoContato').show();");
 	}
 
-	/* após preencheer os inputs referentes as propridedades de contato */
+	/* apï¿½s preencheer os inputs referentes as propridedades de contato */
 	public void novoContato() throws SQLException {
 		try {
 			this.contatoDAO = new ContatoDAO();
@@ -140,7 +155,7 @@ public class UsuarioController implements Serializable {
 			Messages.addGlobalInfo("Contato inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Não foi possível inserir o contato", e);
+			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel inserir o contato", e);
 		}
 	}
 
@@ -205,6 +220,14 @@ public class UsuarioController implements Serializable {
 
 	public void setContatoDAO(ContatoDAO contatoDAO) {
 		this.contatoDAO = contatoDAO;
+	}
+
+	public boolean isFormStatus() {
+		return formStatus;
+	}
+
+	public void setFormStatus(boolean formStatus) {
+		this.formStatus = formStatus;
 	}
 
 }
