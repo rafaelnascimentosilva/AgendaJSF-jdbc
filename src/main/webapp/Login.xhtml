@@ -95,13 +95,13 @@
 		
 		<div class="panelLogin">
 			<h1>Login</h1>	
-				<p:outputLabel for="email" value="Email" />
+				<p:outputLabel for="login" value="Login" />
 	
-				<p:inputText id="email" value="#{autenticadorController.email}"	required="true" />
+				<p:inputText id="login" value="#{autenticadorController.login}"	required="true" requiredMessage="O LOGIN é necessário"/>
 	
 				<p:outputLabel for="senha" value="Senha" />
 	
-				<p:password id="senha" value="#{autenticadorController.senha}"	required="true" />
+				<p:password id="senha" value="#{autenticadorController.senha}"	required="true" requiredMessage="A SENHA é necessária" />
 	
 				<p:commandButton value="Enviar" action="#{autenticadorController.autentica}" style=" 
 		  background: rgb(61, 157, 179);
@@ -124,34 +124,46 @@
 		<p:autoUpdate />
 	<div class="panelCadastro " >
 		<h1>Cadastro</h1>
-		<p:outputLabel for="nome" value="Nome"/>
-			<p:inputText id="nome" value="#{usuarioController.usuario.nome}"  required="true"/>
 		
-		<p:outputLabel for="data" value="Data Nascimento"/>			
-			  <p:calendar id="data" value="#{usuarioController.usuario.dataNasc}" pattern="dd-MM-yyyy" mask="true" >
-			    <f:convertDateTime pattern="dd-MM-yyyy"/>
-			  </p:calendar>
+		<div class="ui-g">
+		 	<div class="ui-g-12">
+				<p:outputLabel for="nome" value="Nome"/>
+				<p:inputText id="nome" value="#{usuarioController.usuario.nome}"  required="true" requiredMessage="O NOME é necessário"/>
+			</div>
+			<div class="ui-g-8">		
+				<p:outputLabel for="email" value="Email"/>
+				<h:inputText id="email" value="#{usuarioController.usuario.email}"  required="true" requiredMessage="O EMAIL é necessário">
+					<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</h:inputText>
+			</div>
+				<div class="ui-g-3" style="  width: 120px">
+				<p:outputLabel for="data" value="Nascimento"/>			
+			  	<p:calendar id="data" value="#{usuarioController.usuario.dataNasc}" pattern="dd-MM-yyyy" mask="true"  required="true" requiredMessage="A DATA é necessária" >
+			    	<f:convertDateTime pattern="dd-MM-yyyy"/>
+			  	</p:calendar>		
+			 </div>		  
 			
-		<p:outputLabel for="sexo" value="Sexo"/>
-			<p:inputText id="sexo" value="#{usuarioController.usuario.sexo}"  required="true"/>
-			
-		<p:outputLabel for="fone" value="Fone"/>
-			<p:inputText id="fone" value="#{usuarioController.usuario.fone}"  required="true"/>
-			
-		<p:outputLabel for="email" value="Email"/>
-			<p:inputText id="email" value="#{usuarioController.usuario.email}"  required="true"/>
-			
-			
-			
-		<p:outputLabel for="login" value="Login"/>
-			<p:inputText id="login" value="#{usuarioController.usuario.login}"  required="true"/>
-			
-			
-			
-		<p:outputLabel for="senha" value="Senha"/>
-			<p:inputText id="senha" value="#{usuarioController.usuario.senha}"  required="true" requiredMessage="Surname is required." />
-			
-			
+        	 <div class="ui-g-6">
+        	 	<p:outputLabel for="fone" value="Fone"/>
+				<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"  required="true" requiredMessage="O FONE é necessário" mask="(99) 99999-9999"/>	
+			</div>	
+			 <div class="ui-g-6" >
+				<p:outputLabel for="sexo" value="Sexo" />		
+					<p:selectOneRadio id="sexo" value="#{usuarioController.usuario.sexo}" unselectable="true" required="true" requiredMessage="O SEXO é necessário">
+            			<f:selectItem itemLabel="M" itemValue="M" />
+           				<f:selectItem itemLabel="F" itemValue="F" />
+       				 </p:selectOneRadio>
+        	</div>
+			<div class="ui-g-6">	
+				<p:outputLabel for="login" value="Login" style="width:190px"/>
+				<p:inputText id="login" value="#{usuarioController.usuario.login}"  required="true" requiredMessage="O LOGIN é necessário"/>
+			</div>
+			<div class="ui-g-6" style="width:190px">	
+				<p:outputLabel for="senha" value="Senha"/>
+				<p:password id="senha" value="#{usuarioController.usuario.senha}"  required="true" requiredMessage="A SENHA é necessária" />
+			</div>
+		</div>	
+		<div class="ui-g-6" >	
 			<p:commandButton value="Enviar"  process="formCadastroUsuario"  actionListener="#{usuarioController.inserir}" style=" 
 		  background: rgb(61, 157, 179);
 		  padding: 8px 5px;
@@ -163,6 +175,7 @@
 		  -webkit-border-radius: 5px;
 		  border-radius: 5px;	 
 		  transition: all 0.2s linear;" />
+		
 		  	<p:commandButton value="Voltar"  immediate="true"  action="#{usuarioController.isStatus}"  style=" 
 		  background: rgb(61, 157, 179);
 		  padding: 8px 5px;
@@ -174,21 +187,11 @@
 		  -webkit-border-radius: 5px;
 		  border-radius: 5px;	 
 		  transition: all 0.2s linear;" />
+		  </div>
 		</div>	
+		
 	</h:form>
-<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
-    <f:facet name="default">
-        <h:outputText value="Status: StandBy" />
-    </f:facet>
-     
-    <f:facet name="start">
-        <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
-    </f:facet>
- 
-    <f:facet name="complete">
-        <h:outputText value="Status: Completed" />
-    </f:facet>
-</p:ajaxStatus>
+
 
  
 <p:ajaxStatus  delay="9000"  onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />

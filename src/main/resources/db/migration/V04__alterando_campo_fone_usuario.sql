@@ -1,0 +1,1 @@
+ALTER TABLE ag_usuario ALTER COLUMN fone TYPE VARCHAR(20);

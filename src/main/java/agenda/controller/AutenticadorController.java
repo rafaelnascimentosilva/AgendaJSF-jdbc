@@ -18,15 +18,15 @@ public class AutenticadorController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String email;
+	private String login;
 	private String senha;
 	private UsuarioDAO dao;
 
 	public String autentica() throws SQLException {
 		dao = new UsuarioDAO();
-		Usuario usuario = dao.autentica(email, senha);
+		Usuario usuario = dao.autentica(login, senha);
 
-		if (usuario != null && (email.equals(usuario.getLogin()) && senha.equals(usuario.getSenha()))) {
+		if (usuario != null && (login.equals(usuario.getLogin()) && senha.equals(usuario.getSenha()))) {
 			SessaoUtil.setParam("USUARIOLogado", usuario);
 			return "/Usuario.xhtml?faces-redirect=true";
 		} else {
@@ -49,14 +49,6 @@ public class AutenticadorController implements Serializable {
 		return senha;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
@@ -67,6 +59,14 @@ public class AutenticadorController implements Serializable {
 
 	public void setDao(UsuarioDAO dao) {
 		this.dao = dao;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 }
