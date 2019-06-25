@@ -16,32 +16,33 @@ import javax.servlet.http.HttpSession;
 @WebFilter(servletNames = { "Faces Servlet" })
 public class ControleDeAcesso implements Filter {
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 
-		if ((session.getAttribute("USUARIOLogado") != null)
-				|| (req.getRequestURI().endsWith("Login.xhtml"))
-				|| (req.getRequestURI().contains("javax.faces.resource/"))) 
-		{			
+		if ((session.getAttribute("USUARIOLogado") != null) || (req.getRequestURI().endsWith("Login.xhtml"))
+				|| (req.getRequestURI().contains("javax.faces.resource/"))) {
+			System.out.println("senha certa");
 			chain.doFilter(request, response);
 		} else {
 			System.out.println("senha errada");
-			redireciona(req.getContextPath()+"/Login.xhtml", response);		
+			redireciona("/AgendaJDBC/Login.xhtml", response);
 		}
 
 	}
 
+	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
+	@Override
 	public void destroy() {
 	}
 
-	private void redireciona(String url, ServletResponse response)
-			throws IOException {
+	private void redireciona(String url, ServletResponse response) throws IOException {
 		HttpServletResponse res = (HttpServletResponse) response;
 		res.sendRedirect(url);
 	}

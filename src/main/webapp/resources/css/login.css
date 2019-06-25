@@ -1,0 +1,53 @@
+body {
+	background: #ebedf0;
+}
+
+.ui-widget {
+	font-size: 14px !important;
+}
+
+.panelLogin {
+	width: 250px;
+	margin: 0px auto;
+	-webkit-border-radius: 5px;
+	padding: 40px 20px 30px 80px;
+	background: #f7f7f7;
+	border: 1px solid rgba(147, 184, 189, 0.8);
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	justify-content: center;
+}
+
+.panelCadastro {
+	width: 350px;
+	margin: 0px auto;
+	-webkit-border-radius: 5px;
+	padding: 40px 40px 60px 40px;
+	background: #f7f7f7;
+	border: 1px solid rgba(147, 184, 189, 0.8);
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	justify-content: center;
+}
+
+.btnSalvar {
+	background: rgb(61, 157, 179);
+	color: #fff;
+	font-size: 20px;
+	border: 1px solid #fff;
+	margin-bottom: 10px;
+	text-shadow: 0 1px 1px #333;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	
+}
+
+h1 {
+	font-size: 38px;
+	color: #066a75;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	text-align: center;
+}
