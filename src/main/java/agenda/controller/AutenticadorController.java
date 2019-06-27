@@ -21,10 +21,11 @@ public class AutenticadorController implements Serializable {
 	private String login;
 	private String senha;
 	private UsuarioDAO dao;
+	private Usuario usuario;
 
 	public String autentica() throws SQLException {
 		dao = new UsuarioDAO();
-		Usuario usuario = dao.autentica(login, senha);
+		usuario = dao.autentica(login, senha);
 
 		if (usuario != null && (login.equals(usuario.getLogin()) && senha.equals(usuario.getSenha()))) {
 			SessaoUtil.setParam("USUARIOLogado", usuario);
@@ -67,6 +68,14 @@ public class AutenticadorController implements Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

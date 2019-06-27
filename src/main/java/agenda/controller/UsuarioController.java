@@ -2,6 +2,7 @@ package agenda.controller;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +65,10 @@ public class UsuarioController implements Serializable {
 	public void btnDlgNovoUsuario() {
 		this.usuario = new Usuario();
 		isStatus();
+	}
+
+	public void btnDlgNovoContato() {
+		this.contato = new Contato();
 	}
 
 	public void inserir() {
@@ -136,7 +141,7 @@ public class UsuarioController implements Serializable {
 	}
 
 	/* ap�s preencheer os inputs referentes as propridedades de contato */
-	public void novoContato() throws SQLException {
+	public void novoContato() throws SQLException, ParseException {
 		try {
 			this.contatoDAO = new ContatoDAO();
 			this.contato.setUsuario(usuarioSelecionado);
@@ -154,11 +159,11 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public List<Contato> obterContotatosPorUsuario() throws SQLException {
+	public List<Contato> obterContotatosPorUsuario(Usuario usuario) throws SQLException {
 
 		this.contatoDAO = new ContatoDAO();
 		this.contatoLista = new ArrayList<Contato>();
-		return this.contatoLista = contatoDAO.getListaContato(this.usuarioSelecionado.getId());
+		return this.contatoLista = contatoDAO.getListaContato(usuario.getId());
 	}
 
 	public Usuario getUsuario() {

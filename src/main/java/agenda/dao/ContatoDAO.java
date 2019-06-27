@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,15 +18,18 @@ public class ContatoDAO implements Serializable {
 
 	private Connection connection;
 
-	public void inserir(Contato contato) throws SQLException {
+	public void inserir(Contato contato) throws SQLException, ParseException {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "INSERT INTO ag_contato(nome, fone, id_usuario) VALUES (?, ?, ?)";
+			String sql = "INSERT INTO ag_contato(id_usuario, nome, fone, email, dt_nasc) VALUES (?, ?, ?, ?, ?)";
+
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, contato.getNome());
-			statement.setString(2, contato.getFone());
-			statement.setInt(3, contato.getUsuario().getId());
+			statement.setInt(1, contato.getUsuario().getId());
+			statement.setString(2, contato.getNome());
+			statement.setString(3, contato.getFone());
+			statement.setString(4, contato.getEmail());
+			statement.setDate(5, new java.sql.Date(contato.getDtNasc().getTime()));
 			statement.execute();
 			statement.close();
 
@@ -75,8 +79,6 @@ public class ContatoDAO implements Serializable {
 
 	}
 
-
-	
 	public List<Contato> getListaContato(int id) throws SQLException {
 
 		try {
@@ -85,15 +87,17 @@ public class ContatoDAO implements Serializable {
 			String sql = "select * from ag_contato where id_usuario =?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
-			ResultSet resultSet =  statement.executeQuery();
+			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Contato contato = new Contato();
 				contato.setId(new Integer(resultSet.getInt("id_contato")));
 				contato.setNome(resultSet.getString("nome"));
-				contato.setFone(resultSet.getString("fone"));			
+				contato.setFone(resultSet.getString("fone"));
+				contato.setEmail(resultSet.getString("email"));
+				contato.setDtNasc(resultSet.getDate(("dt_nasc")));
 				lista.add(contato);
 			}
-			
+
 			return lista;
 		} catch (SQLException e) {
 			throw new SQLException(e);

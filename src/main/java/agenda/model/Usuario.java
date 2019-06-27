@@ -99,6 +99,22 @@ public class Usuario implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((contatoLista == null) ? 0 : contatoLista.hashCode());
+		result = prime * result + ((dataNasc == null) ? 0 : dataNasc.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((fone == null) ? 0 : fone.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -144,15 +160,12 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!senha.equals(other.senha))
 			return false;
-		if (sexo != other.sexo)
+		if (sexo == null) {
+			if (other.sexo != null)
+				return false;
+		} else if (!sexo.equals(other.sexo))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", dataNasc=" + dataNasc + ", sexo=" + sexo + ", fone=" + fone
-				+ ", email=" + email + ", login=" + login + ", senha=" + senha + ", contatoLista=" + contatoLista + "]";
 	}
 
 }
