@@ -45,12 +45,15 @@ public class ContatoDAO implements Serializable {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "UPDATE ag_contato SET  nome=?, fone=?, id_usuario=? WHERE id_contato=?";
+			String sql = "UPDATE ag_contato SET  nome=?, fone=?, email=?,dt_nasc=? WHERE id_contato=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
+
 			statement.setString(1, contato.getNome());
 			statement.setString(2, contato.getFone());
-			statement.setInt(3, contato.getUsuario().getId());
-			statement.setInt(4, contato.getId());
+			statement.setString(3, contato.getEmail());
+			statement.setDate(4, new java.sql.Date(contato.getDtNasc().getTime()));
+			statement.setInt(5, contato.getId());
+
 			statement.execute();
 			statement.close();
 
@@ -65,7 +68,7 @@ public class ContatoDAO implements Serializable {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();
-			String sql = "delete from ag_contato where id =?";
+			String sql = "delete from ag_contato where id_contato =?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
 			statement.execute();

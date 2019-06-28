@@ -7,23 +7,86 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Usuário</title>
 	<h:outputStylesheet library="css" name="dashboard.css" />
+	<h:outputStylesheet>	
+	.ui-paginator.ui-paginator-top {	display: none;	}	
+	.ui-paginator.ui-paginator-top	
+		{
+			background-color: white;
+			border: 1px solid #fff;
+		}
+  	.ui-datatable thead th 
+	  	{
+	  		border: 1px solid #fff;  		
+	  		
+	  	}
+  	
+  	.ui-datatable-tablewrapper
+  	{
+  	    overflow: hidden; 
+  	}
+  	.ui-state-default{
+  		background-color: white;
+  		background: white;
+  		
+	}
+	
+	.ui-datatable table {
+    border-collapse: collapse;
+    width: 100%;
+    
+}
+table {
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+.ui-datatable table thead{
+border-bottom:1px solid rgb(147, 184, 189);
+border-top: 2px solid white;
+border-left: 2px solid white;
+border-right: 2px solid white;
+ 
+}
+
+	</h:outputStylesheet>
+	
 </h:head>
-<h:body>
-	<div id="conteudo">
-	<div id="nav"> 
-		<div id="btns">
-			<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" value="+"  styleClass="btnNovo"/>
-			<p:commandButton action="#{autenticadorController.logout}"	value="x" styleClass="btnNovo" />
+<h:body style="overflow-y:hidden;">
+	<div id="nav" >	
+		<div align="center" >			
+				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" style="cursor: pointer;  
+						  background: tomato;	 
+						  border: 1px solid #fff;   
+						  margin-bottom: 10px;
+						  color:white;  
+						  text-shadow: 0 1px 1px #333;	 
+						  -webkit-border-radius: 5px;
+						  border-radius: 5px;	 
+						  transition: all 0.2s linear;" />		
+				<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" style="cursor: pointer;  
+						  background: tomato;	 
+						  border: 1px solid #fff;   
+						  margin-bottom: 10px;
+						  color:white;  
+						  text-shadow: 0 1px 1px #333;	 
+						  -webkit-border-radius: 5px;
+						  border-radius: 5px;	 
+						  transition: all 0.2s linear;"/>		
 		</div>
 	</div>
-		<div id="avatar">
-			<p:panel header="Olá #{autenticadorController.login}">
-				<p:column>
-					<p:graphicImage value="/resources/images/user_avatar.png"	 styleClass="avatarimg"		/>
-				</p:column>		
+	<div id="conteudo">	
+	<div id="avatar">			
+		<div class="ui-g-12" align="center">
+			<div class="ui-g-12" >
+				<p:graphicImage value="/resources/images/user_avatar.png"	 styleClass="avatarimg"		/>
+			</div>
+			<div class="ui-g-12">
 				<h:outputText value="#{autenticadorController.login}"	/>
-			</p:panel>
-		</div>
+			</div>
+			<div class="ui-g-12" >
+				<p:commandButton actionListener="#{usuarioController.btnDlgEditar(autenticadorController.usuario)}" icon="fa fa-pencil-square-o" />	
+				</div>
+			</div>			
+	</div>
 	
 
 		<h:form id="formInserir">
@@ -97,11 +160,16 @@
 				</p:column>
 				</p:panelGrid>
 			</p:dialog>
-				<p:panel header="Contatos de #{autenticadorController.usuario.nome}">
-			<p:dataTable id="dtbContatos" var="contato" widgetVar=""	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" >
-				<p:column>
+			
+			
+			
+		
+				
+			<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="3,6,9"> 
+				<p:column style="  border: 1px solid rgb(147, 184, 189);  ;">
 					<div class="ui-g-3" style="border:0px solid red">
-					    <p:graphicImage style="width:100%"  name="images/user_avatar.png"/> 				
+					    <p:graphicImage style="width:100%"  name="images/user_avatar.png"/> 					    				
 					</div>
 					<div class="ui-g-3" style="border:0px solid red">
 							<h:outputText value="#{contato.nome}" />
@@ -118,12 +186,59 @@
 							</h:outputText>
 					</div>					
 					<div class="ui-g-3" style="border:0px solid red">						
-						<p:commandButton icon="fa  fa-trash"/>
+						<p:commandButton icon="fa  fa-trash" actionListener="#{usuarioController.deleteContato(contato)}" immediate="true" update="dtbContatos" style="cursor: pointer;  
+						  background: tomato;	 
+						  border: 1px solid #fff;   
+						  margin-bottom: 10px;
+						  color:white;  
+						  text-shadow: 0 1px 1px #333;	 
+						  -webkit-border-radius: 5px;
+						  border-radius: 5px;	 
+						  transition: all 0.2s linear;">
+							<p:confirm header="Deletar" message="deseja remover #{contato.nome} ?"/>
+						</p:commandButton>
+						<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  icon="fa  fa-pencil" styleClass="btnNovo" style="cursor: pointer;  
+						  background: #FFAD33;	 
+						  border: 1px solid #fff;   
+						  margin-bottom: 10px;
+						  color:white;  
+						  text-shadow: 0 1px 1px #333;	 
+						  -webkit-border-radius: 5px;
+						  border-radius: 5px;	 
+						  transition: all 0.2s linear;"/>
 					</div>				
 				</p:column>				
 			</p:dataTable>			
-		</p:panel>
+		
 		</h:form>
+		
+			<h:form id="formEditarContato">
+			
+			<p:dialog id="dlgEditarContato" widgetVar="dlgEditarContato" modal="true" >
+					<p:panelGrid columns="2">
+			
+				<h:outputText value="Nome"  />
+					<h:inputText value="#{usuarioController.contato.nome}"
+						required="true" />
+				
+				<h:outputText value="Fone"/>
+					<p:inputMask id="fone" value="#{usuarioController.contato.fone}"
+						mask="(99)9999-9999" required="true" />
+				
+				<h:outputText value="Email"/>
+					<p:inputText id="email" value="#{usuarioController.contato.email}"
+						required="true" />
+				<h:outputText value="Nascimento" />
+					<p:calendar value="#{usuarioController.contato.dtNasc}"  pattern="dd/MM/yyyy" mask="true" required="true"  >
+						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
+					</p:calendar>
+				<p:column>
+					<p:commandButton value="salvar"	actionListener="#{usuarioController.editarContato}" update="formNovoContato:dtbContatos"/>
+				</p:column>
+				</p:panelGrid>
+			
+			</p:dialog>
+			</h:form>
 
 	</div>
 
@@ -134,5 +249,10 @@
 			styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 	</p:confirmDialog>
 
+	<p:ajaxStatus  delay="9000"  onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+             
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    	<p:graphicImage name="/images/ajaxloadingbar.gif"  />
+	</p:dialog>
 </h:body>
 </html>

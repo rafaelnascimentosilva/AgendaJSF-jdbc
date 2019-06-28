@@ -37,6 +37,8 @@ public class UsuarioController implements Serializable {
 
 	private Usuario usuarioSelecionado;
 
+	private Contato contatoSelecionado = new Contato();
+
 	private List<Contato> contatoLista;
 
 	private boolean formStatus = true;
@@ -67,17 +69,11 @@ public class UsuarioController implements Serializable {
 		isStatus();
 	}
 
-	public void btnDlgNovoContato() {
-		this.contato = new Contato();
-	}
-
 	public void inserir() {
 		try {
 
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.Inserir(this.usuario);
-			// this.usuarioLista.add(this.usuario);
-			// listaDeUsuarios();
 			Messages.addGlobalInfo("Usuário inserido com sucesso!");
 			isStatus();
 		} catch (SQLException e) {
@@ -140,6 +136,16 @@ public class UsuarioController implements Serializable {
 		current.executeScript("PF('dlgNovoContato').show();");
 	}
 
+	public void btnDlgEditarContato(Contato contato) {
+
+		this.contato = new Contato();
+		this.contato = contato;
+		PrimeFaces current = PrimeFaces.current();
+		current.ajax().update("formEditarContato");
+		current.executeScript("PF('dlgEditarContato').show();");
+
+	}
+
 	/* ap�s preencheer os inputs referentes as propridedades de contato */
 	public void novoContato() throws SQLException, ParseException {
 		try {
@@ -153,6 +159,31 @@ public class UsuarioController implements Serializable {
 			PrimeFaces current = PrimeFaces.current();
 			current.executeScript("PF('dlgNovoContato').hide();");
 			Messages.addGlobalInfo("Contato inserido com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("N�o foi poss�vel inserir o contato", e);
+		}
+	}
+
+	public void deleteContato(Contato contato) throws SQLException {
+		try {
+			contatoDAO = new ContatoDAO();
+			contatoDAO.deletar(contato.getId());
+			Messages.addGlobalInfo("Contato removido com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("N�o foi poss�vel inserir o contato", e);
+		}
+	}
+
+	public void editarContato() {
+		try {
+			contatoDAO = new ContatoDAO();
+			contatoDAO.editar(this.contato);
+			PrimeFaces current = PrimeFaces.current();
+			current.ajax().update("formEditarContato");
+			current.executeScript("PF('dlgEditarContato').hide();");
+			Messages.addGlobalInfo("Contato alterado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("N�o foi poss�vel inserir o contato", e);
@@ -228,6 +259,14 @@ public class UsuarioController implements Serializable {
 
 	public void setFormStatus(boolean formStatus) {
 		this.formStatus = formStatus;
+	}
+
+	public Contato getContatoSelecionado() {
+		return contatoSelecionado;
+	}
+
+	public void setContatoSelecionado(Contato contatoSelecionado) {
+		this.contatoSelecionado = contatoSelecionado;
 	}
 
 }
