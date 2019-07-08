@@ -3,6 +3,8 @@ package agenda.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.primefaces.model.UploadedFile;
+
 public class Contato implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -12,6 +14,8 @@ public class Contato implements Serializable {
 	private String email;
 	private Date dtNasc;
 	private Usuario usuario;
+	private UploadedFile foto;
+	private byte[] fotobd;
 
 	public int getId() {
 		return id;
@@ -111,6 +115,22 @@ public class Contato implements Serializable {
 		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
+	}
+
+	public UploadedFile getFoto() {
+		return foto;
+	}
+
+	public void setFoto(UploadedFile foto) {
+		this.foto = foto;
+	}
+
+	public byte[] getFotobd() {
+		return fotobd;
+	}
+
+	public void setFotobd(byte[] fotobd) {
+		this.fotobd = fotobd;
 	}
 
 }

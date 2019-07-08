@@ -1,5 +1,6 @@
 package agenda.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -13,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import org.omnifaces.util.Ajax;
 import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.UploadedFile;
 
 import agenda.dao.ContatoDAO;
 import agenda.dao.UsuarioDAO;
@@ -42,6 +44,8 @@ public class UsuarioController implements Serializable {
 	private List<Contato> contatoLista;
 
 	private boolean formStatus = true;
+
+	private UploadedFile foto;
 
 	public UsuarioController() {
 
@@ -147,7 +151,7 @@ public class UsuarioController implements Serializable {
 	}
 
 	/* ap�s preencheer os inputs referentes as propridedades de contato */
-	public void novoContato() throws SQLException, ParseException {
+	public void novoContato() throws SQLException, ParseException, IOException {
 		try {
 			this.contatoDAO = new ContatoDAO();
 			this.contato.setUsuario(usuarioSelecionado);
@@ -267,6 +271,14 @@ public class UsuarioController implements Serializable {
 
 	public void setContatoSelecionado(Contato contatoSelecionado) {
 		this.contatoSelecionado = contatoSelecionado;
+	}
+
+	public UploadedFile getFoto() {
+		return foto;
+	}
+
+	public void setFoto(UploadedFile foto) {
+		this.foto = foto;
 	}
 
 }

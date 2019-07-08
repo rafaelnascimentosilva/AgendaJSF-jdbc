@@ -1,5 +1,6 @@
 package agenda.dao;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ public class ContatoDAO implements Serializable {
 
 	private Connection connection;
 
-	public void inserir(Contato contato) throws SQLException, ParseException {
+	public void inserir(Contato contato) throws SQLException, ParseException, IOException {
 
 		try {
 			this.connection = new ConnectionFactory().getConnection();
@@ -85,6 +86,7 @@ public class ContatoDAO implements Serializable {
 	public List<Contato> getListaContato(int id) throws SQLException {
 
 		try {
+
 			this.connection = new ConnectionFactory().getConnection();
 			List<Contato> lista = new ArrayList<Contato>();
 			String sql = "select * from ag_contato where id_usuario =?";
@@ -107,5 +109,25 @@ public class ContatoDAO implements Serializable {
 		} finally {
 			this.connection.close();
 		}
+	}
+
+	public byte[] ReadImageContato(int id) throws SQLException {
+		byte[] imgBytes = null;
+		try {
+			PreparedStatement ps = this.connection
+					.prepareStatement("SELECT id,foto FROM ag_contato where id_usuario=?  and foto is not null");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					imgBytes = rs.getBytes(1);
+				}
+				rs.close();
+			}
+			ps.close();
+		} catch (SQLException e) {
+			throw new SQLException();
+		}
+		return imgBytes;
 	}
 }

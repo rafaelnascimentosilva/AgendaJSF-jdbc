@@ -1,0 +1,1 @@
+ALTER TABLE ag_contato ADD COLUMN foto bytea;
