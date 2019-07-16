@@ -2,21 +2,39 @@ package agenda.connection;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class ConnectionFactory implements Serializable{
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+@SuppressWarnings("unused")
+public class ConnectionFactory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	static Connection connection = null;
+	static {
 
-	public Connection getConnection() throws SQLException {
-
+		InitialContext cxt;
 		try {
-			Class.forName("org.postgresql.Driver");
-		} catch (ClassNotFoundException e) {
-	
+			cxt = new InitialContext();
+			if (cxt == null) {
+				throw new Exception("Uh oh -- no context!");
+			}
+
+			DataSource ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/postgres");
+			connection = ds.getConnection();
+			if (ds == null) {
+				throw new Exception("Data source not found!");
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return DriverManager.getConnection("jdbc:postgresql://localhost/db_agenda_jsf_jdbc", "postgres","1234");
+	}
+
+	public static Connection getConnection() {
+
+		return connection;
 	}
 }

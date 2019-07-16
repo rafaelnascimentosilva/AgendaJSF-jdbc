@@ -17,12 +17,16 @@ public class UsuarioDAO implements Serializable {
 
 	private Connection connection;
 
+	public UsuarioDAO() {
+		this.connection = ConnectionFactory.getConnection();
+	}
+
 	@SuppressWarnings("deprecation")
 	public void Inserir(Usuario usuario) throws SQLException {
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "INSERT INTO ag_usuario(nome, dt_nasc, sexo, fone, email, login, senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 			statement.setString(1, usuario.getNome());
 			statement.setDate(2, new java.sql.Date(usuario.getDataNasc().getDate()));
 			statement.setString(3, usuario.getSexo());
@@ -35,8 +39,6 @@ public class UsuarioDAO implements Serializable {
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 	}
 
@@ -44,10 +46,10 @@ public class UsuarioDAO implements Serializable {
 
 		try {
 			List<Usuario> listaUsuario = new ArrayList<Usuario>();
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "SELECT * FROM ag_usuario";
 
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
@@ -61,31 +63,27 @@ public class UsuarioDAO implements Serializable {
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 	}
 
 	public void deletar(int id) throws SQLException {
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "DELETE FROM ag_usuario WHERE id_usuario=?";
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 			statement.setInt(1, id);
 			statement.execute();
 			statement.close();
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 	}
 
 	public void editar(Usuario usuario) throws SQLException {
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "UPDATE ag_usuario SET  nome=?, fone=? WHERE id_usuario=?";
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
@@ -94,17 +92,15 @@ public class UsuarioDAO implements Serializable {
 			statement.close();
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 	}
 
 // migrar o banco posteriromente
 	public Usuario autentica(String login, String senha) throws SQLException {
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "select * from ag_usuario where login=? and senha=?";
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 			statement.setString(1, login);
 			statement.setString(2, senha);
 
@@ -129,9 +125,6 @@ public class UsuarioDAO implements Serializable {
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
-
 		}
 
 	}

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,25 +20,42 @@ public class ContatoDAO implements Serializable {
 
 	private Connection connection;
 
+	public ContatoDAO() {
+		this.connection = ConnectionFactory.getConnection();
+	}
+
 	public void inserir(Contato contato) throws SQLException, ParseException, IOException {
 
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "INSERT INTO ag_contato(id_usuario, nome, fone, email, dt_nasc) VALUES (?, ?, ?, ?, ?)";
 
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, contato.getUsuario().getId());
 			statement.setString(2, contato.getNome());
 			statement.setString(3, contato.getFone());
 			statement.setString(4, contato.getEmail());
 			statement.setDate(5, new java.sql.Date(contato.getDtNasc().getTime()));
 			statement.execute();
-			statement.close();
+
+			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					contato.setId(generatedKeys.getInt(1));
+				} else {
+					throw new SQLException("Creating user failed, no ID obtained.");
+				}
+			}
+			String sql2 = "INSERT INTO ag_contato_foto(id_foto,foto) VALUES (?,?)";
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setInt(1, contato.getId());
+			statement2.setBytes(2, contato.getFoto().getFoto());
+
+			statement2.execute();
+
+			statement2.close();
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 
 	}
@@ -45,7 +63,7 @@ public class ContatoDAO implements Serializable {
 	public void editar(Contato contato) throws SQLException {
 
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "UPDATE ag_contato SET  nome=?, fone=?, email=?,dt_nasc=? WHERE id_contato=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -60,15 +78,13 @@ public class ContatoDAO implements Serializable {
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 	}
 
 	public void deletar(int id) throws SQLException {
 
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+
 			String sql = "delete from ag_contato where id_contato =?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
@@ -77,8 +93,6 @@ public class ContatoDAO implements Serializable {
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 
 	}
@@ -87,7 +101,6 @@ public class ContatoDAO implements Serializable {
 
 		try {
 
-			this.connection = new ConnectionFactory().getConnection();
 			List<Contato> lista = new ArrayList<Contato>();
 			String sql = "select * from ag_contato where id_usuario =?";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -106,16 +119,13 @@ public class ContatoDAO implements Serializable {
 			return lista;
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally {
-			this.connection.close();
 		}
 	}
 
 	public byte[] ReadImageContato(int id) throws SQLException {
 		byte[] imgBytes = null;
 		try {
-			PreparedStatement ps = this.connection
-					.prepareStatement("SELECT id,foto FROM ag_contato where id_usuario=?  and foto is not null");
+			PreparedStatement ps = this.connection.prepareStatement("SELECT foto FROM ag_contato_foto where id_foto=?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			if (rs != null) {

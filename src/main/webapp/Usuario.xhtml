@@ -125,15 +125,25 @@
 	
 			<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"	header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
 			<p:panelGrid columns="2"  layout="grid">
-				<div class="ui-g">
-					<div class="ui-g-6" >					
-						<p:graphicImage value="/resources/images/user_null.png"	
+				<div class="ui-g">				
+						<!--<p:graphicImage value="/resources/images/user_null.png"	
 								style=" width: 100px;
 								height: 100px;
 								border: 1px solid rgba(147, 184, 189, 0.8);
 								border-radius: 50%;
-								 margin-left: 50px;"/>	</div>
-								<div class="ui-g-6" >		 
+								 margin-left: 50px;"/>	  -->
+								<div class="ui-g-6" >	
+								<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced"
+											fileUploadListener="#{fotoBean.handlePhotoUpload}" auto="true"
+											allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview"  />
+					    <p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 
+										cache="false" style="width: 100px;
+								height: 100px;
+								border: 1px solid rgba(147, 184, 189, 0.8);
+								border-radius: 50%;
+								 margin-left: 50px;" >
+							
+						</p:graphicImage>				    					 
 							
 
 						</div>
@@ -164,7 +174,11 @@
                  rowsPerPageTemplate="3,6,9"> 
 				<p:column style="  border: 1px solid rgb(147, 184, 189);">
 					<div class="ui-g-3" style="border:0px solid red">
-					    <p:graphicImage style="width:100%"  value="#{usuarioController.foto.fileNames}"	/> 					    				
+						
+					    <p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" 
+							cache="false" style="max-height:100px;max-width:200px;" >
+							<f:param id="foto_id" name="foto_id" value="#{contato.id}" />
+							</p:graphicImage>				    				
 					</div>
 					<div class="ui-g-3" style="border:0px solid red">
 							<h:outputText value="#{contato.nome}" />

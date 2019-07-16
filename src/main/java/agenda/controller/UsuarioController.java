@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.omnifaces.util.Ajax;
@@ -19,6 +20,7 @@ import org.primefaces.model.UploadedFile;
 import agenda.dao.ContatoDAO;
 import agenda.dao.UsuarioDAO;
 import agenda.model.Contato;
+import agenda.model.Foto;
 import agenda.model.Usuario;
 
 @ManagedBean
@@ -30,6 +32,11 @@ public class UsuarioController implements Serializable {
 	private Usuario usuario = new Usuario();
 
 	private Contato contato = new Contato();
+
+	private Foto fotoObj = new Foto();
+
+	@ManagedProperty(value = "#{fotoBean}")
+	private FotoBean fotoBean;
 
 	private UsuarioDAO usuarioDAO;
 
@@ -46,6 +53,7 @@ public class UsuarioController implements Serializable {
 	private boolean formStatus = true;
 
 	private UploadedFile foto;
+	byte[] foto2;
 
 	public UsuarioController() {
 
@@ -78,11 +86,11 @@ public class UsuarioController implements Serializable {
 
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.Inserir(this.usuario);
-			Messages.addGlobalInfo("UsuÃ¡rio inserido com sucesso!");
+			Messages.addGlobalInfo("Usuário inserido com sucesso!");
 			isStatus();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("UsuÃ¡rio nÃ£o inserido", e);
+			Messages.addGlobalWarn("Problema ao tentar inseri usuário", e);
 		}
 
 	}
@@ -92,10 +100,10 @@ public class UsuarioController implements Serializable {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioDAO.deletar(usuario.getId());
 			this.usuarioLista.remove(usuario);
-			Messages.addGlobalInfo("Usuï¿½rio removido com sucesso!");
+			Messages.addGlobalInfo("Usuário removido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Usuï¿½rio nï¿½o pode ser removido", e);
+			Messages.addGlobalWarn("Usuário não pode ser removido", e);
 		}
 	}
 
@@ -114,10 +122,10 @@ public class UsuarioController implements Serializable {
 			PrimeFaces current = PrimeFaces.current();
 			current.ajax().update("formEditar");
 			current.executeScript("PF('dlgEditar').hide();");
-			Messages.addGlobalInfo("Usuï¿½rio alterado com sucesso!");
+			Messages.addGlobalInfo("Usuário alterado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Usuï¿½rio nï¿½o pode ser alterado", e);
+			Messages.addGlobalWarn("Usuário não pode ser alterado", e);
 		}
 	}
 
@@ -127,7 +135,7 @@ public class UsuarioController implements Serializable {
 			this.usuarioLista = this.usuarioDAO.getLista();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel listar os dados", e);
+			Messages.addGlobalWarn("Não foi possivel listar os dados", e);
 		}
 		return this.usuarioLista;
 	}
@@ -154,18 +162,21 @@ public class UsuarioController implements Serializable {
 	public void novoContato() throws SQLException, ParseException, IOException {
 		try {
 			this.contatoDAO = new ContatoDAO();
+
 			this.contato.setUsuario(usuarioSelecionado);
+			fotoObj = fotoBean.getContato().getFoto(); // PEGANDO OBJETO JÁ SETADO NO OUTRO BEAN
+			contato.setFoto(fotoObj);
 			this.contatoDAO.inserir(contato);
 			this.contatoLista = new ArrayList<Contato>();
 			this.contatoLista.add(contato);
-			this.contatoLista = contatoDAO.getListaContato(contato.getUsuario().getId());
+			this.contatoLista = contatoDAO.getListaContato(this.contato.getUsuario().getId());
 
 			PrimeFaces current = PrimeFaces.current();
 			current.executeScript("PF('dlgNovoContato').hide();");
 			Messages.addGlobalInfo("Contato inserido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel inserir o contato", e);
+			Messages.addGlobalWarn("Problema ao inserir o contato", e);
 		}
 	}
 
@@ -176,7 +187,7 @@ public class UsuarioController implements Serializable {
 			Messages.addGlobalInfo("Contato removido com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel inserir o contato", e);
+			Messages.addGlobalWarn("Problema ao deletar o contato", e);
 		}
 	}
 
@@ -190,7 +201,7 @@ public class UsuarioController implements Serializable {
 			Messages.addGlobalInfo("Contato alterado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			Messages.addGlobalWarn("Nï¿½o foi possï¿½vel inserir o contato", e);
+			Messages.addGlobalWarn("Problema ao editar o contato", e);
 		}
 	}
 
@@ -279,6 +290,22 @@ public class UsuarioController implements Serializable {
 
 	public void setFoto(UploadedFile foto) {
 		this.foto = foto;
+	}
+
+	public FotoBean getFotoBean() {
+		return fotoBean;
+	}
+
+	public void setFotoBean(FotoBean fotoBean) {
+		this.fotoBean = fotoBean;
+	}
+
+	public Foto getFotoObj() {
+		return fotoObj;
+	}
+
+	public void setFotoObj(Foto fotoObj) {
+		this.fotoObj = fotoObj;
 	}
 
 }
