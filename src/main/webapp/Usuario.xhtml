@@ -8,6 +8,26 @@
 	<title>Usuário</title>
 	<h:outputStylesheet library="css" name="dashboard.css" />
 	<h:outputStylesheet>	
+	
+	.ui-widget-content {
+    border: 0px solid #a8a8a8;
+   
+}.ui-fileupload-buttonbar {
+     padding: 0px
+}
+
+.ui-widget-header {
+   border: 0px solid #a8a8a8; 
+  
+   background: white;
+  
+    color: #333;
+    font-weight: bold;
+   text-shadow: 0 0px 0 rgba(255,255,255,0.7);
+}
+.ui-button-text-icon-left .ui-button-text {
+    padding: .3em 1em .3em 2.1em;
+}
 	.ui-paginator.ui-paginator-top {	display: none;	}	
 	.ui-paginator.ui-paginator-top {
 		 background-color: white;
@@ -103,94 +123,109 @@
 		</h:form>
 
 		<h:form id="formEditar">
-			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true"
-				header="Editar">
-				<p:column headerText="Nome">
-					<h:inputText value="#{usuarioController.usuarioSelecionado.nome}" />
-				</p:column>
-				<p:column headerText="Fone">
-					<p:inputMask id="fone"
-						value="#{usuarioController.usuarioSelecionado.fone}"
-						mask="(99)9999-9999" required="true" />
-				</p:column>
-				<p:column>
-					<p:commandButton value="salvar"
-						actionListener="#{usuarioController.editar}"
-						/>
-				</p:column>
+			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true" resizable="false"	header="Editar">
+				<div  id="avatarForm">
+					<div align="center">
+					    <p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 
+							cache="false" style="width: 150px;
+							height: 150px;
+							border-radius: 50%;
+							border: 1px solid rgba(147, 184, 189, 0.8);" >							
+						</p:graphicImage>
+					</div>
+					<div align="center">				
+						<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced" label="foto" 
+							fileUploadListener="#{fotoBean.handlePhotoUpload}" auto="true"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview" />					
+					</div>
+				</div>
+					<h:panelGrid columns="2" >							
+						<p:outputLabel for="nome">Nome:</p:outputLabel>
+						<p:inputText id="nome" value="#{usuarioController.usuarioSelecionado.nome}" />					
+					
+						<p:outputLabel for="fone" > Fone:</p:outputLabel>
+						<p:inputMask id="fone"	value="#{usuarioController.usuarioSelecionado.fone}"	mask="(99)9999-9999"	required="true" />
+				
+						<p:outputLabel for="nascimento" > Nascimento:</p:outputLabel>
+						<p:inputText id="nascimento"	value="#{usuarioController.usuarioSelecionado.dataNasc}"	required="true" />						
+						
+						<p:outputLabel for="email" > Email:</p:outputLabel>
+						<p:inputText id="email"	value="#{usuarioController.usuarioSelecionado.email}"	required="true" />					
+					
+						<p:outputLabel for="login" > Login:</p:outputLabel>		
+						<p:inputText id="login"	value="#{usuarioController.usuarioSelecionado.login}"	required="true" />				
+					
+						<p:outputLabel for="senha" > Senha:</p:outputLabel>
+						<p:inputText id="senha" value="#{usuarioController.usuarioSelecionado.senha}"	required="true" />			
+					
+						<p:commandButton value="salvar"	actionListener="#{usuarioController.editar}" />					
+				</h:panelGrid>
 			</p:dialog>
 		</h:form>
 
-		<h:form id="formNovoContato" enctype="multipart/form-data">	
-	
-			<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"	header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
-			<p:panelGrid columns="2"  layout="grid">
-				<div class="ui-g">				
-					<div class="ui-g-6" >	
-						<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced"
-							fileUploadListener="#{fotoBean.handlePhotoUpload}" auto="true"
-							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview"  />
-					    <p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 
-							cache="false" style="width: 100px;
-							height: 100px;
-							border: 1px solid rgba(147, 184, 189, 0.8);
-							border-radius: 50%;
-							margin-left: 50px;" >							
-						</p:graphicImage>
-					</div>
+	<h:form id="formNovoContato" enctype="multipart/form-data">		
+		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"  resizable="false"	header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
+			<div  id="avatarForm">
+				<div align="center">
+					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 
+						cache="false" style="width: 130px;
+						height: 130px;
+						border: 1px solid rgba(147, 184, 189, 0.8);
+						border-radius: 50%;" >							
+					</p:graphicImage>
+				<div align="center">
+					<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced"
+						fileUploadListener="#{fotoBean.handlePhotoUpload}" auto="true"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview"  />
+				</div>
+				</div>
+			</div>						
+			<h:panelGrid columns="2">
+				<p:outputLabel for="nome" > Nome:</p:outputLabel>				
+				<p:inputText id="nome" value="#{usuarioController.contato.nome}"	placeholder="Entre com o Nome"	required="true" />		
 					
-			<div class="ui-g-2">				
-					<p:inputText value="#{usuarioController.contato.nome}"	placeholder="Entre com o Nome"	required="true" />
-				</div>
-				<div class="ui-g-2">
-				<p:outputLabel value="Fone" />					
-					<p:inputMask id="fone" value="#{usuarioController.contato.fone}" placeholder="Entre com o Fone"	 mask="(99)9999-9999" required="true" />
-				</div>
-				<div class="ui-g-2">					
-					<p:inputText id="email" value="#{usuarioController.contato.email}"	placeholder="Entre com o Email"	required="true" />
-				</div>
-				<div class="ui-g-2">					
-					<p:calendar value="#{usuarioController.contato.dtNasc}"  pattern="dd/MM/yyyy" mask="true" placeholder="Entre com o Data" required="true"  >
-						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
-					</p:calendar>
-				</div>
-					<div class="ui-g-2">				
-						<p:commandButton value="salvar"	ajax="false" actionListener="#{usuarioController.novoContato}" update="dtbContatos" />
-					</div>				
-				</div>
-				</p:panelGrid>
-			</p:dialog>		
+				<p:outputLabel for="fone" > Fone:</p:outputLabel>						
+				<p:inputMask id="fone" value="#{usuarioController.contato.fone}" placeholder="Entre com o Fone"	 mask="(99)9999-9999" required="true" />
 				
-			<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                 rowsPerPageTemplate="3,6,9"> 
-				<p:column style="  border: 1px solid rgb(147, 184, 189);">
-					<div class="ui-g-3" style="border:0px solid red">
-						
-					    <p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" 
-							cache="false" style="width: 100px;
+				<p:outputLabel for="email" > Email:</p:outputLabel>					
+				<p:inputText id="email" value="#{usuarioController.contato.email}"	placeholder="Entre com o Email"	required="true" />
+				
+				<p:outputLabel for="nascimento" > Data de Nascimento:</p:outputLabel>	
+				<p:calendar id="nascimento" value="#{usuarioController.contato.dtNasc}"  pattern="dd/MM/yyyy" mask="true" placeholder="Entre com o Data" required="true"  >
+					<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
+				</p:calendar>							
+				
+				<p:commandButton value="salvar"	ajax="false" actionListener="#{usuarioController.novoContato}" update="dtbContatos" />
+			</h:panelGrid>
+		</p:dialog>		
+				
+		<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="3,6,9"> 
+			<p:column style="  border: 1px solid rgb(147, 184, 189);">
+				<div class="ui-g-3" style="border:0px solid red">
+					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" cache="false" 
+						style="width: 100px;
 							height: 100px;
-							border: 1px solid rgba(147, 184, 189, 0.8);
-							border-radius: ;
-							">
-							<f:param id="foto_id" name="foto_id" value="#{contato.id}" />
-							</p:graphicImage>				    				
-					</div>
-					<div class="ui-g-3" style="border:0px solid red">
-							<h:outputText value="#{contato.nome}" />
-					</div>
-					<div class="ui-g-8" style="border:0px solid red">
-							<h:outputText value="#{contato.fone}" />
-					</div>
-					<div class="ui-g-3" style="border:0px solid red">
-							<h:outputText value="#{contato.email}" />
-					</div>	
-					<div class="ui-g-3" style="border:0px solid red">
-							<h:outputText value="#{contato.dtNasc}"  >
-								<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
-							</h:outputText>
-					</div>					
-					<div class="ui-g-3" style="border:0px solid red">						
-						<p:commandButton icon="fa  fa-trash" actionListener="#{usuarioController.deleteContato(contato)}" immediate="true" update="dtbContatos" style="cursor: pointer;  
+							border: 1px solid rgba(147, 184, 189, 0.8);">
+						<f:param id="foto_id" name="foto_id" value="#{contato.id}" />
+					</p:graphicImage>				    				
+				</div>
+				<div class="ui-g-3" style="border:0px solid red">
+					<h:outputText value="#{contato.nome}" />
+				</div>
+				<div class="ui-g-8" style="border:0px solid red">
+					<h:outputText value="#{contato.fone}" />
+				</div>
+				<div class="ui-g-3" style="border:0px solid red">
+					<h:outputText value="#{contato.email}" />
+				</div>	
+				<div class="ui-g-3" style="border:0px solid red">
+					<h:outputText value="#{contato.dtNasc}"  >
+						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</div>					
+				<div class="ui-g-3" style="border:0px solid red">						
+					<p:commandButton icon="fa  fa-trash" actionListener="#{usuarioController.deleteContato(contato)}" immediate="true" update="dtbContatos" 
+						style="cursor: pointer;  
 						  background: tomato;	 
 						  border: 1px solid #fff;   
 						  margin-bottom: 10px;
@@ -199,9 +234,10 @@
 						  -webkit-border-radius: 5px;
 						  border-radius: 5px;	 
 						  transition: all 0.2s linear;">
-							<p:confirm header="Deletar" message="deseja remover #{contato.nome} ?"/>
-						</p:commandButton>
-						<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  update="formEditarContato:dlgEditarContato" icon="fa  fa-pencil" styleClass="btnNovo" style="cursor: pointer;  
+						<p:confirm header="Deletar" message="deseja remover #{contato.nome} ?"/>
+					</p:commandButton>
+					<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  update="formEditarContato:dlgEditarContato" icon="fa  fa-pencil" styleClass="btnNovo" 
+						style="cursor: pointer;  
 						  background: #FFAD33;	 
 						  border: 1px solid #fff;   
 						  margin-bottom: 10px;
@@ -212,49 +248,45 @@
 						  transition: all 0.2s linear;"/>
 					</div>				
 				</p:column>				
-			</p:dataTable>			
-		
-		</h:form>
-		
-			<h:form id="formEditarContato" enctype="multipart/form-data">
-			
-			<p:dialog id="dlgEditarContato" widgetVar="dlgEditarContato" modal="true" >
-					<p:panelGrid columns="2">
-				<p:fileUpload id="fotoEditar" value="#{fotoBean.fileSelecionado}" mode="advanced"
+			</p:dataTable>		
+	</h:form>
+	
+	<h:form id="formEditarContato" enctype="multipart/form-data">			
+		<p:dialog id="dlgEditarContato" widgetVar="dlgEditarContato" modal="true" resizable="false" >
+			<div  id="avatarForm">
+				<div align="center">
+					<p:graphicImage id="photoPreview2" value="#{fotoBean.streamedFotoById}" cache="false" 
+						style="width: 125px;
+						height: 125px;
+						border: 4px solid rgba(147, 184, 189, 0.8);
+						border-radius: 50%;">
+					</p:graphicImage>
+				</div>
+				<div align="center">
+					<p:fileUpload id="fotoEditar" value="#{fotoBean.fileSelecionado}" mode="advanced"
 							fileUploadListener="#{fotoBean.fotoUploadEditar}" auto="true"
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview2"  />
-					    <p:graphicImage id="photoPreview2" value="#{fotoBean.streamedFotoById}" 
-							cache="false" style="width: 100px;
-							height: 100px;
-							border: 1px solid rgba(147, 184, 189, 0.8);
-							border-radius: 50%;
-							margin-left: 50px;" >	
-											
-						</p:graphicImage>
-				<h:outputText value="Nome"  />
-					<h:inputText value="#{usuarioController.contatoSelecionado.nome}"
-						required="true" />
+				</div>
+			</div>
+			<h:panelGrid columns="2">
+				<p:outputLabel for="nome">Nome:</p:outputLabel>
+				<p:inputText id="nome" value="#{usuarioController.contatoSelecionado.nome}"	required="true" />
 				
-				<h:outputText value="Fone"/>
-					<p:inputMask id="fone" value="#{usuarioController.contatoSelecionado.fone}"
-						mask="(99)9999-9999" required="true" />
+				<p:outputLabel for="fone">Fone:</p:outputLabel>
+				<p:inputMask id="fone" value="#{usuarioController.contatoSelecionado.fone}"	mask="(99)9999-9999" required="true" />
 				
-				<h:outputText value="Email"/>
-					<p:inputText id="email" value="#{usuarioController.contatoSelecionado.email}"
-						required="true" />
-				<h:outputText value="Nascimento" />
-					<p:calendar value="#{usuarioController.contatoSelecionado.dtNasc}"  pattern="dd/MM/yyyy" mask="true" required="true"  >
+				<p:outputLabel for="email">Email:</p:outputLabel>
+				<p:inputText id="email" value="#{usuarioController.contatoSelecionado.email}" required="true" />
+				
+				<p:outputLabel for="nascimento">Nascimento:</p:outputLabel>
+				<p:calendar id="nascimento" value="#{usuarioController.contatoSelecionado.dtNasc}"  pattern="dd/MM/yyyy" mask="true" required="true"  >
 						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
-					</p:calendar>
-				<p:column>
+				</p:calendar>			
 					<p:commandButton value="salvar"	actionListener="#{usuarioController.editarContato}" update="formNovoContato:dtbContatos"/>
-				</p:column>
-				</p:panelGrid>
-			
-			</p:dialog>
-			</h:form>
-
-	</div>
+			</h:panelGrid>			
+		</p:dialog>
+	</h:form>
+</div>
 
 	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 		<p:commandButton value="Yes" type="button"
