@@ -99,27 +99,18 @@
 	
 
 		<h:form id="formInserir">
-
 			<p:growl id="growl" />
 			<p:autoUpdate />
-
-			<p:dialog id="dlgInserir" widgetVar="dlgInserir" modal="true"
-				header="Novo Usuário">
-
+			<p:dialog id="dlgInserir" widgetVar="dlgInserir" modal="true"	header="Novo Usuário">
 				<p:panelGrid id="panelInserir" columns="2">
 					<p:outputLabel value="Nome" />
 					<p:inputText value="#{usuarioController.usuario.nome}" />
 					<p:outputLabel value="Fone" />
 					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
 						mask="(99)9999-9999" />
-					<p:commandButton value="salvar"
-						actionListener="#{usuarioController.inserir}" 
-					 />
+					<p:commandButton value="salvar"	actionListener="#{usuarioController.inserir}"  />
 				</p:panelGrid>
-
 			</p:dialog>
-
-
 		</h:form>
 
 		<h:form id="formEditar">
