@@ -15,7 +15,6 @@ import javax.faces.bean.ViewScoped;
 import org.omnifaces.util.Ajax;
 import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
-import org.primefaces.model.UploadedFile;
 
 import agenda.dao.ContatoDAO;
 import agenda.dao.UsuarioDAO;
@@ -29,34 +28,23 @@ public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Usuario usuario = new Usuario();
-
-	private Contato contato = new Contato();
-
-	private Foto fotoObj = new Foto();
-
 	@ManagedProperty(value = "#{fotoBean}")
 	private FotoBean fotoBean;
 
+	private Usuario usuario = new Usuario();
+	private Usuario usuarioSelecionado;
+	private List<Usuario> usuarioLista;
 	private UsuarioDAO usuarioDAO;
 
+	private Contato contato = new Contato();
+	private Contato contatoSelecionado = new Contato();
+	private List<Contato> contatoLista;
 	private ContatoDAO contatoDAO;
 
-	private List<Usuario> usuarioLista;
-
-	private Usuario usuarioSelecionado;
-
-	private Contato contatoSelecionado = new Contato();
-
-	private List<Contato> contatoLista;
-
+	private Foto fotoObj = new Foto();
 	private boolean formStatus = true;
 
-	private UploadedFile foto;
-	byte[] foto2;
-
 	public UsuarioController() {
-
 	}
 
 	@PostConstruct
@@ -141,31 +129,39 @@ public class UsuarioController implements Serializable {
 	}
 
 	/* ao abrir o p:dialogo instanciando o obj contato */
-	public void btnDlgNovoContato(Usuario usuario) {
+	public void btnDlgNovoContato(Usuario usuario) throws IOException {
 		this.usuarioSelecionado = usuario;
 		this.contato = new Contato();
 		PrimeFaces current = PrimeFaces.current();
+		current.ajax().update("formNovoContato");
 		current.executeScript("PF('dlgNovoContato').show();");
+		fotoBean.clearForm();
+
 	}
 
-	public void btnDlgEditarContato(Contato contato) {
+	public void btnDlgEditarContato(Contato contato) throws IOException, NumberFormatException, SQLException {
 
-		this.contato = new Contato();
-		this.contato = contato;
+		byte[] image = contatoDAO.ReadImageContato(contato.getId());
+		Foto f = new Foto();
+		f.setFoto(image);
+		contato.setFoto(f);
+		this.contatoSelecionado = contato;
+		fotoBean.setContatoSelecionado(contato);
 		PrimeFaces current = PrimeFaces.current();
 		current.ajax().update("formEditarContato");
 		current.executeScript("PF('dlgEditarContato').show();");
-
+		fotoBean.clearForm();
 	}
 
 	/* apï¿½s preencheer os inputs referentes as propridedades de contato */
 	public void novoContato() throws SQLException, ParseException, IOException {
 		try {
 			this.contatoDAO = new ContatoDAO();
-
 			this.contato.setUsuario(usuarioSelecionado);
-			fotoObj = fotoBean.getContato().getFoto(); // PEGANDO OBJETO JÁ SETADO NO OUTRO BEAN
-			contato.setFoto(fotoObj);
+
+			// PEGANDO OBJETO JÁ SETADO NO OUTRO BEAN FotoBean
+			contato.setFoto(fotoBean.getContato().getFoto());// ADICINANDO AO objeto CONTATO NO BEAN UsuarioController
+
 			this.contatoDAO.inserir(contato);
 			this.contatoLista = new ArrayList<Contato>();
 			this.contatoLista.add(contato);
@@ -174,6 +170,7 @@ public class UsuarioController implements Serializable {
 			PrimeFaces current = PrimeFaces.current();
 			current.executeScript("PF('dlgNovoContato').hide();");
 			Messages.addGlobalInfo("Contato inserido com sucesso!");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Problema ao inserir o contato", e);
@@ -191,14 +188,16 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public void editarContato() {
+	public void editarContato() throws IOException {
 		try {
 			contatoDAO = new ContatoDAO();
-			contatoDAO.editar(this.contato);
+			this.contatoSelecionado.setFoto(fotoBean.getContatoSelecionado().getFoto());
+			contatoDAO.editar(this.contatoSelecionado);
 			PrimeFaces current = PrimeFaces.current();
 			current.ajax().update("formEditarContato");
 			current.executeScript("PF('dlgEditarContato').hide();");
 			Messages.addGlobalInfo("Contato alterado com sucesso!");
+			fotoBean.clearForm();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Problema ao editar o contato", e);
@@ -282,14 +281,6 @@ public class UsuarioController implements Serializable {
 
 	public void setContatoSelecionado(Contato contatoSelecionado) {
 		this.contatoSelecionado = contatoSelecionado;
-	}
-
-	public UploadedFile getFoto() {
-		return foto;
-	}
-
-	public void setFoto(UploadedFile foto) {
-		this.foto = foto;
 	}
 
 	public FotoBean getFotoBean() {

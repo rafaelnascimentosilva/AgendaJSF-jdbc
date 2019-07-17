@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
 import org.apache.commons.io.IOUtils;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -67,7 +66,10 @@ public class FotoBean {
 	public void fotoUploadEditar(FileUploadEvent event) throws SQLException, IOException {
 		fileSelecionado = event.getFile();
 		byte[] novaFoto = IOUtils.toByteArray(event.getFile().getInputstream());
-		contatoSelecionado.getFoto().setFoto(novaFoto);
+		contatoSelecionado = new Contato();
+		Foto f = new Foto();
+		f.setFoto(novaFoto);
+		contatoSelecionado.setFoto(f);
 	}
 
 	public void uploadFoto() throws IOException, SQLException {
@@ -80,15 +82,12 @@ public class FotoBean {
 		contato = new Contato();
 		image = IOUtils.toByteArray(FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("/resources/images/user_null.png"));
-		// contato.setFoto(foto);
+		Foto f = new Foto();
+		f.setFoto(image);
+		contato.setFoto(f);
+		contato = null;
 		file = null;
-	}
 
-	public void dlgEditar(Contato contato) throws IOException {
-		this.contatoSelecionado = contato;
-		PrimeFaces current = PrimeFaces.current();
-		current.executeScript("PF('dlgEditar').show();");
-		current.ajax().update("formEditar");
 	}
 
 	public StreamedContent getStreamedFotos() throws NumberFormatException, SQLException {
@@ -110,7 +109,6 @@ public class FotoBean {
 						.getResourceAsStream("/resources/images/user_null.png"));
 			}
 		}
-
 	}
 
 	public StreamedContent getStreamedFotoById() throws NumberFormatException, SQLException {
@@ -123,7 +121,7 @@ public class FotoBean {
 				return new DefaultStreamedContent(new ByteArrayInputStream(contatoSelecionado.getFoto().getFoto()));
 			} else {
 				return new DefaultStreamedContent(FacesContext.getCurrentInstance().getExternalContext()
-						.getResourceAsStream("/resources/images/user_null.png"));
+						.getResourceAsStream("/resources/images/user_avatar.png"));
 			}
 		}
 	}

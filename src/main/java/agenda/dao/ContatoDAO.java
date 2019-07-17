@@ -73,6 +73,12 @@ public class ContatoDAO implements Serializable {
 			statement.setDate(4, new java.sql.Date(contato.getDtNasc().getTime()));
 			statement.setInt(5, contato.getId());
 
+			String sql2 = "UPDATE ag_contato_foto SET foto=? WHERE id_foto=?";
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setBytes(1, contato.getFoto().getFoto());
+			statement2.setInt(2, contato.getId());
+
+			statement2.execute();
 			statement.execute();
 			statement.close();
 
@@ -102,7 +108,7 @@ public class ContatoDAO implements Serializable {
 		try {
 
 			List<Contato> lista = new ArrayList<Contato>();
-			String sql = "select * from ag_contato where id_usuario =?";
+			String sql = "select * from ag_contato where id_usuario =? ORDER BY id_contato DESC";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
