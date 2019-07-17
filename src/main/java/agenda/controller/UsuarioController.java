@@ -29,7 +29,7 @@ public class UsuarioController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManagedProperty(value = "#{fotoBean}")
-	private FotoBean fotoBean;
+	private FotoController fotoBean;
 
 	private Usuario usuario = new Usuario();
 	private Usuario usuarioSelecionado;
@@ -141,7 +141,7 @@ public class UsuarioController implements Serializable {
 
 	public void btnDlgEditarContato(Contato contato) throws IOException, NumberFormatException, SQLException {
 
-		byte[] image = contatoDAO.ReadImageContato(contato.getId());
+		byte[] image = contatoDAO.getFotoContato(contato.getId());
 		Foto f = new Foto();
 		f.setFoto(image);
 		contato.setFoto(f);
@@ -283,11 +283,11 @@ public class UsuarioController implements Serializable {
 		this.contatoSelecionado = contatoSelecionado;
 	}
 
-	public FotoBean getFotoBean() {
+	public FotoController getFotoBean() {
 		return fotoBean;
 	}
 
-	public void setFotoBean(FotoBean fotoBean) {
+	public void setFotoBean(FotoController fotoBean) {
 		this.fotoBean = fotoBean;
 	}
 

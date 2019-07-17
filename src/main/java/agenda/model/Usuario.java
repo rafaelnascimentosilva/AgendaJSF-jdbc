@@ -24,6 +24,8 @@ public class Usuario implements Serializable {
 
 	private String senha;
 
+	private Foto foto;
+
 	private List<Contato> contatoLista;
 
 	public int getId() {
@@ -98,6 +100,14 @@ public class Usuario implements Serializable {
 		this.contatoLista = contatoLista;
 	}
 
+	public Foto getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Foto foto) {
+		this.foto = foto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,6 +116,7 @@ public class Usuario implements Serializable {
 		result = prime * result + ((dataNasc == null) ? 0 : dataNasc.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((fone == null) ? 0 : fone.hashCode());
+		result = prime * result + ((foto == null) ? 0 : foto.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
@@ -142,6 +153,11 @@ public class Usuario implements Serializable {
 			if (other.fone != null)
 				return false;
 		} else if (!fone.equals(other.fone))
+			return false;
+		if (foto == null) {
+			if (other.foto != null)
+				return false;
+		} else if (!foto.equals(other.foto))
 			return false;
 		if (id != other.id)
 			return false;

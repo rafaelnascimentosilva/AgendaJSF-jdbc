@@ -1,6 +1,7 @@
 package agenda.filtros;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebFilter(servletNames = { "Faces Servlet" })
-public class ControleDeAcesso implements Filter {
+public class ControleDeAcesso implements Filter, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

@@ -94,6 +94,14 @@ public class ContatoDAO implements Serializable {
 			String sql = "delete from ag_contato where id_contato =?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, id);
+
+			String sql2 = "DELETE FROM ag_contato_foto WHERE id_foto=?";
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+
+			statement2.setInt(1, id);
+
+			statement2.execute();
+
 			statement.execute();
 			statement.close();
 
@@ -128,7 +136,7 @@ public class ContatoDAO implements Serializable {
 		}
 	}
 
-	public byte[] ReadImageContato(int id) throws SQLException {
+	public byte[] getFotoContato(int id) throws SQLException {
 		byte[] imgBytes = null;
 		try {
 			PreparedStatement ps = this.connection.prepareStatement("SELECT foto FROM ag_contato_foto where id_foto=?");

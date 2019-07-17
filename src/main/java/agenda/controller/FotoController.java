@@ -2,6 +2,7 @@ package agenda.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,30 +23,34 @@ import agenda.model.Contato;
 import agenda.model.Foto;
 import agenda.model.Usuario;
 
-@ManagedBean
+@ManagedBean(name = "fotoBean")
 @SessionScoped
-public class FotoBean {
+public class FotoController implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private Contato contato = new Contato();
-	private Usuario usuario = new Usuario();
 
 	private Contato contatoSelecionado;
 
-	private List<Contato> contatos;
+	private List<Contato> contatos = new ArrayList<Contato>();
+
+	private ContatoDAO dao = new ContatoDAO();
+
+	private Usuario usuario = new Usuario();
+
+	Foto foto = new Foto();
 
 	byte[] image;
-
-	private ContatoDAO dao;
 
 	private UploadedFile file;
 
 	private UploadedFile fileSelecionado;
 
-	public FotoBean() throws SQLException, IOException {
-		contatos = new ArrayList<Contato>();
-		dao = new ContatoDAO();
+	public FotoController() throws SQLException, IOException {
+
 		contatos = dao.getListaContato(usuario.getId());
-		contato = new Contato();
-		Foto foto = new Foto();
+
 		image = IOUtils.toByteArray(FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("/resources/images/user_null.png"));
 		foto.setFoto(image);
@@ -99,7 +104,7 @@ public class FotoBean {
 			if (this.contatos != null) {
 				String id = context.getExternalContext().getRequestParameterMap().get("foto_id");
 
-				byte[] image = dao.ReadImageContato(Integer.parseInt(id));
+				byte[] image = dao.getFotoContato(Integer.parseInt(id));
 				System.out.println("ID DA REQUISICAO" + id);
 				System.out.println("ID: " + id + " Imagem em bytes: " + image);
 				return new DefaultStreamedContent(new ByteArrayInputStream(image));
@@ -178,14 +183,6 @@ public class FotoBean {
 
 	public void setContatoSelecionado(Contato contatoSelecionado) {
 		this.contatoSelecionado = contatoSelecionado;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 }

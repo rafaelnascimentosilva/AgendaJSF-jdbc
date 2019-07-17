@@ -62,6 +62,14 @@ public class Contato implements Serializable {
 		this.dtNasc = dtNasc;
 	}
 
+	public Foto getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Foto foto) {
+		this.foto = foto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -69,6 +77,7 @@ public class Contato implements Serializable {
 		result = prime * result + ((dtNasc == null) ? 0 : dtNasc.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((fone == null) ? 0 : fone.hashCode());
+		result = prime * result + ((foto == null) ? 0 : foto.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
@@ -99,6 +108,11 @@ public class Contato implements Serializable {
 				return false;
 		} else if (!fone.equals(other.fone))
 			return false;
+		if (foto == null) {
+			if (other.foto != null)
+				return false;
+		} else if (!foto.equals(other.foto))
+			return false;
 		if (id != other.id)
 			return false;
 		if (nome == null) {
@@ -112,14 +126,6 @@ public class Contato implements Serializable {
 		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
-	}
-
-	public Foto getFoto() {
-		return foto;
-	}
-
-	public void setFoto(Foto foto) {
-		this.foto = foto;
 	}
 
 }
