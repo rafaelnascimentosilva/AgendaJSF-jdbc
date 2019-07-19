@@ -9,30 +9,37 @@
 	<h:outputStylesheet library="css" name="dashboard.css" />
 	<h:outputStylesheet>	
 	
+	.ui-widget {
+   font-size:16px
+}
 .ui-widget-content {
     border: 0px solid #a8a8a8;   
 }
-.ui-fileupload-buttonbar {
-     padding: 0px;
-}
+
 .ui-widget-header {
    border: 0px solid #a8a8a8;   
-   background: white;  
-   color: #333;
+  background: #3F51B5;
+   color: white;
    font-weight: bold;
    text-shadow: 0 0px 0 rgba(255,255,255,0.7);
+}
+ .ui-fileupload-buttonbar{
+ margin-top:-30px;
+ background: white;
 }
 .ui-button-text-icon-left .ui-button-text {
     padding: .3em 1em .3em 2.1em;
 }
 .ui-paginator.ui-paginator-top {	display: none;	}	
-.ui-paginator.ui-paginator-top {
-	 background-color: white;
-	 border: 1px solid #fff;
-}
+
+
 .ui-datatable thead th {
  	border: 1px solid #fff;
- }  	
+ 
+ }  
+.datatable tbody td{
+ 	padding:1px 1px;
+ }	
 .ui-datatable-tablewrapper {
     overflow: hidden; 
 }
@@ -55,15 +62,22 @@ table {
 	border-right: 2px solid white;
 }
 
+
+
 .btnDefault {
-	cursor: pointer;
-	background:linear-gradient(#FF0087,#D80072);
-	border: 0px solid #fff;
-	margin: 10px 10px 10px 10px;
-	color: white;
-	text-shadow: 0 1px 1px #333;
-	
-	transition: all 0.2s linear;
+cursor: pointer;
+
+//background: linear-gradient(#FF0087,#D80072);
+
+background-color: #FFF;
+
+border: 1px solid ##3F51B5;
+
+color: #3f51b5;
+
+text-shadow: 0px 0px 0px ##3F51B5;
+
+transition: all 0.2s linear;
 }
 	</h:outputStylesheet>	
 </h:head>
@@ -77,12 +91,12 @@ table {
 	<div id="conteudo">	
 	<div id="avatar">			
 		<div class="ui-g-12" align="center">
-			<div class="ui-g-12" style="background:rgb(7, 28, 138);border-radius: 2%;">
+			<div class="ui-g-12" >
 			   <p:graphicImage id="fotoAvatarUsuario" value="#{fotoBean.streamedFotoUsuario}" 
 							cache="false" style="width: 150px;
 							height: 150px;
 							border-radius: 50%;
-							border: 4px solid #fe3175" >							
+							border: 4px solid #3F51B5" >							
 						</p:graphicImage>
 			</div>
 			<div class="ui-g-12">
@@ -106,18 +120,22 @@ table {
 					<p:outputLabel value="Fone" />
 					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
 						mask="(99)9999-9999" />
-					<p:commandButton value="salvar"	actionListener="#{usuarioController.inserir}"  />
+					<p:commandButton value="salvar"	actionListener="#{usuarioController.inserir}" style="cursor: pointer;
+						background-color: #FFF;
+						border: 1px solid #3F51B5;
+						color: #3f51b5;
+					" />
 				</p:panelGrid>
 			</p:dialog>
 		</h:form>
 
 		<h:form id="formEditar">
-			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true" resizable="false" 	header="Editar">
+			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true" resizable="false" 	header="Editar Usuário">
 				<div  id="avatarForm">
 					<div align="center">
 					    <p:graphicImage id="fotoPreviewUsuario2" value="#{fotoBean.streamedFotoU}" 
-							cache="false" style="width: 150px;
-							height: 150px;
+							cache="false" style="width: 180px;
+							height: 180px;
 							border-radius: 50%;
 							border: 1px solid rgba(147, 184, 189, 0.8);" >							
 						</p:graphicImage>
@@ -147,22 +165,31 @@ table {
 						<p:inputText id="login"	value="#{usuarioController.usuarioSelecionado.login}"	required="true" />				
 					
 						<p:outputLabel for="senha" > Senha:</p:outputLabel>
-						<p:inputText id="senha" value="#{usuarioController.usuarioSelecionado.senha}"	required="true" />			
-					
-						<p:commandButton value="salvar"	actionListener="#{usuarioController.editar}" />					
-				</h:panelGrid>
+						<p:inputText id="senha" value="#{usuarioController.usuarioSelecionado.senha}"	required="true" />											
+				</h:panelGrid>				
+				<p:commandButton value="salvar"	actionListener="#{usuarioController.editar}" 
+						style="
+						margin-left:260px;
+						padding:5px;
+						margin-top:20px;	
+						cursor: pointer;
+						background-color: green;						
+						color: white;
+						" />
 			</p:dialog>
 		</h:form>
 
 	<h:form id="formNovoContato" enctype="multipart/form-data">		
-		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"  resizable="false"	header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
+		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"  resizable="false" 	header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
 			<div  id="avatarForm">
 				<div align="center">
-					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 
-						cache="false" style="width: 130px;
-						height: 130px;
+					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 	cache="false" 
+						style="width: 150px;
+						height: 150px;
+							margin-top:15px;	
 						border: 1px solid rgba(147, 184, 189, 0.8);
-						border-radius: 50%;" >							
+						border-radius: 50%;" 
+					>							
 					</p:graphicImage>
 				<div align="center">
 					<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced" label="foto"
@@ -171,7 +198,7 @@ table {
 				</div>
 				</div>
 			</div>						
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="2" style="margin-top:30px; margin-left:30px " >
 				<p:outputLabel for="nome" > Nome:</p:outputLabel>				
 				<p:inputText id="nome" value="#{usuarioController.contato.nome}"	placeholder="Entre com o Nome"	required="true" />		
 					
@@ -186,58 +213,71 @@ table {
 					<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
 				</p:calendar>							
 				
-				<p:commandButton value="salvar"	ajax="false" actionListener="#{usuarioController.novoContato}" update="dtbContatos" />
+				
 			</h:panelGrid>
+		
+			<p:commandButton value="salvar"	ajax="false" actionListener="#{usuarioController.novoContato}" update="dtbContatos" 
+				style="
+				margin-left:260px;	
+									
+				padding:5px;
+				cursor: pointer;
+				background-color: green;						
+				color: white;
+				" />
+				
 		</p:dialog>		
 				
-		<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="3,6,9"> 
+		<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} " > 
 			<p:column style="  border: 1px solid blue; ">
 				<div class="ui-g-3">
 					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" cache="false" 
 						style="width: 130px;
-								height: 130px;
-								border: 1px solid  rgb(7, 28, 138);
-								border-radius: 5%;
-								">
+						height: 130px;
+						margin-top:15px;
+						border: 1px solid rgba(147, 184, 189, 0.8);
+						border-radius: 5%;">
 						<f:param id="foto_id" name="foto_id" value="#{contato.id}" />
 					</p:graphicImage>				    				
 				</div>
 				<div>
-				<div class="ui-g-8"  style="padding-left:30px">
+				<div class="ui-g-8"  style="padding-left:30px;padding-top:30px">
+				<i class="fa fa-user-circle"></i>
+				
 					<h:outputText value="#{contato.nome}" />
 				</div>
 				<div class="ui-g-8" style="padding-left:30px" >
-					<h:outputText value="#{contato.fone}" />
+				 <i class="fa fa-phone" ></i>	
+				 <h:outputText value="#{contato.fone}" />
+
 				</div>
 				<div class="ui-g-8" style="padding-left:30px">
+				<i class="fa fa-envelope" ></i>
+				
 					<h:outputText value="#{contato.email}" />
 				</div>	
 				<div class="ui-g-5" style="padding-left:30px">
+				<i class="fa fa-birthday-cake" ></i>
+				
 					<h:outputText value="#{contato.dtNasc}"  >
 						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</div>					
 				<div class="ui-g-3" style="padding:0px 0px 0px 50px;">						
 					<p:commandButton icon="fa  fa-trash" actionListener="#{usuarioController.deleteContato(contato)}" immediate="true" update="dtbContatos" 
-						style="cursor: pointer;  
-						  background:linear-gradient(magenta,#fe3175);
-						  border: 1px solid #fff; 						  
-						  color:white;  
-						  text-shadow: 0 1px 1px #333;	 
-						  -webkit-border-radius: 5px;
-						  border-radius: 5px;	 
-						  transition: all 0.2s linear;">
+						style="cursor: pointer;
+						background-color: #FFF;
+						border: 1px solid #3F51B5;
+						color: #3f51b5;
+					">
 						<p:confirm header="Deletar" message="deseja remover #{contato.nome} ?"/>
 					</p:commandButton>
 					<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  update="formEditarContato:dlgEditarContato" icon="fa  fa-pencil"  
-						style="cursor: pointer;  
-						  background:linear-gradient(magenta,#fe3175);	 
-						  border: 1px solid #fff;   						  
-						  color:white;  
-						  text-shadow: 0 1px 1px #333;	 
-						  -webkit-border-radius: 5px;
-						  border-radius: 5px;	 
-						  transition: all 0.2s linear;"/>
+						style="cursor: pointer;
+						background-color: #FFF;
+						border: 1px solid #3F51B5;
+						color: #3f51b5;
+						"/>
 					</div>		
 					</div>		
 				</p:column>				
@@ -249,9 +289,10 @@ table {
 			<div  id="avatarForm">
 				<div align="center">
 					<p:graphicImage id="photoPreview2" value="#{fotoBean.streamedFotoById}" cache="false" 
-						style="width: 125px;
-						height: 125px;
-						border: 4px solid rgba(147, 184, 189, 0.8);
+						style="width: 150px;
+						height: 150px;
+						margin-top:15px;
+						border: 1px solid rgba(147, 184, 189, 0.8);
 						border-radius: 50%;">
 					</p:graphicImage>
 				</div>
@@ -261,7 +302,7 @@ table {
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview2"  />
 				</div>
 			</div>
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="2" style="margin-top:30px; margin-left:30px ">
 				<p:outputLabel for="nome">Nome:</p:outputLabel>
 				<p:inputText id="nome" value="#{usuarioController.contatoSelecionado.nome}"	required="true" />
 				
@@ -275,8 +316,17 @@ table {
 				<p:calendar id="nascimento" value="#{usuarioController.contatoSelecionado.dtNasc}"  pattern="dd/MM/yyyy" mask="true" required="true"  >
 						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
 				</p:calendar>			
-					<p:commandButton value="salvar"	actionListener="#{usuarioController.editarContato}" update="formNovoContato:dtbContatos"/>
-			</h:panelGrid>			
+					
+			</h:panelGrid>	
+			<p:commandButton value="salvar"	actionListener="#{usuarioController.editarContato}" update="formNovoContato:dtbContatos"
+			style="
+				margin-left:260px;	
+				margin-top:20px;					
+				padding:5px;
+				cursor: pointer;
+				background-color: green;						
+				color: white;
+				"/>		
 		</p:dialog>
 	</h:form>
 </div>
@@ -293,6 +343,12 @@ table {
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
     	<p:graphicImage name="/images/ajaxloadingbar.gif"  />
 	</p:dialog>
-	<div style="margin-bottom: 0px; background: rgb(7, 28, 138) ; height: 50px;text-align: center;color:white">Java - 2019</div>
+	<div class="footer" style="position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: #3F51B5;
+	color: white;
+	text-align: center;">Java - 2019</div>
 </h:body>
 </html>

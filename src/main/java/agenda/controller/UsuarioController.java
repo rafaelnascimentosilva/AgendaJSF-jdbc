@@ -169,6 +169,7 @@ public class UsuarioController implements Serializable {
 
 			// PEGANDO OBJETO JÁ SETADO NO OUTRO BEAN FotoBean
 			contato.setFoto(fotoBean.getContato().getFoto());// ADICINANDO AO objeto CONTATO NO BEAN UsuarioController
+			// ERRO AO NAO COLOCAR UMA FOTO AO CONTATO
 
 			this.contatoDAO.inserir(contato);
 			this.contatoLista = new ArrayList<Contato>();
