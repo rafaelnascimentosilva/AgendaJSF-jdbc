@@ -57,6 +57,8 @@ public class UsuarioDAO implements Serializable {
 				usuario.setId(new Integer(resultSet.getInt("id_usuario")));
 				usuario.setNome(resultSet.getString("nome"));
 				usuario.setFone(resultSet.getString("fone"));
+				usuario.setDataNasc((resultSet.getDate("dt_nasc")));
+				usuario.setEmail(resultSet.getString("email"));
 				listaUsuario.add(usuario);
 			}
 			return listaUsuario;
@@ -88,8 +90,40 @@ public class UsuarioDAO implements Serializable {
 			statement.setString(1, usuario.getNome());
 			statement.setString(2, usuario.getFone());
 			statement.setInt(3, usuario.getId());
+
+			String sql2 = "UPDATE ag_usuario_foto SET foto=? WHERE id_foto_usuario=?";
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setBytes(1, usuario.getFoto().getFoto());
+			statement2.setInt(2, usuario.getId());
+
+			statement2.execute();
 			statement.execute();
 			statement.close();
+
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		}
+	}
+
+	public Usuario getUsuario(int id) throws SQLException {
+		try {
+			String sql = "SELECT * FROM ag_usuario WHERE id_usuario=?";
+			PreparedStatement statement = this.connection.prepareStatement(sql);
+
+			statement.setInt(1, id);
+			Usuario usuario = new Usuario();
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+
+				usuario.setId(new Integer(resultSet.getInt("id_usuario")));
+				usuario.setNome(resultSet.getString("nome"));
+				usuario.setFone(resultSet.getString("fone"));
+				usuario.setDataNasc(resultSet.getDate("dt_nasc"));
+				usuario.setEmail(resultSet.getString("email"));
+				usuario.setLogin(resultSet.getString("login"));
+				usuario.setSenha(resultSet.getString("senha"));
+			}
+			return usuario;
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		}
@@ -127,5 +161,25 @@ public class UsuarioDAO implements Serializable {
 			throw new SQLException(e);
 		}
 
+	}
+
+	public byte[] getFotoUsuario(int id) throws SQLException {
+		byte[] imgBytes = null;
+		try {
+			PreparedStatement ps = this.connection
+					.prepareStatement("SELECT foto FROM ag_usuario_foto where id_foto_usuario=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					imgBytes = rs.getBytes(1);
+				}
+				rs.close();
+			}
+			ps.close();
+		} catch (SQLException e) {
+			throw new SQLException();
+		}
+		return imgBytes;
 	}
 }

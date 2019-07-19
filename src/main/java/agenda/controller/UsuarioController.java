@@ -95,9 +95,15 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public void btnDlgEditar(Usuario usuario) {
-		this.usuarioSelecionado = new Usuario();
-		this.usuarioSelecionado = usuario;
+	public void btnDlgEditarUsuario(Usuario usuario) throws SQLException {
+		// this.usuarioSelecionado = new Usuario();
+		this.usuarioDAO = new UsuarioDAO();
+
+		this.usuarioSelecionado = this.usuarioDAO.getUsuario(usuario.getId());
+		Foto f = new Foto();
+		f.setFoto(this.usuarioDAO.getFotoUsuario(usuario.getId()));
+		this.usuarioSelecionado.setFoto(f);
+		fotoBean.getUsuario().setFoto(f); /* SETANDO A FOTO NO CONTROLADOR de fotos */
 		PrimeFaces current = PrimeFaces.current();
 		current.ajax().update("formEditar");
 		current.executeScript("PF('dlgEditar').show();");
@@ -106,9 +112,11 @@ public class UsuarioController implements Serializable {
 	public void editar() throws SQLException {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
+			this.usuarioSelecionado.setFoto(fotoBean.getUsuario().getFoto());
 			this.usuarioDAO.editar(this.usuarioSelecionado);
 			PrimeFaces current = PrimeFaces.current();
 			current.ajax().update("formEditar");
+			current.ajax().update("fotoAvatarUsuario");
 			current.executeScript("PF('dlgEditar').hide();");
 			Messages.addGlobalInfo("Usuário alterado com sucesso!");
 		} catch (SQLException e) {

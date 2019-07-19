@@ -9,90 +9,87 @@
 	<h:outputStylesheet library="css" name="dashboard.css" />
 	<h:outputStylesheet>	
 	
-	.ui-widget-content {
-    border: 0px solid #a8a8a8;
-   
-}.ui-fileupload-buttonbar {
-     padding: 0px
+.ui-widget-content {
+    border: 0px solid #a8a8a8;   
 }
-
+.ui-fileupload-buttonbar {
+     padding: 0px;
+}
 .ui-widget-header {
-   border: 0px solid #a8a8a8; 
-  
-   background: white;
-  
-    color: #333;
-    font-weight: bold;
+   border: 0px solid #a8a8a8;   
+   background: white;  
+   color: #333;
+   font-weight: bold;
    text-shadow: 0 0px 0 rgba(255,255,255,0.7);
 }
 .ui-button-text-icon-left .ui-button-text {
     padding: .3em 1em .3em 2.1em;
 }
-	.ui-paginator.ui-paginator-top {	display: none;	}	
-	.ui-paginator.ui-paginator-top {
-		 background-color: white;
-		 border: 1px solid #fff;
-	}
-  	.ui-datatable thead th {
-	 	border: 1px solid #fff;
-	 }  	
-  	.ui-datatable-tablewrapper {
-  	    overflow: hidden; 
-  	}
-  	.ui-state-default {
-  		background-color: white;
-  		background: white;  		
-	}	
-	.ui-datatable table {
-    	border-collapse: collapse;
-    	width: 100%;
-    }
-	table {
-   		border-collapse: separate;
-    	border-spacing: 2px;
-	}
-	.ui-datatable table thead {
-		border-bottom:1px solid rgb(147, 184, 189);
-		border-top: 2px solid white;
-		border-left: 2px solid white;
-		border-right: 2px solid white;
-	}
+.ui-paginator.ui-paginator-top {	display: none;	}	
+.ui-paginator.ui-paginator-top {
+	 background-color: white;
+	 border: 1px solid #fff;
+}
+.ui-datatable thead th {
+ 	border: 1px solid #fff;
+ }  	
+.ui-datatable-tablewrapper {
+    overflow: hidden; 
+}
+.ui-state-default {
+	background-color: white;
+	background: white;  		
+}	
+.ui-datatable table {
+   	border-collapse: collapse;
+   	width: 100%;
+}
+table {
+	border-collapse: separate;
+   	border-spacing: 2px;
+}
+.ui-datatable table thead {
+	border-bottom:1px solid rgb(147, 184, 189);
+	border-top: 2px solid white;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+}
+
+.btnDefault {
+	cursor: pointer;
+	background:linear-gradient(#FF0087,#D80072);
+	border: 0px solid #fff;
+	margin: 10px 10px 10px 10px;
+	color: white;
+	text-shadow: 0 1px 1px #333;
+	
+	transition: all 0.2s linear;
+}
 	</h:outputStylesheet>	
 </h:head>
 <h:body style="overflow-y:hidden;">
 	<div id="nav" >	
 		<div align="center" >			
-				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" style="cursor: pointer;  
-						  background: tomato;	 
-						  border: 1px solid #fff;   
-						  margin-bottom: 10px;
-						  color:white;  
-						  text-shadow: 0 1px 1px #333;	 
-						  -webkit-border-radius: 5px;
-						  border-radius: 5px;	 
-						  transition: all 0.2s linear;" />		
-				<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" style="cursor: pointer;  
-						  background: tomato;	 
-						  border: 1px solid #fff;   
-						  margin-bottom: 10px;
-						  color:white;  
-						  text-shadow: 0 1px 1px #333;	 
-						  -webkit-border-radius: 5px;
-						  border-radius: 5px;	 
-						  transition: all 0.2s linear;"/>		
+				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" styleClass="btnDefault" />		
+				<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" styleClass="btnDefault" />		
 		</div>
 	</div>
 	<div id="conteudo">	
 	<div id="avatar">			
 		<div class="ui-g-12" align="center">
-			<div class="ui-g-12" >
-				<p:graphicImage value="/resources/images/user_avatar.png"	 styleClass="avatarimg"		/>
+			<div class="ui-g-12" style="background:rgb(7, 28, 138);border-radius: 2%;">
+			   <p:graphicImage id="fotoAvatarUsuario" value="#{fotoBean.streamedFotoUsuario}" 
+							cache="false" style="width: 150px;
+							height: 150px;
+							border-radius: 50%;
+							border: 4px solid #fe3175" >							
+						</p:graphicImage>
 			</div>
 			<div class="ui-g-12">
-				<h:outputText value="#{autenticadorController.login}"	/>
+				<h:outputText value="#{autenticadorController.login}"/>
 			</div>
 			<div class="ui-g-12" >
-				<p:commandButton actionListener="#{usuarioController.btnDlgEditar(autenticadorController.usuario)}" icon="fa fa-pencil-square-o" />	
+				<p:commandButton actionListener="#{usuarioController.btnDlgEditarUsuario(autenticadorController.usuario)}" update="formEditar" icon="fa fa-pencil-square-o" styleClass="btnDefault" />	
 				</div>
 			</div>			
 	</div>
@@ -115,10 +112,10 @@
 		</h:form>
 
 		<h:form id="formEditar">
-			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true" resizable="false"	header="Editar">
+			<p:dialog id="dlgEditar" widgetVar="dlgEditar" modal="true" resizable="false" 	header="Editar">
 				<div  id="avatarForm">
 					<div align="center">
-					    <p:graphicImage id="photoPreview" value="#{fotoBean.streamedFoto}" 
+					    <p:graphicImage id="fotoPreviewUsuario2" value="#{fotoBean.streamedFotoU}" 
 							cache="false" style="width: 150px;
 							height: 150px;
 							border-radius: 50%;
@@ -127,8 +124,8 @@
 					</div>
 					<div align="center">				
 						<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced" label="foto" 
-							fileUploadListener="#{fotoBean.handlePhotoUpload}" auto="true"
-							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview" />					
+							fileUploadListener="#{fotoBean.uploadFotoUsuario}" auto="true"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="fotoPreviewUsuario2" />					
 					</div>
 				</div>
 					<h:panelGrid columns="2" >							
@@ -139,8 +136,10 @@
 						<p:inputMask id="fone"	value="#{usuarioController.usuarioSelecionado.fone}"	mask="(99)9999-9999"	required="true" />
 				
 						<p:outputLabel for="nascimento" > Nascimento:</p:outputLabel>
-						<p:inputText id="nascimento"	value="#{usuarioController.usuarioSelecionado.dataNasc}"	required="true" />						
 						
+						<p:calendar id="nascimento" value="#{usuarioController.usuarioSelecionado.dataNasc}"  pattern="dd/MM/yyyy" mask="true" placeholder="Entre com o Data" required="true"  >
+							<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
+						</p:calendar>	
 						<p:outputLabel for="email" > Email:</p:outputLabel>
 						<p:inputText id="email"	value="#{usuarioController.usuarioSelecionado.email}"	required="true" />					
 					
@@ -166,7 +165,7 @@
 						border-radius: 50%;" >							
 					</p:graphicImage>
 				<div align="center">
-					<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced"
+					<p:fileUpload id="photo" value="#{fotoBean.file}" mode="advanced" label="foto"
 						fileUploadListener="#{fotoBean.handlePhotoUpload}" auto="true"
 						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview"  />
 				</div>
@@ -182,7 +181,7 @@
 				<p:outputLabel for="email" > Email:</p:outputLabel>					
 				<p:inputText id="email" value="#{usuarioController.contato.email}"	placeholder="Entre com o Email"	required="true" />
 				
-				<p:outputLabel for="nascimento" > Data de Nascimento:</p:outputLabel>	
+				<p:outputLabel for="nascimento" >  Niver:</p:outputLabel>	
 				<p:calendar id="nascimento" value="#{usuarioController.contato.dtNasc}"  pattern="dd/MM/yyyy" mask="true" placeholder="Entre com o Data" required="true"  >
 					<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
 				</p:calendar>							
@@ -192,35 +191,37 @@
 		</p:dialog>		
 				
 		<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="3,6,9"> 
-			<p:column style="  border: 1px solid rgb(147, 184, 189);">
-				<div class="ui-g-3" style="border:0px solid red">
+			<p:column style="  border: 1px solid blue; ">
+				<div class="ui-g-3">
 					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" cache="false" 
-						style="width: 100px;
-							height: 100px;
-							border: 1px solid rgba(147, 184, 189, 0.8);">
+						style="width: 130px;
+								height: 130px;
+								border: 1px solid  rgb(7, 28, 138);
+								border-radius: 5%;
+								">
 						<f:param id="foto_id" name="foto_id" value="#{contato.id}" />
 					</p:graphicImage>				    				
 				</div>
-				<div class="ui-g-3" style="border:0px solid red">
+				<div>
+				<div class="ui-g-8"  style="padding-left:30px">
 					<h:outputText value="#{contato.nome}" />
 				</div>
-				<div class="ui-g-8" style="border:0px solid red">
+				<div class="ui-g-8" style="padding-left:30px" >
 					<h:outputText value="#{contato.fone}" />
 				</div>
-				<div class="ui-g-3" style="border:0px solid red">
+				<div class="ui-g-8" style="padding-left:30px">
 					<h:outputText value="#{contato.email}" />
 				</div>	
-				<div class="ui-g-3" style="border:0px solid red">
+				<div class="ui-g-5" style="padding-left:30px">
 					<h:outputText value="#{contato.dtNasc}"  >
 						<o:converter converterId="javax.faces.DateTime"  pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</div>					
-				<div class="ui-g-3" style="border:0px solid red">						
+				<div class="ui-g-3" style="padding:0px 0px 0px 50px;">						
 					<p:commandButton icon="fa  fa-trash" actionListener="#{usuarioController.deleteContato(contato)}" immediate="true" update="dtbContatos" 
 						style="cursor: pointer;  
-						  background: tomato;	 
-						  border: 1px solid #fff;   
-						  margin-bottom: 10px;
+						  background:linear-gradient(magenta,#fe3175);
+						  border: 1px solid #fff; 						  
 						  color:white;  
 						  text-shadow: 0 1px 1px #333;	 
 						  -webkit-border-radius: 5px;
@@ -228,23 +229,23 @@
 						  transition: all 0.2s linear;">
 						<p:confirm header="Deletar" message="deseja remover #{contato.nome} ?"/>
 					</p:commandButton>
-					<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  update="formEditarContato:dlgEditarContato" icon="fa  fa-pencil" styleClass="btnNovo" 
+					<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  update="formEditarContato:dlgEditarContato" icon="fa  fa-pencil"  
 						style="cursor: pointer;  
-						  background: #FFAD33;	 
-						  border: 1px solid #fff;   
-						  margin-bottom: 10px;
+						  background:linear-gradient(magenta,#fe3175);	 
+						  border: 1px solid #fff;   						  
 						  color:white;  
 						  text-shadow: 0 1px 1px #333;	 
 						  -webkit-border-radius: 5px;
 						  border-radius: 5px;	 
 						  transition: all 0.2s linear;"/>
-					</div>				
+					</div>		
+					</div>		
 				</p:column>				
 			</p:dataTable>		
 	</h:form>
 	
 	<h:form id="formEditarContato" enctype="multipart/form-data">			
-		<p:dialog id="dlgEditarContato" widgetVar="dlgEditarContato" modal="true" resizable="false" >
+		<p:dialog id="dlgEditarContato" widgetVar="dlgEditarContato" modal="true" resizable="false" header="Editar Contato">
 			<div  id="avatarForm">
 				<div align="center">
 					<p:graphicImage id="photoPreview2" value="#{fotoBean.streamedFotoById}" cache="false" 
@@ -255,7 +256,7 @@
 					</p:graphicImage>
 				</div>
 				<div align="center">
-					<p:fileUpload id="fotoEditar" value="#{fotoBean.fileSelecionado}" mode="advanced"
+					<p:fileUpload id="fotoEditar" value="#{fotoBean.fileSelecionado}" mode="advanced" label="foto"
 							fileUploadListener="#{fotoBean.fotoUploadEditar}" auto="true"
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="photoPreview2"  />
 				</div>
@@ -292,5 +293,6 @@
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
     	<p:graphicImage name="/images/ajaxloadingbar.gif"  />
 	</p:dialog>
+	<div style="margin-bottom: 0px; background: rgb(7, 28, 138) ; height: 50px;text-align: center;color:white">Java - 2019</div>
 </h:body>
 </html>
