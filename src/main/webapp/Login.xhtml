@@ -3,90 +3,146 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <h:head>
 	<title>Tela de Login</title>
- 	<h:outputStylesheet library="css" name="login.css" /></h:head>
+	<h:outputStylesheet library="css" name="login.css" />
+	<h:outputStylesheet>	
+.ui-widget-content {
+    border: 1px solid #f7f7f7 ;
+    background: #f7f7f7;
+    color: #4f4f4f;
+}
+.ui-widget-header{
+	background: #3F51B5;
+	color:white;
+	border: 1px solid #f7f7f7 ;
+	font-weight: normal;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+}
+	</h:outputStylesheet>
+</h:head>
+
 <h:body>
+
 	<h:form id="formLogin" rendered="#{usuarioController.formStatus}">
-	<p:growl/>
-		<p:autoUpdate />		
-		<div class="panelLogin" >			
-			<div class="ui-g">
-				<div class="ui-g-8">
-					<h1>Login</h1>
-				</div>
-				<div class="ui-g-6">
-					<p:outputLabel for="login" value="Login" />	
-					<p:inputText id="login" value="#{autenticadorController.login}"	required="true" requiredMessage="O LOGIN é necessário"/>
-			
-					<p:outputLabel for="senha" value="Senha" />	
-					<p:password id="senha" value="#{autenticadorController.senha}"	required="true" requiredMessage="A SENHA é necessária" />
-				</div>
-				<div class="ui-g-8" >
-					<p:commandButton value="Login" action="#{autenticadorController.autentica}" styleClass="btnSalvar" />		  		
-		  			<p:commandButton value="Novo"  actionListener="#{usuarioController.btnDlgNovoUsuario}" immediate="true" styleClass="btnSalvar"/>				
+		<p:growl />
+		<p:autoUpdate />
+		<div class="ui-g">
+			<div class="ui-g-12 ui-md-6 ui-lg-3">
+				<div
+					style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+					<p:panel id="basic" header="LOGIN">
+						<p:panelGrid columns="2">
+							<p:outputLabel for="login" value="Login" />
+							<p:inputText id="login" value="#{autenticadorController.login}"
+								required="true" requiredMessage="O LOGIN é necessário" />
+							<p:outputLabel for="senha" value="Senha" />
+							<p:password id="senha" value="#{autenticadorController.senha}"
+								required="true" requiredMessage="A SENHA é necessária" />
+						</p:panelGrid>
+					</p:panel>
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-4">
+							<p:commandButton value="Login"
+								action="#{autenticadorController.autentica}"
+								styleClass="btnSalvar"
+								style="
+								padding-top:5px;
+								cursor: pointer;
+								background-color: #3F51B5;
+								color: white;" />
+						</div>
+						<div class="ui-g-4">
+							<p:commandButton value="Novo"
+								actionListener="#{usuarioController.btnDlgNovoUsuario}"
+								immediate="true" styleClass="btnSalvar"
+								style="
+								padding-top:5px;
+								margin-left:-30px;	
+								cursor: pointer;
+								background-color: #3F51B5;						
+								color: white;" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+
 	</h:form>
-	
-	<h:form id="formCadastroUsuario" rendered="#{!usuarioController.formStatus}">
-	<p:growl/>
+
+	<h:form id="formCadastroUsuario"
+		rendered="#{!usuarioController.formStatus}">
+		<p:growl />
 		<p:autoUpdate />
-	<div class="panelCadastro">
-		<h1>Cadastro</h1>		
-		<div class="ui-g">
-		 	<div class="ui-g-8">
-				<p:outputLabel for="nome" value="Nome"/>
-				<p:inputText id="nome" value="#{usuarioController.usuario.nome}" size="49" required="true" requiredMessage="O NOME é necessário"/>
-			</div>
-			<div class="ui-g-6">		
-				<p:outputLabel for="email" value="Email"/>
-				<p:inputText id="email" value="#{usuarioController.usuario.email}"  required="true" requiredMessage="O EMAIL é necessário">
-					<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-				</p:inputText>
-			</div>
+		<div class="panelCadastro">
+			<h1>Cadastro</h1>
+			<div class="ui-g">
+				<div class="ui-g-8">
+					<p:outputLabel for="nome" value="Nome" />
+					<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
+						size="49" required="true" requiredMessage="O NOME é necessário" />
+				</div>
+				<div class="ui-g-6">
+					<p:outputLabel for="email" value="Email" />
+					<p:inputText id="email" value="#{usuarioController.usuario.email}"
+						required="true" requiredMessage="O EMAIL é necessário">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+				</div>
 				<div class="ui-g-3">
-				<p:outputLabel for="data" value="Nascimento"/>			
-			  	<p:calendar id="data" value="#{usuarioController.usuario.dataNasc}" pattern="dd-MM-yyyy" mask="true"  required="true" requiredMessage="A DATA é necessária" >
-			    	<f:convertDateTime pattern="dd-MM-yyyy"/>
-			  	</p:calendar>		
-			 </div>		  
-			
-        	 <div class="ui-g-6">
-        	 	<p:outputLabel for="fone" value="Fone"/>
-				<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"  required="true" requiredMessage="O FONE é necessário" mask="(99) 99999-9999"/>	
-			</div>	
-			 <div class="ui-g-6" >
-				<p:outputLabel for="sexo" value="Sexo" />		
-					<p:selectOneRadio id="sexo" value="#{usuarioController.usuario.sexo}" unselectable="true" required="true" requiredMessage="O SEXO é necessário">
-            			<f:selectItem itemLabel="M" itemValue="M" />
-           				<f:selectItem itemLabel="F" itemValue="F" />
-       				 </p:selectOneRadio>
-        	</div>
-			<div class="ui-g-6">	
-				<p:outputLabel for="login" value="Login" />
-				<p:inputText id="login" value="#{usuarioController.usuario.login}"  required="true" requiredMessage="O LOGIN é necessário"/>
+					<p:outputLabel for="data" value="Nascimento" />
+					<p:calendar id="data" value="#{usuarioController.usuario.dataNasc}"
+						pattern="dd-MM-yyyy" mask="true" required="true"
+						requiredMessage="A DATA é necessária">
+						<f:convertDateTime pattern="dd-MM-yyyy" />
+					</p:calendar>
+				</div>
+
+				<div class="ui-g-6">
+					<p:outputLabel for="fone" value="Fone" />
+					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
+						required="true" requiredMessage="O FONE é necessário"
+						mask="(99) 99999-9999" />
+				</div>
+				<div class="ui-g-6">
+					<p:outputLabel for="sexo" value="Sexo" />
+					<p:selectOneRadio id="sexo"
+						value="#{usuarioController.usuario.sexo}" unselectable="true"
+						required="true" requiredMessage="O SEXO é necessário">
+						<f:selectItem itemLabel="M" itemValue="M" />
+						<f:selectItem itemLabel="F" itemValue="F" />
+					</p:selectOneRadio>
+				</div>
+				<div class="ui-g-6">
+					<p:outputLabel for="login" value="Login" />
+					<p:inputText id="login" value="#{usuarioController.usuario.login}"
+						required="true" requiredMessage="O LOGIN é necessário" />
+				</div>
+				<div class="ui-g-6">
+					<p:outputLabel for="senha" value="Senha" />
+					<p:password id="senha" value="#{usuarioController.usuario.senha}"
+						required="true" requiredMessage="A SENHA é necessária" />
+				</div>
 			</div>
-			<div class="ui-g-6" >	
-				<p:outputLabel for="senha" value="Senha"/>
-				<p:password id="senha" value="#{usuarioController.usuario.senha}"  required="true" requiredMessage="A SENHA é necessária" />
+			<div class="ui-g-6">
+				<p:commandButton value="Enviar" process="formCadastroUsuario"
+					actionListener="#{usuarioController.inserir}"
+					styleClass="btnSalvar" />
+
+				<p:commandButton value="Voltar" immediate="true"
+					action="#{usuarioController.isStatus}" styleClass="btnSalvar" />
 			</div>
-		</div>	
-		<div class="ui-g-6" >	
-			<p:commandButton value="Enviar"  process="formCadastroUsuario"  actionListener="#{usuarioController.inserir}" styleClass="btnSalvar" />
-		
-		  	<p:commandButton value="Voltar"  immediate="true"  action="#{usuarioController.isStatus}"  styleClass="btnSalvar"/>
-		  </div>
-		</div>	
-		
-	</h:form> 
-		<p:ajaxStatus  delay="9000"  onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-             
-	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-    	<p:graphicImage name="/images/ajaxloadingbar.gif"  />
+		</div>
+
+	</h:form>
+	<p:ajaxStatus delay="9000" onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<p:graphicImage name="/images/ajaxloadingbar.gif" />
 	</p:dialog>
 </h:body>
 
