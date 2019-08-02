@@ -7,6 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Usuário</title>
 	<h:outputStylesheet library="css" name="dashboard.css" />
+	
 	<h:outputStylesheet>	
 	
 	.ui-widget {
@@ -17,25 +18,23 @@
 }
 
 .ui-widget-header {
-   border: 0px solid #a8a8a8;   
-  background: #3F51B5;
-   color: white;
-   font-weight: bold;
-   text-shadow: 0 0px 0 rgba(255,255,255,0.7);
+   	border: 0px solid #a8a8a8;   
+   	background:#556080;
+   	color: white;
+   	font-weight: bold;
+   	text-shadow: 0 0px 0 rgba(255,255,255,0.7);
 }
  .ui-fileupload-buttonbar{
- margin-top:-30px;
- background: white;
+ 	margin-top:-30px;
+ 	background: white;
 }
 .ui-button-text-icon-left .ui-button-text {
     padding: .3em 1em .3em 2.1em;
 }
 .ui-paginator.ui-paginator-top {	display: none;	}	
 
-
 .ui-datatable thead th {
- 	border: 1px solid #fff;
- 
+ 	border: 1px solid #fff; 
  }  
 .datatable tbody td{
  	padding:1px 1px;
@@ -61,31 +60,34 @@ table {
 	border-left: 2px solid white;
 	border-right: 2px solid white;
 }
-
-
-
 .btnDefault {
-cursor: pointer;
-
-//background: linear-gradient(#FF0087,#D80072);
-
-background-color: #FFF;
-
-border: 1px solid ##3F51B5;
-
-color: #3f51b5;
-
-text-shadow: 0px 0px 0px ##3F51B5;
-
-transition: all 0.2s linear;
+	cursor: pointer;
+	//background: linear-gradient(#FF0087,#D80072);
+	background-color: #FFF;
+	border: 1px solid #556080;
+	color: #556080;
+	text-shadow: 0px 0px 0px #556080;
+	transition: all 0.2s linear;
 }
+ .white-button.ui-button.ui-state-default:enabled:hover, 
+    .white-button.ui-button.ui-state-default:focus {
+        background-color: #f2f2f2;
+        border-color: #ccc;
+        color: #373a3c;
+        /* with the exported variables from Nova and Luna Themes*/
+        border-color: var(--input-hover-border-color, #ccc);
+    }
 	</h:outputStylesheet>	
 </h:head>
 <h:body style="overflow-y:hidden;">
+
 	<div id="nav" >	
+	
+ 
 		<div align="center" >			
 				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" styleClass="btnDefault" />		
 				<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" styleClass="btnDefault" />		
+	
 		</div>
 	</div>
 	<div id="conteudo">	
@@ -96,16 +98,31 @@ transition: all 0.2s linear;
 							cache="false" style="width: 150px;
 							height: 150px;
 							border-radius: 50%;
-							border: 4px solid #3F51B5" >							
+							border: 4px solid #556080" >							
 						</p:graphicImage>
 			</div>
-			<div class="ui-g-12">
-				<h:outputText value="#{autenticadorController.login}"/>
-			</div>
-			<div class="ui-g-12" >
-				<p:commandButton actionListener="#{usuarioController.btnDlgEditarUsuario(autenticadorController.usuario)}" update="formEditar" icon="fa fa-pencil-square-o" styleClass="btnDefault" />	
-				</div>
-			</div>			
+		</div>	
+		<p:panel id="toggleable" header="#{autenticadorController.usuario.nome}" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+ 
+        
+ 
+         <h:panelGrid columns="2" cellpadding="10">          
+            <p:outputLabel value="Fone" />
+            <h:outputText value="#{autenticadorController.usuario.fone}" />
+           <p:outputLabel value="Email" />
+            <h:outputText value="#{autenticadorController.usuario.email}" />
+             <p:outputLabel value="Nª de Contatos" />
+            <h:outputText value="??" />
+          </h:panelGrid>
+ 
+        <p:commandButton actionListener="#{usuarioController.btnDlgEditarUsuario(autenticadorController.usuario)}" update="formEditar" icon="fa fa-pencil-square-o" 
+        style="cursor: pointer;
+        		background-color: #FFF;
+				border: 1px solid #556080;
+				color: #556080;
+				margin-left:230px;"
+         />	
+    </p:panel>		
 	</div>
 	
 
@@ -122,8 +139,8 @@ transition: all 0.2s linear;
 						mask="(99)9999-9999" />
 					<p:commandButton value="salvar"	actionListener="#{usuarioController.inserir}" style="cursor: pointer;
 						background-color: #FFF;
-						border: 1px solid #3F51B5;
-						color: #3f51b5;
+						border: 1px solid #556080;
+						color: #556080;
 					" />
 				</p:panelGrid>
 			</p:dialog>
@@ -218,25 +235,24 @@ transition: all 0.2s linear;
 		
 			<p:commandButton value="salvar"	ajax="false" actionListener="#{usuarioController.novoContato}" update="dtbContatos" 
 				style="
-				margin-left:260px;	
-									
+				margin-left:260px;									
 				padding:5px;
 				cursor: pointer;
 				background-color: green;						
-				color: white;
-				" />
+				color: white;" />
 				
 		</p:dialog>		
 				
 		<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} " > 
-			<p:column style="  border: 1px solid blue; ">
+			<p:column style="  border: 1px solid #556080; ">
 				<div class="ui-g-3">
 					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" cache="false" 
 						style="width: 130px;
 						height: 130px;
 						margin-top:15px;
-						border: 1px solid rgba(147, 184, 189, 0.8);
-						border-radius: 5%;">
+						border: #556080;
+						border-radius: 5%;
+						box-shadow: -2px 2px rgba(55, 55, 55, .5)">
 						<f:param id="foto_id" name="foto_id" value="#{contato.id}" />
 					</p:graphicImage>				    				
 				</div>
@@ -267,16 +283,17 @@ transition: all 0.2s linear;
 					<p:commandButton icon="fa  fa-trash" actionListener="#{usuarioController.deleteContato(contato)}" immediate="true" update="dtbContatos" 
 						style="cursor: pointer;
 						background-color: #FFF;
-						border: 1px solid #3F51B5;
-						color: #3f51b5;
+						border: 1px solid #556080;
+						color: #556080;
+						
 					">
 						<p:confirm header="Deletar" message="deseja remover #{contato.nome} ?"/>
 					</p:commandButton>
 					<p:commandButton  actionListener="#{usuarioController.btnDlgEditarContato(contato)}" immediate="true"  update="formEditarContato:dlgEditarContato" icon="fa  fa-pencil"  
 						style="cursor: pointer;
 						background-color: #FFF;
-						border: 1px solid #3F51B5;
-						color: #3f51b5;
+						border: 1px solid #556080;
+						color: #556080;
 						"/>
 					</div>		
 					</div>		
@@ -347,7 +364,7 @@ transition: all 0.2s linear;
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	background: #3F51B5;
+	background: #556080;
 	color: white;
 	text-align: center;">Java - 2019</div>
 </h:body>

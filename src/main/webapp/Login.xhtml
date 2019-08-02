@@ -6,20 +6,33 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 <h:head>
 	<title>Tela de Login</title>
-	<h:outputStylesheet library="css" name="login.css" />
+	<!--  <h:outputStylesheet library="css" name="login.css" />-->
+	<!-- azul google #556080 -->
 	<h:outputStylesheet>	
+	
+.ui-widget {
+	font-size: 19px !important; 
+}
+	
 .ui-widget-content {
     border: 1px solid #f7f7f7 ;
     background: #f7f7f7;
     color: #4f4f4f;
+     text-shadow: 0 1px rgba(255,255,255,0.7);
+    
 }
 .ui-widget-header{
-	background: #3F51B5;
+	background: #f7f7f7;
 	color:white;
-	border: 1px solid #f7f7f7 ;
+	border: 1px solid #f7f7f7;
 	font-weight: normal;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+    text-shadow: 0 0 0 rgba(255,255,255,0.7);
 }
+.ui-button-text{
+	background: #556080;
+	font-weight: normal;
+}
+
 	</h:outputStylesheet>
 </h:head>
 
@@ -28,51 +41,59 @@
 	<h:form id="formLogin" rendered="#{usuarioController.formStatus}">
 		<p:growl />
 		<p:autoUpdate />
-		<div class="ui-g">
-			<div class="ui-g-12 ui-md-6 ui-lg-3">
-				<div
-					style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
-					<p:panel id="basic" header="LOGIN">
-						<p:panelGrid columns="2">
-							<p:outputLabel for="login" value="Login" />
-							<p:inputText id="login" value="#{autenticadorController.login}"
-								required="true" requiredMessage="O LOGIN é necessário" />
-							<p:outputLabel for="senha" value="Senha" />
-							<p:password id="senha" value="#{autenticadorController.senha}"
-								required="true" requiredMessage="A SENHA é necessária" />
-						</p:panelGrid>
-					</p:panel>
-					<div class="ui-g-12 ui-g-nopad">
-						<div class="ui-g-4">
-							<p:commandButton value="Login"
-								action="#{autenticadorController.autentica}"
-								styleClass="btnSalvar"
-								style="
-								padding-top:5px;
-								cursor: pointer;
-								background-color: #3F51B5;
-								color: white;" />
-						</div>
-						<div class="ui-g-4">
-							<p:commandButton value="Novo"
-								actionListener="#{usuarioController.btnDlgNovoUsuario}"
-								immediate="true" styleClass="btnSalvar"
-								style="
-								padding-top:5px;
-								margin-left:-30px;	
-								cursor: pointer;
-								background-color: #3F51B5;						
-								color: white;" />
-						</div>
+
+		<div class="ui-g-6 ">
+			<div
+				style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: -2px 2px rgba(55, 55, 55, 0.2);">
+				<p:panel id="basic" header="">
+					<div align="center">
+						<p:graphicImage id="fotoAvatarUsuario"
+							value="/resources/images/user_null.png" cache="false"
+							style="width: 150px;
+							height: 150px;
+							border-radius: 50%;">							
+						</p:graphicImage>
 					</div>
-				</div>
+					<p:panelGrid columns="1" >
+
+							<p:inputText id="login" value="#{autenticadorController.login}"
+								required="true" requiredMessage="O LOGIN é necessário"
+								placeholder="Login" />
+
+							<p:password id="senha" value="#{autenticadorController.senha}"
+								required="true" requiredMessage="A SENHA é necessária"
+								placeholder="Senha" />
+							</p:panelGrid>
+							<p:commandButton value="Fazer login"
+								action="#{autenticadorController.autentica}"
+								style="
+						width:100%;								
+						cursor: pointer;
+						margin-top:50px;
+						background-color: #3F51B5;
+						color: white;" />
+				</p:panel>
+
+
+			</div>
+			<div align="center"
+				style="position: fixed; margin-top: 120px; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+				<p:commandLink value="Criar uma conta"
+					actionListener="#{usuarioController.btnDlgNovoUsuario}"
+					immediate="true"
+					style="
+					cursor: pointer;
+					color: #556080;" />
 			</div>
 		</div>
-
 	</h:form>
 
 	<h:form id="formCadastroUsuario"
 		rendered="#{!usuarioController.formStatus}">
+			<div class="ui-g-6 ">
+			<div
+				style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: -2px 2px rgba(55, 55, 55, 0.2);">
+				<p:panel id="basic" header="">
 		<p:growl />
 		<p:autoUpdate />
 		<div class="panelCadastro">
@@ -128,15 +149,22 @@
 			</div>
 			<div class="ui-g-6">
 				<p:commandButton value="Enviar" process="formCadastroUsuario"
-					actionListener="#{usuarioController.inserir}"
+					actionListener="#{usuarioController.inserir}" style="
+					cursor: pointer;
+					color: white;"
 					styleClass="btnSalvar" />
 
 				<p:commandButton value="Voltar" immediate="true"
-					action="#{usuarioController.isStatus}" styleClass="btnSalvar" />
+					action="#{usuarioController.isStatus}" styleClass="btnSalvar" style="
+					cursor: pointer;
+					color: white;"/>
 			</div>
 		</div>
-
+	</p:panel>
+	</div>
+	</div>
 	</h:form>
+
 	<p:ajaxStatus delay="9000" onstart="PF('statusDialog').show()"
 		onsuccess="PF('statusDialog').hide()" />
 

@@ -9,7 +9,7 @@ body {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	background: #3F51B5;
+	background: #556080;
 	color: white;
 	text-align: center;
 }
@@ -22,7 +22,7 @@ body {
 }
 
 #nav {
-	background-color: #3F51B5;
+	background-color: #556080;
 	padding: 5px;
 }
 
@@ -33,8 +33,12 @@ body {
 	width: 300px;
 	height: 200px;
 	margin-top: 10px;
-	border: 1px solid #3F51B5;
+	border: 1px solid #556080;
 	border-radius:2%;
+}
+i{
+	color: #556080;
+	padding-right: 15px
 }
 
 #avatarForm {

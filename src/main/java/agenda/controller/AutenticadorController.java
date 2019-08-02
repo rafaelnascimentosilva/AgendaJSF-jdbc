@@ -28,6 +28,7 @@ public class AutenticadorController implements Serializable {
 		usuario = dao.autentica(login, senha);
 
 		if (usuario != null && (login.equals(usuario.getLogin()) && senha.equals(usuario.getSenha()))) {
+			usuario = dao.getUsuario(usuario.getId());
 			SessaoUtil.setParam("USUARIOLogado", usuario);
 			return "/Usuario.xhtml?faces-redirect=true";
 		} else {

@@ -154,4 +154,29 @@ public class ContatoDAO implements Serializable {
 		}
 		return imgBytes;
 	}
+
+	/**
+	 * 
+	 * para testes
+	 */
+	public void updatePrice(float price, String cofName, String username, String password) throws SQLException {
+
+		Connection con = null;
+		PreparedStatement pstmt;
+		try {
+			con = ConnectionFactory.getConnection();
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement("UPDATE COFFEES " + "SET PRICE = ? " + "WHERE COF_NAME = ?");
+			pstmt.setFloat(1, price);
+			pstmt.setString(2, cofName);
+			pstmt.executeUpdate();
+
+			con.commit();
+			pstmt.close();
+
+		} finally {
+			if (con != null)
+				con.close();
+		}
+	}
 }
