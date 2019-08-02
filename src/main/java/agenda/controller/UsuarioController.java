@@ -147,20 +147,6 @@ public class UsuarioController implements Serializable {
 
 	}
 
-	public void btnDlgEditarContato(Contato contato) throws IOException, NumberFormatException, SQLException {
-
-		byte[] image = contatoDAO.getFotoContato(contato.getId());
-		Foto f = new Foto();
-		f.setFoto(image);
-		contato.setFoto(f);
-		this.contatoSelecionado = contato;
-		fotoBean.setContatoSelecionado(contato);
-		PrimeFaces current = PrimeFaces.current();
-		current.ajax().update("formEditarContato");
-		current.executeScript("PF('dlgEditarContato').show();");
-		fotoBean.clearForm();
-	}
-
 	/* apï¿½s preencheer os inputs referentes as propridedades de contato */
 	public void novoContato() throws SQLException, ParseException, IOException {
 		try {
@@ -168,9 +154,13 @@ public class UsuarioController implements Serializable {
 			this.contato.setUsuario(usuarioSelecionado);
 
 			// PEGANDO OBJETO JÁ SETADO NO OUTRO BEAN FotoBean
-			contato.setFoto(fotoBean.getContato().getFoto());// ADICINANDO AO objeto CONTATO NO BEAN UsuarioController
-			// ERRO AO NAO COLOCAR UMA FOTO AO CONTATO
-
+			if (fotoBean.getFile() != null) {
+				contato.setFoto(fotoBean.getContato().getFoto());// ADICINANDO AO objeto CONTATO NO BEAN
+																	// UsuarioController
+			} // ERRO AO NAO COLOCAR UMA FOTO AO CONTATO
+			else {
+				contato.setFoto(fotoBean.fotoDefault());
+			}
 			this.contatoDAO.inserir(contato);
 			this.contatoLista = new ArrayList<Contato>();
 			this.contatoLista.add(contato);
@@ -186,15 +176,18 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public void deleteContato(Contato contato) throws SQLException {
-		try {
-			contatoDAO = new ContatoDAO();
-			contatoDAO.deletar(contato.getId());
-			Messages.addGlobalInfo("Contato removido com sucesso!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			Messages.addGlobalWarn("Problema ao deletar o contato", e);
-		}
+	public void btnDlgEditarContato(Contato contato) throws IOException, NumberFormatException, SQLException {
+
+		byte[] image = contatoDAO.getFotoContato(contato.getId());
+		Foto f = new Foto();
+		f.setFoto(image);
+		contato.setFoto(f);
+		this.contatoSelecionado = contato;
+		fotoBean.setContatoSelecionado(contato);
+		PrimeFaces current = PrimeFaces.current();
+		current.ajax().update("formEditarContato");
+		current.executeScript("PF('dlgEditarContato').show();");
+		fotoBean.clearForm();
 	}
 
 	public void editarContato() throws IOException {
@@ -210,6 +203,17 @@ public class UsuarioController implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Problema ao editar o contato", e);
+		}
+	}
+
+	public void deleteContato(Contato contato) throws SQLException {
+		try {
+			contatoDAO = new ContatoDAO();
+			contatoDAO.deletar(contato.getId());
+			Messages.addGlobalInfo("Contato removido com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalWarn("Problema ao deletar o contato", e);
 		}
 	}
 

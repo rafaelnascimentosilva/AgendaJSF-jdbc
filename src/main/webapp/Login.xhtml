@@ -12,14 +12,12 @@
 	
 .ui-widget {
 	font-size: 19px !important; 
-}
-	
+}	
 .ui-widget-content {
     border: 1px solid #f7f7f7 ;
     background: #f7f7f7;
     color: #4f4f4f;
-     text-shadow: 0 1px rgba(255,255,255,0.7);
-    
+    text-shadow: 0 1px rgba(255,255,255,0.7);    
 }
 .ui-widget-header{
 	background: #f7f7f7;
@@ -41,10 +39,8 @@
 	<h:form id="formLogin" rendered="#{usuarioController.formStatus}">
 		<p:growl />
 		<p:autoUpdate />
-
 		<div class="ui-g-6 ">
-			<div
-				style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: -2px 2px rgba(55, 55, 55, 0.2);">
+			<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: -2px 2px rgba(55, 55, 55, 0.2);">
 				<p:panel id="basic" header="">
 					<div align="center">
 						<p:graphicImage id="fotoAvatarUsuario"
@@ -55,11 +51,9 @@
 						</p:graphicImage>
 					</div>
 					<p:panelGrid columns="1" >
-
 							<p:inputText id="login" value="#{autenticadorController.login}"
 								required="true" requiredMessage="O LOGIN é necessário"
 								placeholder="Login" />
-
 							<p:password id="senha" value="#{autenticadorController.senha}"
 								required="true" requiredMessage="A SENHA é necessária"
 								placeholder="Senha" />
@@ -73,95 +67,83 @@
 						background-color: #3F51B5;
 						color: white;" />
 				</p:panel>
-
-
 			</div>
 			<div align="center"
 				style="position: fixed; margin-top: 120px; left: 50%; top: 50%; transform: translate(-50%, -50%);">
-				<p:commandLink value="Criar uma conta"
-					actionListener="#{usuarioController.btnDlgNovoUsuario}"
-					immediate="true"
-					style="
-					cursor: pointer;
-					color: #556080;" />
+				<p:commandLink value="Criar uma conta"	actionListener="#{usuarioController.btnDlgNovoUsuario}"	immediate="true"
+					style="	cursor: pointer;color: #556080;" />
 			</div>
 		</div>
 	</h:form>
 
-	<h:form id="formCadastroUsuario"
-		rendered="#{!usuarioController.formStatus}">
-			<div class="ui-g-6 ">
-			<div
-				style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: -2px 2px rgba(55, 55, 55, 0.2);">
+	<h:form id="formCadastroUsuario"	rendered="#{!usuarioController.formStatus}">
+		<div class="ui-g-6 ">
+			<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: -2px 2px rgba(55, 55, 55, 0.2);">
 				<p:panel id="basic" header="">
-		<p:growl />
-		<p:autoUpdate />
-		<div class="panelCadastro">
-			<h1>Cadastro</h1>
-			<div class="ui-g">
-				<div class="ui-g-8">
-					<p:outputLabel for="nome" value="Nome" />
-					<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
-						size="49" required="true" requiredMessage="O NOME é necessário" />
+					<p:growl />
+					<p:autoUpdate />
+			<div class="panelCadastro">
+				<h1>Cadastro</h1>
+					<div class="ui-g">
+						<div class="ui-g-8">
+							<p:outputLabel for="nome" value="Nome" />
+							<p:inputText id="nome" value="#{usuarioController.usuario.nome}" size="49" required="true" requiredMessage="O NOME é necessário" />
+						</div>
+						<div class="ui-g-6">
+							<p:outputLabel for="email" value="Email" />
+							<p:inputText id="email" value="#{usuarioController.usuario.email}"	required="true" requiredMessage="O EMAIL é necessário">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+						</div>
+						<div class="ui-g-3">
+							<p:outputLabel for="data" value="Nascimento" />
+							<p:calendar id="data" value="#{usuarioController.usuario.dataNasc}"
+								pattern="dd-MM-yyyy" mask="true" required="true"
+								requiredMessage="A DATA é necessária">
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</p:calendar>
+						</div>
+						<div class="ui-g-6">
+							<p:outputLabel for="fone" value="Fone" />
+							<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
+								required="true" requiredMessage="O FONE é necessário"
+								mask="(99) 99999-9999" />
+						</div>
+						<div class="ui-g-6">
+							<p:outputLabel for="sexo" value="Sexo" />
+							<p:selectOneRadio id="sexo"
+								value="#{usuarioController.usuario.sexo}" unselectable="true"
+								required="true" requiredMessage="O SEXO é necessário">
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+							</p:selectOneRadio>
+						</div>
+						<div class="ui-g-6">
+							<p:outputLabel for="login" value="Login" />
+							<p:inputText id="login" value="#{usuarioController.usuario.login}"
+								required="true" requiredMessage="O LOGIN é necessário" />
+						</div>
+						<div class="ui-g-6">
+							<p:outputLabel for="senha" value="Senha" />
+							<p:password id="senha" value="#{usuarioController.usuario.senha}"
+								required="true" requiredMessage="A SENHA é necessária" />
+						</div>
+					</div>
+					<div class="ui-g-6">
+						<p:commandButton value="Enviar" process="formCadastroUsuario"
+							actionListener="#{usuarioController.inserir}" style="
+							cursor: pointer;
+							color: white;"
+							styleClass="btnSalvar" />
+		
+						<p:commandButton value="Voltar" immediate="true"
+							action="#{usuarioController.isStatus}" styleClass="btnSalvar" style="
+							cursor: pointer;
+							color: white;"/>
+					</div>
 				</div>
-				<div class="ui-g-6">
-					<p:outputLabel for="email" value="Email" />
-					<p:inputText id="email" value="#{usuarioController.usuario.email}"
-						required="true" requiredMessage="O EMAIL é necessário">
-						<f:validateRegex
-							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-					</p:inputText>
-				</div>
-				<div class="ui-g-3">
-					<p:outputLabel for="data" value="Nascimento" />
-					<p:calendar id="data" value="#{usuarioController.usuario.dataNasc}"
-						pattern="dd-MM-yyyy" mask="true" required="true"
-						requiredMessage="A DATA é necessária">
-						<f:convertDateTime pattern="dd-MM-yyyy" />
-					</p:calendar>
-				</div>
-
-				<div class="ui-g-6">
-					<p:outputLabel for="fone" value="Fone" />
-					<p:inputMask id="fone" value="#{usuarioController.usuario.fone}"
-						required="true" requiredMessage="O FONE é necessário"
-						mask="(99) 99999-9999" />
-				</div>
-				<div class="ui-g-6">
-					<p:outputLabel for="sexo" value="Sexo" />
-					<p:selectOneRadio id="sexo"
-						value="#{usuarioController.usuario.sexo}" unselectable="true"
-						required="true" requiredMessage="O SEXO é necessário">
-						<f:selectItem itemLabel="M" itemValue="M" />
-						<f:selectItem itemLabel="F" itemValue="F" />
-					</p:selectOneRadio>
-				</div>
-				<div class="ui-g-6">
-					<p:outputLabel for="login" value="Login" />
-					<p:inputText id="login" value="#{usuarioController.usuario.login}"
-						required="true" requiredMessage="O LOGIN é necessário" />
-				</div>
-				<div class="ui-g-6">
-					<p:outputLabel for="senha" value="Senha" />
-					<p:password id="senha" value="#{usuarioController.usuario.senha}"
-						required="true" requiredMessage="A SENHA é necessária" />
-				</div>
-			</div>
-			<div class="ui-g-6">
-				<p:commandButton value="Enviar" process="formCadastroUsuario"
-					actionListener="#{usuarioController.inserir}" style="
-					cursor: pointer;
-					color: white;"
-					styleClass="btnSalvar" />
-
-				<p:commandButton value="Voltar" immediate="true"
-					action="#{usuarioController.isStatus}" styleClass="btnSalvar" style="
-					cursor: pointer;
-					color: white;"/>
-			</div>
+			</p:panel>
 		</div>
-	</p:panel>
-	</div>
 	</div>
 	</h:form>
 

@@ -107,6 +107,16 @@ public class FotoController implements Serializable {
 
 	}
 
+	public Foto fotoDefault() throws IOException {
+
+		image = IOUtils.toByteArray(FacesContext.getCurrentInstance().getExternalContext()
+				.getResourceAsStream("/resources/images/user_null.png"));
+		Foto f = new Foto();
+		f.setFoto(image);
+
+		return f;
+	}
+
 	public StreamedContent getStreamedFotos() throws NumberFormatException, SQLException {
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -160,6 +170,9 @@ public class FotoController implements Serializable {
 				if (fotow != null) {
 					return new DefaultStreamedContent(new ByteArrayInputStream(fotow));
 				} else {
+					/**
+					 * melhorar
+					 */
 					// * o usuario só cadastro foto quando estiver logado no sistema
 					// código responsável por salvar uma imagem padrão pro usuário
 					Foto f = new Foto();
