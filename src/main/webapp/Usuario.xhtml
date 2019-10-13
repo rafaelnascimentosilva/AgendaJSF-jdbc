@@ -6,91 +6,108 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Usuário</title>
-	<h:outputStylesheet library="css" name="dashboard.css" />
-	
-	<h:outputStylesheet>	
-	
+	<h:outputStylesheet library="css" name="dashboard.css" />	
+	<style type="text/css">
 	.ui-widget {
-   font-size:16px
-}
-.ui-widget-content {
-    border: 0px solid #a8a8a8;   
-}
-
-.ui-widget-header {
-   	border: 0px solid #a8a8a8;   
-   	background:#556080;
-   	color: white;
-   	font-weight: bold;
-   	text-shadow: 0 0px 0 rgba(255,255,255,0.7);
-}
- .ui-fileupload-buttonbar{
- 	margin-top:-30px;
- 	background: white;
-}
-.ui-button-text-icon-left .ui-button-text {
-    padding: .3em 1em .3em 2.1em;
-}
-.ui-paginator.ui-paginator-top {	display: none;	}	
-
-.ui-datatable thead th {
- 	border: 1px solid #fff; 
- }  
-.datatable tbody td{
- 	padding:1px 1px;
- }	
-.ui-datatable-tablewrapper {
-    overflow: hidden; 
-}
-.ui-state-default {
-	background-color: white;
-	background: white;  		
-}	
-.ui-datatable table {
-   	border-collapse: collapse;
-   	width: 100%;
-}
-table {
-	border-collapse: separate;
-   	border-spacing: 2px;
-}
-.ui-datatable table thead {
-	border-bottom:1px solid rgb(147, 184, 189);
-	border-top: 2px solid white;
-	border-left: 2px solid white;
-	border-right: 2px solid white;
-}
-.btnDefault {
-	cursor: pointer;
-	//background: linear-gradient(#FF0087,#D80072);
-	background-color: #FFF;
-	border: 1px solid #556080;
-	color: #556080;
-	text-shadow: 0px 0px 0px #556080;
-	transition: all 0.2s linear;
-}
- .white-button.ui-button.ui-state-default:enabled:hover, 
-    .white-button.ui-button.ui-state-default:focus {
-        background-color: #f2f2f2;
-        border-color: #ccc;
-        color: #373a3c;
-        /* with the exported variables from Nova and Luna Themes*/
-        border-color: var(--input-hover-border-color, #ccc);
-    }
-	</h:outputStylesheet>	
+	  font-size: 14px !important; 
+	}
+	.ui-widget-content {
+	    border: 0px solid #a8a8a8;   
+	}
+	.ui-widget-header {
+	   	border: 0px solid #a8a8a8;   
+	   	background:#556080;
+	   	color: white;
+	   	font-weight: bold;
+	   	text-shadow: 0 0px 0 rgba(255,255,255,0.7);
+	}
+	 .ui-fileupload-buttonbar{
+	 	margin-top:-30px;
+	 	background: white;
+	}
+	.ui-button-text-icon-left .ui-button-text {
+	    padding: .3em 1em .3em 2.1em;
+	}
+	.ui-paginator.ui-paginator-top {	display: none;	}	
+	
+	.ui-datatable thead th {
+	 	border: 1px solid #fff; 
+	 }  
+	.datatable tbody td{
+	 	padding:1px 1px;
+	 }	
+	.ui-datatable-tablewrapper {
+	    overflow: hidden; 
+	}
+	.ui-state-default {
+		background-color: white;
+		background: white;  		
+	}	
+	.ui-datatable table {
+	   	border-collapse: collapse;
+	   	width: 100%;
+	}
+	table {
+		border-collapse: separate;
+	   	border-spacing: 2px;
+	}
+	.ui-datatable table thead {
+		border-bottom:1px solid rgb(147, 184, 189);
+		border-top: 2px solid white;
+		border-left: 2px solid white;
+		border-right: 2px solid white;
+	}
+	.btnDefault {
+		cursor: pointer;
+		//background: linear-gradient(#FF0087,#D80072);
+		background-color: #FFF;
+		border: 1px solid #556080;
+		color: #556080;
+		text-shadow: 0px 0px 0px #556080;
+		transition: all 0.2s linear;
+	}
+	 .white-button.ui-button.ui-state-default:enabled:hover, 
+	    .white-button.ui-button.ui-state-default:focus {
+	        background-color: #f2f2f2;
+	        border-color: #ccc;
+	        color: #373a3c;
+	        /* with the exported variables from Nova and Luna Themes*/
+	        border-color: var(--input-hover-border-color, #ccc);
+	    }
+	    .ui-datatable .ui-datatable-header {
+	        text-align: right !important;
+	    }
+	     
+	    .ui-button-text-only .ui-button-text {
+	        padding: 0.3em 0.4em;
+	    }
+	     
+	    .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	        visibility: hidden;
+	    }
+	     
+	    .ui-filter-column .ui-column-customfilter .custom-filter {
+	        width: 100%;
+	        box-sizing: border-box;
+	    }	     
+	    .year-spinner input {
+	        width: 100%;
+	        box-sizing: border-box;
+	    }
+	  	.ui-datatable .ui-column-filter{
+	     display:none;
+	    }
+	</style>
 </h:head>
 <h:body style="overflow-y:hidden;">
-
-	<div id="nav" >	
-	
- 
-		<div align="center" >			
-				<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" styleClass="btnDefault" />		
-				<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" styleClass="btnDefault" />		
-	
+	<div id="nav" > 
+		<div align="center" >		
+			<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" styleClass="btnDefault" />		
+			<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" styleClass="btnDefault" alt="logout" style="float:right;" />
+			<p:commandButton icon="fa fa-print" styleClass="btnDefault"> </p:commandButton>				
 		</div>
 	</div>
-	<div id="conteudo">	
+<div id="conteudo">		
 	<div id="avatar">			
 		<div class="ui-g-12" align="center">
 			<div class="ui-g-12" >
@@ -195,7 +212,6 @@ table {
 						" />
 			</p:dialog>
 		</h:form>
-
 	<h:form id="formNovoContato" enctype="multipart/form-data">		
 		<p:dialog id="dlgNovoContato" widgetVar="dlgNovoContato" modal="true"  resizable="false" 	header="Novo Contato de #{usuarioController.usuarioSelecionado.nome}">
 			<div  id="avatarForm">
@@ -242,9 +258,17 @@ table {
 				color: white;" />
 				
 		</p:dialog>		
+		
+		<p:dataTable id="dtbContatos" var="contato" widgetVar="contTable" emptyMessage="Não foram encontrados nenhuma informação" filteredValue="#{usuarioController.filterContatos}" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} " > 
+			<f:facet name="header">
 				
-		<p:dataTable id="dtbContatos" var="contato" widgetVar="" paginator="true"  scrollable="false" rows="3"	value="#{usuarioController.obterContotatosPorUsuario(autenticadorController.usuario)}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} " > 
-			<p:column style="  border: 1px solid #556080; ">
+            	<p:outputPanel>
+                	<h:outputText value="Pesquise por Nome:" />
+                	<p:inputText id="globalFilter" onkeyup="PF('contTable').filter()"  placeholder="pesquisar contato"/>
+            	</p:outputPanel>
+        	</f:facet>
+			
+			<p:column filterBy="#{contato.nome}"  filterMatchMode="contains" style="  border: 1px solid #556080; ">
 				<div class="ui-g-3">
 					<p:graphicImage id="photoPreview" value="#{fotoBean.streamedFotos}" cache="false" 
 						style="width: 130px;

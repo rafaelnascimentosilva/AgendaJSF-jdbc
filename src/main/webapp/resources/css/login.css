@@ -1,12 +1,9 @@
 body {
-	background: #ebedf0;
-	
+	background: #ebedf0;	
 }
-
 .ui-widget {
 	font-size: 14px !important;
 }
-
 .panelLogin {
 	width: 250px;
 	margin: 0px auto;
@@ -26,25 +23,10 @@ body {
 	-webkit-border-radius: 5px;
 	padding: 40px 40px 60px 40px;
 	background: #f7f7f7;
-	border: 1px solid rgba(147, 184, 189, 0.8);
+	border: 1px solid #ffffff;
 	display: grid;
 	justify-content: center;
 	align-items: center;
 	justify-content: center;
 }
 
-.btnSalvar {
-	margin-left: 260px;
-	padding: 5px;
-	cursor: pointer;
-	background-color: green;
-	color: white;
-}
-
-h1 {
-	font-size: 38px;
-	color: #066a75;
-	font-family: Arial, sans-serif;
-	font-weight: bold;
-	text-align: center;
-}

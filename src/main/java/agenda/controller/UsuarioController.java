@@ -41,6 +41,8 @@ public class UsuarioController implements Serializable {
 	private List<Contato> contatoLista;
 	private ContatoDAO contatoDAO;
 
+	private List<Contato> filterContatos;
+
 	private Foto fotoObj = new Foto();
 	private boolean formStatus = true;
 
@@ -129,6 +131,7 @@ public class UsuarioController implements Serializable {
 		try {
 			this.usuarioDAO = new UsuarioDAO();
 			this.usuarioLista = this.usuarioDAO.getLista();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Messages.addGlobalWarn("Não foi possivel listar os dados", e);
@@ -217,11 +220,12 @@ public class UsuarioController implements Serializable {
 		}
 	}
 
-	public List<Contato> obterContotatosPorUsuario(Usuario usuario) throws SQLException {
+	public List<Contato> obterContatosPorUsuario(Usuario usuario) throws SQLException {
 
 		this.contatoDAO = new ContatoDAO();
 		this.contatoLista = new ArrayList<Contato>();
-		return this.contatoLista = contatoDAO.getListaContato(usuario.getId());
+		this.contatoLista = contatoDAO.getListaContato(usuario.getId());
+		return this.contatoLista;
 	}
 
 	public Usuario getUsuario() {
@@ -310,6 +314,14 @@ public class UsuarioController implements Serializable {
 
 	public void setFotoObj(Foto fotoObj) {
 		this.fotoObj = fotoObj;
+	}
+
+	public List<Contato> getFilterContatos() {
+		return filterContatos;
+	}
+
+	public void setFilterContatos(List<Contato> filterContatos) {
+		this.filterContatos = filterContatos;
 	}
 
 }
