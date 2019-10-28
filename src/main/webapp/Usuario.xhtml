@@ -249,13 +249,15 @@
 				
 			</h:panelGrid>
 		
-			<p:commandButton value="salvar"	ajax="false" actionListener="#{usuarioController.novoContato}" update="dtbContatos" 
+			<p:commandButton value="salvar"	actionListener="#{usuarioController.novoContato}" update="dtbContatos" 
 				style="
 				margin-left:260px;									
 				padding:5px;
 				cursor: pointer;
 				background-color: green;						
-				color: white;" />
+				color: white;">
+				<f:ajax render="@form"></f:ajax>
+				</p:commandButton>;
 				
 		</p:dialog>		
 		
