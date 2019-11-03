@@ -4,6 +4,10 @@ body {
 	background: #f2f5f9;
 }
 
+#menu ul li {
+	display: inline-block;
+}
+
 .footer {
 	position: fixed;
 	left: 0;
@@ -23,7 +27,6 @@ body {
 
 #nav {
 	background-color: #556080;
-	padding: 5px;
 }
 
 #avatar {
@@ -33,10 +36,11 @@ body {
 	width: 300px;
 	height: 200px;
 	margin-top: 10px;
-	z-index:1;
-	border-radius:2%;
+	z-index: 1;
+	border-radius: 2%;
 }
-i{
+
+i {
 	color: #556080;
 	padding-right: 15px
 }

@@ -171,6 +171,7 @@ public class UsuarioController implements Serializable {
 
 			PrimeFaces current = PrimeFaces.current();
 			current.executeScript("PF('dlgNovoContato').hide();");
+			current.ajax().update("dtbContatos");
 			Messages.addGlobalInfo("Contato inserido com sucesso!");
 
 		} catch (SQLException e) {
@@ -225,6 +226,14 @@ public class UsuarioController implements Serializable {
 		this.contatoDAO = new ContatoDAO();
 		this.contatoLista = new ArrayList<Contato>();
 		this.contatoLista = contatoDAO.getListaContato(usuario.getId());
+		return this.contatoLista;
+	}
+
+	public List<Contato> obterContatosPorUsuarioPorId(int id) throws SQLException {
+
+		this.contatoDAO = new ContatoDAO();
+		this.contatoLista = new ArrayList<Contato>();
+		this.contatoLista = contatoDAO.getListaContato(id);
 		return this.contatoLista;
 	}
 

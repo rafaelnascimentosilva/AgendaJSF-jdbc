@@ -6,9 +6,91 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Usuário</title>
-	<h:outputStylesheet library="css" name="dashboard.css" />	
+	
 	<style type="text/css">
+	body {
+	margin: 0px;
+	overflow-y: hidden;
+	background: #f2f5f9;
+}
+#menu{
+	margin-right: 170px
+}
+#menu ul li {
+	display: inline-block;
+	
+	
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: #556080;
+	color: white;
+	text-align: center;
+}
+
+#conteudo {
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	margin-top: -52px;
+}
+
+#nav {
+	background-color: #556080;
+	
+}
+
+#avatar {
+	position: fixed;
+	float: left;
+	right: 72px;
+	width: 300px;
+	height: 200px;
+	margin-top: 38px;
+	z-index: 1;
+	border-radius: 2%;
+}
+
+i {
+	color: #556080;
+	padding-right: 15px
+}
+
+#avatarForm {
+	float: right;
+	right: 72px;
+	width: 300px;
+	height: 200px;
+	margin-top: 10px;
+	/*overflow: ;*/
+}
+
+.avatarimg {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 1px solid rgba(147, 184, 189, 0.8);
+	border-radius: 50%;
+}
+
+.btnNovo {
+	cursor: pointer;
+	background: #fe3175;
+	border: 1px solid #fff;
+	margin-bottom: 10px;
+	color: white;
+	text-shadow: 0 1px 1px #333;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	transition: all 0.2s linear;
+}
 	.ui-widget {
+	
 	  font-size: 14px !important; 
 	}
 	.ui-widget-content {
@@ -20,16 +102,20 @@
 	   	color: white;
 	   	font-weight: bold;
 	   	text-shadow: 0 0px 0 rgba(255,255,255,0.7);
+	   
 	}
 	 .ui-fileupload-buttonbar{
 	 	margin-top:-30px;
 	 	background: white;
 	}
-	.ui-button-text-icon-left .ui-button-text {
-	    padding: .3em 1em .3em 2.1em;
-	}
+	
 	.ui-paginator.ui-paginator-top {	display: none;	}	
 	
+	.ui-datatable .ui-column-filter{    display:none;   }
+	.ui-datatable thead th {
+	 	border: 1px solid #fff; 
+	 }  
+		
 	.ui-datatable thead th {
 	 	border: 1px solid #fff; 
 	 }  
@@ -42,69 +128,36 @@
 	.ui-state-default {
 		background-color: white;
 		background: white;  		
-	}	
-	.ui-datatable table {
-	   	border-collapse: collapse;
-	   	width: 100%;
-	}
-	table {
-		border-collapse: separate;
-	   	border-spacing: 2px;
-	}
-	.ui-datatable table thead {
-		border-bottom:1px solid rgb(147, 184, 189);
-		border-top: 2px solid white;
-		border-left: 2px solid white;
-		border-right: 2px solid white;
-	}
-	.btnDefault {
-		cursor: pointer;
-		//background: linear-gradient(#FF0087,#D80072);
-		background-color: #FFF;
-		border: 1px solid #556080;
-		color: #556080;
-		text-shadow: 0px 0px 0px #556080;
-		transition: all 0.2s linear;
-	}
-	 .white-button.ui-button.ui-state-default:enabled:hover, 
-	    .white-button.ui-button.ui-state-default:focus {
-	        background-color: #f2f2f2;
-	        border-color: #ccc;
-	        color: #373a3c;
-	        /* with the exported variables from Nova and Luna Themes*/
-	        border-color: var(--input-hover-border-color, #ccc);
-	    }
-	    .ui-datatable .ui-datatable-header {
-	        text-align: right !important;
-	    }
-	     
-	    .ui-button-text-only .ui-button-text {
-	        padding: 0.3em 0.4em;
-	    }
-	     
-	    .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
-	        visibility: hidden;
-	    }
-	     
-	    .ui-filter-column .ui-column-customfilter .custom-filter {
+	}		
+	
+	    
+	    
+	    
+	     .year-spinner input {
 	        width: 100%;
 	        box-sizing: border-box;
-	    }	     
-	    .year-spinner input {
-	        width: 100%;
-	        box-sizing: border-box;
-	    }
-	  	.ui-datatable .ui-column-filter{
-	     display:none;
 	    }
 	</style>
 </h:head>
 <h:body style="overflow-y:hidden;">
 	<div id="nav" > 
-		<div align="center" >		
-			<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" styleClass="btnDefault" />		
-			<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" styleClass="btnDefault" alt="logout" style="float:right;" />
-			<p:commandButton icon="fa fa-print" styleClass="btnDefault"> </p:commandButton>				
+	<h:outputText value="#{autenticadorController.usuario.nome}" /> 
+		<div  id="menu" align="right">	
+			<ul>
+				<li>
+					<p:commandButton actionListener="#{usuarioController.btnDlgNovoContato(autenticadorController.usuario)}" icon="fa  fa-user" styleClass="btnDefault" />		
+				</li>
+						<li>
+						<h:form id="impressao">
+	            			<p:commandButton id="btnPrint" icon="fa fa-print" styleClass="btnDefault" ajax="false" style="">
+	                			<p:fileDownload value="#{report.arquivoRetorno}" />   
+	                			<f:param id="usuario_id" name="usuario_id" value="#{autenticadorController.usuario.id}" />                           
+	                		</p:commandButton>                                               
+	            		</h:form>	</li>
+	            		<li>			
+					<p:commandButton action="#{autenticadorController.logout}" icon="fa  fa-sign-out" styleClass="btnDefault" alt="logout" style="" />
+				</li>
+			</ul>	
 		</div>
 	</div>
 <div id="conteudo">		
@@ -386,12 +439,12 @@
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
     	<p:graphicImage name="/images/ajaxloadingbar.gif"  />
 	</p:dialog>
-	<div class="footer" style="position: fixed;
+	<!-- <div class="footer" style="position: fixed;
 	left: 0;
 	bottom: 0;
 	width: 100%;
 	background: #556080;
 	color: white;
-	text-align: center;">Java - 2019</div>
+	text-align: center;">Java - 2019</div> -->
 </h:body>
 </html>
